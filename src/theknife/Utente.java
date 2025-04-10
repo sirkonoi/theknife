@@ -24,7 +24,7 @@ public class Utente {
     }
 
     //metodi
-    public static boolean checkUser(String username) throws IOException{
+    public static boolean checkUser(String username) throws IOException {
         boolean isRegistered = false;
         List<List<String>> users = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("users.csv"))) {
