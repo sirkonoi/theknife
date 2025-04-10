@@ -7,7 +7,7 @@
                                             
                                             
 Mattia Rotteri,762508, VA
-Davide Mantovan, MATRICOLA, VA
+Davide Mantova, MATRICOLA, VA
 Davide Plesa, MATRICOLA, VA
 
 Link GitHub: https://github.com/sirkonoi/theknife
