@@ -1,0 +1,13 @@
+          _    _ _______ ____  _____  _____ 
+     /\  | |  | |__   __/ __ \|  __ \|_   _|
+    /  \ | |  | |  | | | |  | | |__) | | |  
+   / /\ \| |  | |  | | | |  | |  _  /  | |  
+  / ____ \ |__| |  | | | |__| | | \ \ _| |_ 
+ /_/    \_\____/   |_|  \____/|_|  \_\_____|
+                                            
+                                            
+Mattia Rotteri,762508, VA
+Davide Mantovan, MATRICOLA, VA
+Davide Plesa, MATRICOLA, VA
+
+Link GitHub: https://github.com/sirkonoi/theknife
