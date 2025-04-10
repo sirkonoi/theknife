@@ -1,19 +1,12 @@
 package theknife;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 public class Password {
-    private final String hash;
-
-    public Password(String plain) {
-        this.hash = BCrypt.hashpw(plain, BCrypt.gensalt());
+    private String psw;
+    public Password(String value) {
+        psw = value;
     }
 
-    public String getHash() {
-        return hash;
-    }
-
-    public boolean verifica(String plain) {
-        return BCrypt.checkpw(plain, this.hash);
+    public String toString() {
+        return psw;
     }
 }
