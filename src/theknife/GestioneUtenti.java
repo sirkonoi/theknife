@@ -31,6 +31,28 @@ public abstract class GestioneUtenti {
         return isRegistered;
     }
 
+    public static String checkRuolo(String username) throws IOException {
+        LinkedList<List<String>> users = new LinkedList<>();
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("data"+ sep + "users.csv"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                users.add(Arrays.asList(values));
+            }
+        } finally {
+            if (br != null) br.close();
+        }
+        for (List<String> user : users) {
+            if (user.get(0).equals(username)) {
+                return user.get(5);
+            }
+        }
+        return null;        
+
+    }
+
     // REGISTRAZIONE
     public static void register(String username, String psw, String nome, String cognome, String domicilio, String ruolo) throws UserAlreadyExists, IOException {
         if(checkUser(username)) throw new UserAlreadyExists("Errore: L'utente e' gia' esistente.");
