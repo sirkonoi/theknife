@@ -26,37 +26,31 @@ public abstract class GestioneUtenti {
     }
 
     // REGISTRAZIONE
-    public static void register(String username, String psw, String nome, String cognome, String domicilio, String ruolo) throws UserAlreadyExists, IOException {
+    public static Utente register(String username, String psw, String nome, String cognome, String domicilio, String ruolo) throws UserAlreadyExists, IOException {
         if(checkUser(username)) throw new UserAlreadyExists("Errore: L'utente e' gia' esistente.");
+
+        Utente newUser = null;
 
         FileWriter fr = new FileWriter("data" + sep + "users.csv", true);
         try {
             fr.write("\n" + username + "," + psw + "," + nome + "," + cognome + "," + "\"" + domicilio + "\"" + ","+ ruolo.toLowerCase());
+            newUser = new Utente(username, psw, nome, cognome, domicilio, ruolo);
             fr.close();
         }
 
         catch(IOException e) {
-            System.out.println("Errore...");
+            System.out.println("Errore durante la registrazione...");
         } 
+
+        return newUser;
         
     }
 
     //Ricorda di cambiare PSW !!!!!!
     //Login (check username, password)
     public static Utente login(String username, String psw) throws ErroreLogin, IOException {
-        LinkedList<List<String>> users = new LinkedList<>();
-        BufferedReader br = null;
+        LinkedList<List<String>> users = getUsers();
         Utente u;
-        try {
-            br = new BufferedReader(new FileReader("data"+ sep + "users.csv"));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                users.add(Arrays.asList(values));
-            }
-        } finally {
-            if (br != null) br.close();
-        }
         for (List<String> user : users) {
             if (user.get(0).equals(username)) {
                 if(user.get(1).equals(psw)) {

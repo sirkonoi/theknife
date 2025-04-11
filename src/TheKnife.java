@@ -4,9 +4,14 @@ import java.util.*;
 
 public class TheKnife {
 
-    Scanner sc = new Scanner(System.in);
+    public static Scanner sc = new Scanner(System.in);
+    public static Utente user;
 
-    public void menu() {
+    public static void pulisci() {  
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();  
+    }    
+    public static void menu() throws IOException {
         System.out.println("Menu':");
         System.out.println("1 - Entra come Guest");        
         System.out.println("2 - Login");
@@ -22,14 +27,37 @@ public class TheKnife {
         
         switch(m) {
             case "1":
-            //app();
+            pulisci();
             Guest u = new Guest();
+            System.out.println("Benvenuto Guest");
+            //chiama app();
             break;            
             case "2":
-            //domande bla bla
-            //Utente.login(username, psw);
+            while (true) {
+                try {
+                    pulisci();
+                    System.out.print("Login - The Knife\nInserisci il tuo username: ");
+                    String username = sc.nextLine();
+                    System.out.print("Inserisci la password: ");
+                    String psw = sc.nextLine();
+        
+                    user = Utente.login(username, psw);
+                    break; // login riuscito allora esce dal ciclo
+                } catch (ErroreLogin e) {
+                    pulisci();
+                    System.out.println("Errore. Login non riuscito! Vuoi: \n1 - Tornare al menu' \n2 - Ritentare il login");
+                    String scelta = sc.nextLine();
+                    if (scelta.equals("1")) {
+                        menu(); // torna al menu
+                        break;
+                    }
+                    // se 2, viene ripetuto il ciclo
+                }
+            }
+            pulisci();
+            System.out.println("loggato.. as " + user.getUsername());
+            break;        
             //app();
-            break;
             case "3":
             //chiedi user, pass
             //Utente.register(username, psw, nome, cognome, domicilio, ruolo);
@@ -41,10 +69,11 @@ public class TheKnife {
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin {
         System.out.println("Benvenuto in TheKnife.");
 
-        System.out.println(Utente.checkUser("konoi"));
+        /*System.out.println(Utente.checkUser("konoi"));
         Utente.register("konod", "Ciao", "mattia", "rotteri", "Via Davide Plesa", "utente");
         Utente u = Utente.login("konoi", "ciao1234");
         System.out.println(u.getUsername());
-        System.out.println(Utente.checkRuolo("konoi"));
+        System.out.println(Utente.checkRuolo("konoi"));*/
+        menu();
     }
 }
