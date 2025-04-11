@@ -1,5 +1,9 @@
 package theknife;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Ristorante {
     //campi
     private String name;
@@ -25,5 +29,18 @@ public class Ristorante {
         this.cuisine = cuisine;
         this.greenStar = greenStar;
         this.facilitiesAndServices = facilitiesAndServices;
+    }
+
+    public static String sep = (File.separator);
+    public void dettagliRistoranti () throws IOException {
+        FileWriter fr = new FileWriter("data" + sep + "restaurants.csv", true);
+        try {
+            fr.write("\n" + name + "," + address + "," + location + "," + price + "," + cuisine + "," + phoneNumber + "," + award + "," + greenStar + "," + facilitiesAndServices);
+            fr.close();
+        }
+
+        catch(IOException e) {
+            System.out.println("Errore...");
+        }
     }
 }
