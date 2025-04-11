@@ -122,9 +122,41 @@ public class TheKnife {
             System.out.println("Benvenuto " + user.getUsername() + " sei un " + user.getRuolo() + " il tuo domicilio e' " + user.getDomicilio() + ", e' valido?? " + geoTheKnife.domicilioEsistente(domicilio));
         }
 
-    public static void main_menu() {
-
-    }   
+        public static void cerca() throws IOException {
+            Scanner sc = new Scanner(System.in);
+            int input = sc.nextInt();
+            switch (input) {
+                case 1:
+                    //tipologia di cucina
+                    System.out.println("Inserisci: ");
+                    sc.nextLine();
+     
+                    String tipologia = sc.nextLine();
+                    GestioneUtenti.cercaRistorante(input, tipologia);
+                    break;
+                case '2':
+     
+                    break;
+                case '3':
+     
+                    break;
+                case '4':
+     
+                    break;
+                case '5':
+     
+                    break;
+                case '6':
+     
+                    break;
+                case '7':
+     
+                    break;
+                default:
+     
+                    break;
+            }
+        }
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException {
         System.out.println("Benvenuto in TheKnife.");
