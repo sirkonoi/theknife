@@ -1,10 +1,10 @@
 package theknife;
 
 public class Utente extends GestioneUtenti {
-    private String nome, cognome, username;
-    private String psw;
-    private String domicilio;
-    private String ruolo;
+    protected String nome, cognome, username;
+    protected String psw;
+    protected String domicilio;
+    protected String ruolo;
 
     //costruttore
     public Utente(String username, String psw, String nome, String cognome, String domicilio, String ruolo) {

@@ -1,19 +1,21 @@
 package theknife;
 
+import java.io.*;
+import java.util.*;
+
 public class Ristoratore extends Utente {
     //campi
-    private String username;
-    private LinkedList<Ristorante> ristorante;
+    private LinkedList<Ristorante> ristoranti;
 
     //costruttore
-    public Ristoratore() {
-        super();
-        LinkedList<Ristorante> ristorante = new LinkedList<Ristorante>;
+    public Ristoratore(String username, String psw, String nome, String cognome, String domicilio) {
+        super(username, psw, nome, cognome, domicilio, "ristoratore");
+        LinkedList<Ristorante> ristoranti = new LinkedList<Ristorante>();
         this.ruolo = "ristoratore";
     }
 
     //metodi
-    public aggiungiRistorante(String s) {
+    public void aggiungiRistorante(String s) throws IOException {
         /*
         LinkedList<List<String>> user = getUsers();
         for (List<String> user : users) {

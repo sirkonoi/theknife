@@ -17,10 +17,10 @@ public class Ristorante {
     private String facilitiesAndServices;
 
     //costruttore
-    public Ristorante(String name,String address, String location, double price, String cuisine, String greenStar, String facilitiesAndServices) {
+    public Ristorante(String name,String address, String location, String price, String cuisine, String greenStar, String facilitiesAndServices) {
         this.name = name;
         this.address = address;
-        this.Location = location;
+        this.location = location;
         this.price = price;
         this.cuisine = cuisine;
         this.greenStar = greenStar;
