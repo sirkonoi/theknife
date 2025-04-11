@@ -42,9 +42,9 @@ public class TheKnife {
         System.out.println("Benvenuto in TheKnife.");
 
         System.out.println(Utente.checkUser("konoi"));
-        //Utente.register("konoe", "Ciao", "mattia", "rotteri", "Via Davide Plesa", "utente");
-        //Utente u = Utente.login("pudso", "ciao1234");
-        //System.out.println(u.getUsername());
+        Utente.register("konod", "Ciao", "mattia", "rotteri", "Via Davide Plesa", "utente");
+        Utente u = Utente.login("konoi", "ciao1234");
+        System.out.println(u.getUsername());
         System.out.println(Utente.checkRuolo("konoi"));
     }
 }

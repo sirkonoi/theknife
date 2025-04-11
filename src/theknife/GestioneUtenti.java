@@ -7,9 +7,8 @@ public abstract class GestioneUtenti {
 
     public static String sep = (File.separator);
 
-    //check se l'utente e' già registrato
-    public static boolean checkUser(String username) throws IOException {
-        boolean isRegistered = false;
+    //Restituisce LinkedList di List (una lista = 1 utente), presi da users.csv
+    public static LinkedList<List<String>> getUsers() throws IOException {
         LinkedList<List<String>> users = new LinkedList<>();
         BufferedReader br = null;
         try {
@@ -22,35 +21,8 @@ public abstract class GestioneUtenti {
         } finally {
             if (br != null) br.close();
         }
-        for (List<String> user : users) {
-            if (user.get(0).equals(username)) {
-                isRegistered = true;
-                break;
-            }
-        }
-        return isRegistered;
-    }
 
-    public static String checkRuolo(String username) throws IOException {
-        LinkedList<List<String>> users = new LinkedList<>();
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader("data"+ sep + "users.csv"));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                users.add(Arrays.asList(values));
-            }
-        } finally {
-            if (br != null) br.close();
-        }
-        for (List<String> user : users) {
-            if (user.get(0).equals(username)) {
-                return user.get(5);
-            }
-        }
-        return null;        
-
+        return users;
     }
 
     // REGISTRAZIONE
@@ -69,7 +41,8 @@ public abstract class GestioneUtenti {
         
     }
 
-//ricorda di cambiare PSW !!!!!!
+    //Ricorda di cambiare PSW !!!!!!
+    //Login (check username, password)
     public static Utente login(String username, String psw) throws ErroreLogin, IOException {
         LinkedList<List<String>> users = new LinkedList<>();
         BufferedReader br = null;
@@ -94,6 +67,31 @@ public abstract class GestioneUtenti {
         
         throw new ErroreLogin("Errore. Utente non esistente o credenziali errate.");
     }
+
+    //Controlla se un utente è già registrato
+    public static boolean checkUser(String username) throws IOException {
+        boolean isRegistered = false;
+        LinkedList<List<String>> users = getUsers();
+        for (List<String> user : users) {
+            if (user.get(0).equals(username)) {
+                isRegistered = true;
+                break;
+            }
+        }
+        return isRegistered;
+    }
+
+    //Controlla il ruolo di un dato utente
+    public static String checkRuolo(String username) throws IOException {
+        LinkedList<List<String>> users = getUsers();
+        for (List<String> user : users) {
+            if (user.get(0).equals(username)) {
+                return user.get(5);
+            }
+        }
+        return null;        
+
+    }    
 
 
 }
