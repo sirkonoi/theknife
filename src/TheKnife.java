@@ -116,6 +116,7 @@ public class TheKnife {
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin {
         System.out.println("Benvenuto in TheKnife.");
 
+<<<<<<< HEAD
         /*
          * System.out.println(Utente.checkUser("konoi"));
          * Utente.register("konod", "Ciao", "mattia", "rotteri", "Via Davide Plesa",
@@ -125,5 +126,16 @@ public class TheKnife {
          * System.out.println(Utente.checkRuolo("konoi"));
          */
         menu();
+=======
+        /*System.out.println(Utente.checkUser("konoi"));
+        Utente.register("konod", "Ciao", "mattia", "rotteri", "Via Davide Plesa", "utente");
+        Utente u = Utente.login("konoi", "ciao1234");
+        System.out.println(u.getUsername());
+        System.out.println(Utente.checkRuolo("konoi"));*/
+        //menu();
+        //Ristorante.scriviRistorante("konoi", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");
+        user = new Ristoratore("plesa", "null", "null", "null", "null");
+        Ristoratore.aggiungiRistorante("wiz", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");
+>>>>>>> bcf51ac0e7d3d6187827d870eb6fe87cddff6891
     }
 }
