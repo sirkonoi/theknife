@@ -85,7 +85,24 @@ public abstract class GestioneUtenti {
         }
         return null;        
 
-    }    
+    }
 
+    public static void cercaRistorante(int input, String tipologia) throws IOException {
+        LinkedList<List<String>> listaRistoranti = Ristorante.getRistoranti();
+        LinkedList<String> listaFiltrati = new LinkedList<String>();
 
+        System.out.println("Totale ristoranti letti: " + listaRistoranti.size());
+
+        for (List<String> ristorante : listaRistoranti) {
+            if (ristorante.get(4).equals(tipologia.substring(1, tipologia.length()-1))) {
+                listaFiltrati.add(ristorante.get(0)); // Aggiunge solo il nome
+            }
+        }
+
+        System.out.println("Totale ristoranti letti: " + listaFiltrati.size());
+        for (String nome : listaFiltrati) {
+            System.out.println(nome);
+        }
+    }
+    
 }

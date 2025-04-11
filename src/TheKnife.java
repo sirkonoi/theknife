@@ -66,35 +66,35 @@ public class TheKnife {
 
                     pulisci();
                     System.out.println("TheKnife - Registrazione");
-                    
+
                     while (true) {
                         System.out.print("Inserisci il tuo username: ");
                         username = sc.nextLine();
-                    
+
                         if (Utente.checkUser(username)) {
                             System.out.println("Errore. Username già esistente. Riprova.");
                         } else {
                             break; // se l'username non esiste allora esce dal ciclo
                         }
                     }
-                        
-                        pulisci();
-                        System.out.print("Inserisci la tua password:");
-                        String psw = sc.nextLine();
-                        pulisci();
-                        System.out.print("Inserisci il tuo nome:");
-                        String nome = sc.nextLine();                        
-                        pulisci();
-                        System.out.print("Inserisci il tuo cognome:");
-                        String cognome = sc.nextLine();
-                        pulisci();
-                        System.out.print("Inserisci il tuo domicilio:");
-                        String domicilio = sc.nextLine();
-                        pulisci();
-                        System.out.print("Inserisci il tuo ruolo:");
-                        String ruolo = sc.nextLine();
-                        pulisci();
-                    try {                        
+
+                    pulisci();
+                    System.out.print("Inserisci la tua password:");
+                    String psw = sc.nextLine();
+                    pulisci();
+                    System.out.print("Inserisci il tuo nome:");
+                    String nome = sc.nextLine();
+                    pulisci();
+                    System.out.print("Inserisci il tuo cognome:");
+                    String cognome = sc.nextLine();
+                    pulisci();
+                    System.out.print("Inserisci il tuo domicilio:");
+                    String domicilio = sc.nextLine();
+                    pulisci();
+                    System.out.print("Inserisci il tuo ruolo:");
+                    String ruolo = sc.nextLine();
+                    pulisci();
+                    try {
                         if (ruolo.equals("utente")) {
                             user = Utente.register(username, psw, nome, cognome, domicilio, "utente");
                         } else {
@@ -103,15 +103,51 @@ public class TheKnife {
 
                         System.out.println(user.getRuolo());
 
-                    } catch(UserAlreadyExists e) {
+                    } catch (UserAlreadyExists e) {
                         System.out.println("L'utente esiste gia'");
                     }
                     break;
                 }
-            }
-            pulisci();
-            System.out.println(Utente.checkRuolo("Registrazione ok, " + user.getUsername() + " sei un " + user.getRuolo()));
         }
+        pulisci();
+        System.out.println(Utente.checkRuolo("Registrazione ok, " + user.getUsername() + " sei un " + user.getRuolo()));
+    }
+
+    public static void cerca() throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int input = sc.nextInt();
+        switch (input) {
+            case 1:
+                //tipologia di cucina
+                System.out.println("Inserisci: ");
+                sc.nextLine();
+                
+                String tipologia = sc.nextLine();
+                GestioneUtenti.cercaRistorante(input, tipologia);
+                break;
+            case '2':
+
+                break;
+            case '3':
+
+                break;
+            case '4':
+
+                break;
+            case '5':
+
+                break;
+            case '6':
+
+                break;
+            case '7':
+
+                break;
+            default:
+
+                break;
+        }
+    }
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin {
         System.out.println("Benvenuto in TheKnife.");
@@ -123,9 +159,12 @@ public class TheKnife {
          * System.out.println(u.getUsername());
          * System.out.println(Utente.checkRuolo("konoi"));
          */
-        menu();
-        //Ristorante.scriviRistorante("konoi", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");
-        //user = new Ristoratore("plesa", "null", "null", "null", "null");
-        //Ristoratore.aggiungiRistorante("wiz", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");
+        // menu();
+        // Ristorante.scriviRistorante("konoi", "Via Cremona", "ahsbas", "€€€",
+        // "Italiana", "010291301", 0, "null", "null");
+        user = new Ristoratore("plesa", "null", "null", "null", "null");
+        // Ristoratore.aggiungiRistorante("wiz", "Via Cremona", "ahsbas", "€€€",
+        // "Italiana", "010291301", 0, "null", "null");
+        cerca();
     }
 }
