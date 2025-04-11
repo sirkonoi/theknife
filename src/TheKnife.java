@@ -102,6 +102,9 @@ public class TheKnife {
         Utente u = Utente.login("konoi", "ciao1234");
         System.out.println(u.getUsername());
         System.out.println(Utente.checkRuolo("konoi"));*/
-        menu();
+        //menu();
+        //Ristorante.scriviRistorante("konoi", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");
+        user = new Ristoratore("plesa", "null", "null", "null", "null");
+        Ristoratore.aggiungiRistorante("wiz", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");
     }
 }

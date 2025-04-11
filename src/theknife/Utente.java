@@ -1,7 +1,8 @@
 package theknife;
 
 public class Utente extends GestioneUtenti {
-    protected String nome, cognome, username;
+    protected String nome, cognome;
+    protected static String username;
     protected String psw;
     protected String domicilio;
     protected String ruolo;
