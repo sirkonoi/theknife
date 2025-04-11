@@ -5,20 +5,24 @@ import java.util.*;
 public class TheKnife {
 
     public static Scanner sc = new Scanner(System.in);
-    public static Utente user;
+    public static GestioneUtenti user;
 
+    //pulisce il terminale
     public static void pulisci() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    public static void menu() throws IOException {
+    //menu registrazione, login, guest
+    public static void menu_log() throws IOException, InterruptedException {
         System.out.println("Menu':");
         System.out.println("1 - Entra come Guest");
         System.out.println("2 - Login");
         System.out.println("3 - Registrati");
 
+        String domicilio = "";
         String m;
+
         do {
             m = sc.nextLine();
             if (!(m.equals("1") || m.equals("2") || m.equals("3"))) {
@@ -29,9 +33,14 @@ public class TheKnife {
         switch (m) {
             case "1":
                 pulisci();
-                Guest u = new Guest();
-                System.out.println("Benvenuto Guest");
-                // chiama app();
+                while(true) {
+                    System.out.println("Inserisci il tuo domicilio: ");
+                    domicilio = sc.nextLine();
+                    if (geoTheKnife.domicilioEsistente(domicilio)) {break;}
+                    else {pulisci(); System.out.println("Errore. Domicilio non esistente.");}
+                }
+                user = new Guest(domicilio);pulisci();
+                System.out.println("Benvenuto Guest, ti trovi a " + domicilio);
                 break;
             case "2":
                 while (true) {
@@ -50,16 +59,13 @@ public class TheKnife {
                                 "Errore. Login non riuscito! Vuoi: \n1 - Tornare al menu' \n2 - Ritentare il login");
                         String scelta = sc.nextLine();
                         if (scelta.equals("1")) {
-                            menu(); // torna al menu
+                            menu_log(); // torna al menu
                             break;
                         }
                         // se 2, viene ripetuto il ciclo
                     }
                 }
-                pulisci();
-                System.out.println("loggato.. as " + user.getUsername());
                 break;
-            // app();
             case "3":
                 while (true) {
                     String username = "";
@@ -77,43 +83,50 @@ public class TheKnife {
                             break; // se l'username non esiste allora esce dal ciclo
                         }
                     }
-                        
                         pulisci();
-                        System.out.print("Inserisci la tua password:");
+                        System.out.print("Inserisci la tua password: ");
                         String psw = sc.nextLine();
                         pulisci();
-                        System.out.print("Inserisci il tuo nome:");
+                        System.out.print("Inserisci il tuo nome: ");
                         String nome = sc.nextLine();                        
                         pulisci();
-                        System.out.print("Inserisci il tuo cognome:");
+                        System.out.print("Inserisci il tuo cognome: ");
                         String cognome = sc.nextLine();
                         pulisci();
-                        System.out.print("Inserisci il tuo domicilio:");
-                        String domicilio = sc.nextLine();
+                        while(true) {
+                            System.out.println("Inserisci il tuo domicilio: ");
+                            domicilio = sc.nextLine();
+                            if (geoTheKnife.domicilioEsistente(domicilio)) {break;}
+                            else {pulisci(); System.out.println("Errore. Domicilio non esistente.");}
+                        }
                         pulisci();
-                        System.out.print("Inserisci il tuo ruolo:");
+                        System.out.print("Inserisci il tuo ruolo (utente/ristoratore, default: utente): ");
                         String ruolo = sc.nextLine();
                         pulisci();
                     try {                        
-                        if (ruolo.equals("utente")) {
-                            user = Utente.register(username, psw, nome, cognome, domicilio, "utente");
-                        } else {
+                        if (ruolo.equals("ristoratore")) {
                             user = Ristoratore.register(username, psw, nome, cognome, domicilio, "ristoratore");
+                        } else {
+                            user = Utente.register(username, psw, nome, cognome, domicilio, "utente");                          
                         }
 
-                        System.out.println(user.getRuolo());
-
                     } catch(UserAlreadyExists e) {
-                        System.out.println("L'utente esiste gia'");
+                        System.out.println("Errore. L'utente esiste gia'.");
                     }
+                    pulisci();
+                    System.out.println("Registrazione ok, " + user.getUsername() + " sei un " + user.getRuolo());                    
                     break;
                 }
             }
-            pulisci();
-            System.out.println(Utente.checkRuolo("Registrazione ok, " + user.getUsername() + " sei un " + user.getRuolo()));
+
+            System.out.println("Benvenuto " + user.getUsername() + " sei un " + user.getRuolo() + " il tuo domicilio e' " + user.getDomicilio() + ", e' valido?? " + geoTheKnife.domicilioEsistente(domicilio));
         }
 
-    public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin {
+    public static void main_menu() {
+
+    }   
+
+    public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException {
         System.out.println("Benvenuto in TheKnife.");
         /*
          * System.out.println(Utente.checkUser("konoi"));
@@ -123,7 +136,8 @@ public class TheKnife {
          * System.out.println(u.getUsername());
          * System.out.println(Utente.checkRuolo("konoi"));
          */
-        menu();
+        //System.out.println(geoTheKnife.getLatitudineLongitudine("Via Cremona 15 Busto Arsizio"));
+        menu_log();
         //Ristorante.scriviRistorante("konoi", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");
         //user = new Ristoratore("plesa", "null", "null", "null", "null");
         //Ristoratore.aggiungiRistorante("wiz", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");

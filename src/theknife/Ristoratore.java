@@ -17,7 +17,7 @@ public class Ristoratore extends Utente {
 
     // metodi
     public static void aggiungiRistorante(String name, String address, String location, String price, String cuisine,
-            String phoneNumber, int award, String greenStar, String facilitiesAndServices) throws IOException {
+            String phoneNumber, int award, String greenStar, String facilitiesAndServices) throws IOException, RestaurantAlreadyExists {
         /*
          * LinkedList<List<String>> user = getUsers();
          * for (List<String> user : users) {
@@ -27,8 +27,7 @@ public class Ristoratore extends Utente {
          * }
          */
         if (Ristorante.checkRistoranti(name)) {
-            // throw new RestaurantAlredyExist("Ristorante già presente");
-            System.out.println("Ristorante già esistente");
+            throw new RestaurantAlreadyExists("Ristorante già presente");
         } else {
             Ristorante.scriviRistorante(name, address, location, price, cuisine, phoneNumber, award, greenStar,
                     facilitiesAndServices);
