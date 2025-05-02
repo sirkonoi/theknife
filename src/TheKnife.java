@@ -24,7 +24,7 @@ public class TheKnife {
     }
 
     //menu registrazione, login, guest
-    public static void menu_log() throws IOException, InterruptedException {
+    public static void menu_log() throws IOException {
         printLogo();
         System.out.println("\n1 - Entra come Guest");
         System.out.println("2 - Login");
@@ -127,7 +127,7 @@ public class TheKnife {
                     break;
                 }
             }
-
+            pulisci();printLogo();
             System.out.println("Benvenuto " + user.getUsername() + " sei un " + user.getRuolo() + " il tuo domicilio e' " + user.getDomicilio() + ", e' valido?? " + geoTheKnife.domicilioEsistente(domicilio));
         }
         /*

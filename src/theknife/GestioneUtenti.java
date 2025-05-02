@@ -36,8 +36,7 @@ public abstract class GestioneUtenti {
 
         FileWriter fr = new FileWriter("data" + sep + "users.csv", true);
         try {
-            fr.write("\n" + username + "," + psw + "," + nome + "," + cognome + "," + "\"" + domicilio + "\"" + ","
-                    + ruolo.toLowerCase());
+            fr.write("\n" + username + "," + Password.encrypt(psw) + "," + nome + "," + cognome + "," + domicilio + "," + ruolo.toLowerCase());
             newUser = new Utente(username, psw, nome, cognome, domicilio, ruolo);
             fr.close();
         }
@@ -57,7 +56,7 @@ public abstract class GestioneUtenti {
         Utente u;
         for (List<String> user : users) {
             if (user.get(0).equals(username)) {
-                if (user.get(1).equals(psw)) {
+                if (Password.decrypt(user.get(1)).equals(psw)) {
                     return u = new Utente(user.get(0), user.get(1), user.get(2), user.get(3), user.get(4), user.get(5));
                 }
             }
