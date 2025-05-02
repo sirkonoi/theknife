@@ -7,6 +7,16 @@ public class TheKnife {
     public static Scanner sc = new Scanner(System.in);
     public static GestioneUtenti user;
 
+    //loghetto bello
+    public static void printLogo() {
+        System.out.println(" ______  __ __    ___      __  _  ____   ____  _____  ___ ");
+        System.out.println("|      ||  |  |  /  _]    |  |/ ]|    \\ |    ||     |/  _]");
+        System.out.println("|      ||  |  | /  [_     |  ' / |  _  | |  | |   __/  [_ ");
+        System.out.println("|_|  |_||  _  ||    _]    |    \\ |  |  | |  | |  |_|    _]");
+        System.out.println("  |  |  |  |  ||   [_     |     ||  |  | |  | |   _]   [_ ");
+        System.out.println("  |  |  |  |  ||     |    |  .  ||  |  | |  | |  | |     |");
+        System.out.println("  |__|  |__|__||_____|    |__|\\_||__|__||____||__| |_____|");        
+    }
     //pulisce il terminale
     public static void pulisci() {
         System.out.print("\033[H\033[2J");
@@ -15,8 +25,8 @@ public class TheKnife {
 
     //menu registrazione, login, guest
     public static void menu_log() throws IOException, InterruptedException {
-        System.out.println("Menu':");
-        System.out.println("1 - Entra come Guest");
+        printLogo();
+        System.out.println("\n1 - Entra come Guest");
         System.out.println("2 - Login");
         System.out.println("3 - Registrati");
 
@@ -45,7 +55,7 @@ public class TheKnife {
             case "2":
                 while (true) {
                     try {
-                        pulisci();
+                        pulisci();printLogo();
                         System.out.print("Login - The Knife\nInserisci il tuo username: ");
                         String username = sc.nextLine();
                         System.out.print("Inserisci la password: ");
@@ -70,17 +80,16 @@ public class TheKnife {
                 while (true) {
                     String username = "";
 
-                    pulisci();
+                    pulisci();printLogo();
                     System.out.println("TheKnife - Registrazione");
                     
                     while (true) {
-                        System.out.print("Inserisci il tuo username: ");
-                        username = sc.nextLine();
-                    
+                            System.out.print("Inserisci il tuo username: ");
+                            username = sc.nextLine();                   
                         if (Utente.checkUser(username)) {
                             System.out.println("Errore. Username già esistente. Riprova.");
                         } else {
-                            break; // se l'username non esiste allora esce dal ciclo
+                            break;
                         }
                     }
                         pulisci();
@@ -121,7 +130,7 @@ public class TheKnife {
 
             System.out.println("Benvenuto " + user.getUsername() + " sei un " + user.getRuolo() + " il tuo domicilio e' " + user.getDomicilio() + ", e' valido?? " + geoTheKnife.domicilioEsistente(domicilio));
         }
-
+        /*
         public static void cerca() throws IOException {
             Scanner sc = new Scanner(System.in);
             int input = sc.nextInt();
@@ -130,7 +139,6 @@ public class TheKnife {
                     //tipologia di cucina
                     System.out.println("Inserisci: ");
                     sc.nextLine();
-     
                     String tipologia = sc.nextLine();
                     GestioneUtenti.cercaRistorante(input, tipologia);
                     break;
@@ -156,10 +164,9 @@ public class TheKnife {
      
                     break;
             }
-        }
+        }*/
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException {
-        System.out.println("Benvenuto in TheKnife.");
         /*
          * System.out.println(Utente.checkUser("konoi"));
          * Utente.register("konod", "Ciao", "mattia", "rotteri", "Via Davide Plesa",
@@ -170,6 +177,7 @@ public class TheKnife {
          */
         //System.out.println(geoTheKnife.getLatitudineLongitudine("Via Cremona 15 Busto Arsizio"));
         menu_log();
+        //cerca();
         //Ristorante.scriviRistorante("konoi", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");
         //user = new Ristoratore("plesa", "null", "null", "null", "null");
         //Ristoratore.aggiungiRistorante("wiz", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");

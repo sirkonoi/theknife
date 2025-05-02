@@ -1,12 +1,6 @@
 package theknife;
 
 import java.io.*;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public abstract class GestioneUtenti {
@@ -97,26 +91,31 @@ public abstract class GestioneUtenti {
 
     }
 
-    public abstract String getUsername();
-    public abstract String getRuolo();
-    public abstract String getDomicilio();
-
+    //Cerca un ristorante
     public static void cercaRistorante(int input, String tipologia) throws IOException {
         LinkedList<List<String>> listaRistoranti = Ristorante.getRistoranti();
         LinkedList<String> listaFiltrati = new LinkedList<String>();
  
         System.out.println("Totale ristoranti letti: " + listaRistoranti.size());
- 
+        System.out.println(tipologia);
         for (List<String> ristorante : listaRistoranti) {
+            String tempCuisine = ristorante.get(6);
+            System.out.println(tempCuisine);        
             if (ristorante.get(4).equals(tipologia.substring(1, tipologia.length()-1))) {
-                listaFiltrati.add(ristorante.get(0)); // Aggiunge solo il nome
+                System.out.println(ristorante.get(0));
+                //listaFiltrati.add(ristorante.get(0)); // Aggiunge solo il nome
             }
         }
  
-        System.out.println("Totale ristoranti letti: " + listaFiltrati.size());
+        System.out.println("Totale ristoranti filtrati: " + listaFiltrati.size());
         for (String nome : listaFiltrati) {
             System.out.println(nome);
         }
     }
+
+    //metodi get
+    public abstract String getUsername();
+    public abstract String getRuolo();
+    public abstract String getDomicilio();    
     
 }
