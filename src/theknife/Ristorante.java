@@ -1,64 +1,78 @@
 package theknife;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.io.*;
+import java.nio.file.*;
 
 public class Ristorante {
+
+    // separatore file
+    public static String sep = (File.separator);
+    
     //campi
-    private String name;
-    private String address;
-    private String location;
-    private String price;
-    private String cuisine;
-    /* GUARDA DOPO
-    private double Longitude;
-    private double Latitude;
-    */
-    private String phoneNumber;
-    private int award;
-    private String greenStar;
-    private String facilitiesAndServices;
+    private LinkedList<List<String>> listaRistoranti;
+
+    private List<String> datiRistorante;
 
     //costruttore
-    public Ristorante(String name,String address, String location, String price, String cuisine, String greenStar, String facilitiesAndServices) {
-        this.name = name;
-        this.address = address;
-        this.location = location;
-        this.price = price;
-        this.cuisine = cuisine;
-        this.greenStar = greenStar;
-        this.facilitiesAndServices = facilitiesAndServices;
+    public Ristorante(LinkedList<List<String>> listaRistoranti) {
+        this.listaRistoranti = listaRistoranti;
     }
 
-    public static String sep = (File.separator);
+    public Ristorante(List<String> datiRistorante) {
+        this.datiRistorante = datiRistorante;
+    }
 
-    public static LinkedList<List<String>> getRistoranti() throws IOException {
-        LinkedList<List<String>> restaurants = new LinkedList<>();
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader("data"+ sep + "restaurants.csv"));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                restaurants.add(Arrays.asList(values));
+    // metodi get
+    public List<String> getDatiRistorante() {
+        return datiRistorante;
+    }
+
+    public LinkedList<List<String>> getListaRistoranti() { 
+        return listaRistoranti;
+    }
+
+    @Override
+    public String toString() {
+        return datiRistorante != null ? datiRistorante.toString() : "Ristorante non inizializzato correttamente.";
+    }
+
+    public static List<String> parseCSVLine(String line) {
+        List<String> restaurant = new ArrayList<>();
+        StringBuilder field = new StringBuilder();
+        boolean isQuotes = false;
+    
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+    
+            if (c == '\"') {
+                isQuotes = !isQuotes; // stato virgolette
+            } else if (c == ',' && !isQuotes) {
+                restaurant.add(field.toString().trim());
+                field.setLength(0); // reset buffer
+            } else {
+                field.append(c); // aggiunge il campo
             }
-        } finally {
-            if (br != null) br.close();
         }
-
-        return restaurants;
+    
+        restaurant.add(field.toString().trim()); // aggiungi l'ultimo campo
+        return restaurant;
     }
 
-    public static boolean checkRistoranti (String name) throws IOException {
+    public static Ristorante getRistoranti() throws IOException {
+        LinkedList<List<String>> restaurants = new LinkedList<>();
+        List<String> lines = Files.readAllLines(Paths.get("data" + sep + "restaurants.csv"));
+        for (String line : lines) {
+            List<String> restaurant = parseCSVLine(line);
+            restaurants.add(restaurant);
+        }
+        return new Ristorante(restaurants);
+    }
+
+    public static boolean checkRistoranti (String name) throws IOException{
         boolean isCreated = false;
-        LinkedList<List<String>> restaurants = getRistoranti();
-        for (List<String> restaurant : restaurants) {
+        Ristorante restaurants = getRistoranti();
+        for (List<String> restaurant : restaurants.getListaRistoranti()) {
             if (restaurant.get(0).equals(name)) {
                 isCreated = true;
                 break;

@@ -130,41 +130,47 @@ public class TheKnife {
             pulisci();printLogo();
             System.out.println("Benvenuto " + user.getUsername() + " sei un " + user.getRuolo() + " il tuo domicilio e' " + user.getDomicilio() + ", e' valido?? " + geoTheKnife.domicilioEsistente(domicilio));
         }
-        /*
         public static void cerca() throws IOException {
             Scanner sc = new Scanner(System.in);
             int input = sc.nextInt();
+            String filtro = sc.nextLine();
             switch (input) {
                 case 1:
                     //tipologia di cucina
-                    System.out.println("Inserisci: ");
-                    sc.nextLine();
-                    String tipologia = sc.nextLine();
-                    GestioneUtenti.cercaRistorante(input, tipologia);
+                    input = 4;
+                    System.out.println("Inserisci la tipologia di cucina: ");
+                    filtro = sc.nextLine();
+                    GestioneUtenti.cercaRistorante(input, filtro);
                     break;
-                case '2':
-     
+                case 2:
+                    //locazione geografica 
+                    input = 2;
+                    System.out.println("Inserisci la locazione geografica (citta, stato): ");
+                    filtro = sc.nextLine();
+                    GestioneUtenti.cercaRistorante(input, filtro);
                     break;
-                case '3':
-     
+                case 3:
                     break;
-                case '4':
-     
+                case 4:
+                //disponiblita seervizio delivery
+                    input = 12;
+                    filtro = "delivery";
+                    GestioneUtenti.cercaRistorante(input, filtro);
                     break;
-                case '5':
-     
+                case 5:
+                    input = 12;
+                    filtro = "booking";
+                    GestioneUtenti.cercaRistorante(input, filtro);
                     break;
-                case '6':
-     
+                case 6:
                     break;
-                case '7':
-     
+                case 7:
                     break;
                 default:
      
                     break;
             }
-        }*/
+        }
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException {
         /*

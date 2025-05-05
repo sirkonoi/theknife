@@ -92,23 +92,41 @@ public abstract class GestioneUtenti {
 
     //Cerca un ristorante
     public static void cercaRistorante(int input, String tipologia) throws IOException {
-        LinkedList<List<String>> listaRistoranti = Ristorante.getRistoranti();
-        LinkedList<String> listaFiltrati = new LinkedList<String>();
- 
-        System.out.println("Totale ristoranti letti: " + listaRistoranti.size());
-        System.out.println(tipologia);
-        for (List<String> ristorante : listaRistoranti) {
-            String tempCuisine = ristorante.get(6);
-            System.out.println(tempCuisine);        
-            if (ristorante.get(4).equals(tipologia.substring(1, tipologia.length()-1))) {
-                System.out.println(ristorante.get(0));
-                //listaFiltrati.add(ristorante.get(0)); // Aggiunge solo il nome
+        Ristorante listaRistoranti = Ristorante.getRistoranti();
+        List<Ristorante> ristorantiFiltrati = new LinkedList<>();
+
+        switch (input) {
+            case 12:
+            if (tipologia.equals("delivery")) {
+            
+                for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+                    if (ristorante.get(13).toLowerCase().contains("deliv") || ristorante.get(13).toLowerCase().contains("order") ||
+                    ristorante.get(13).toLowerCase().contains("takeaway")) {
+                        ristorantiFiltrati.add(new Ristorante(ristorante));
+                    }
+                }
             }
+            else if (tipologia.equals("booking")) {
+                for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+                    if (ristorante.get(13).toLowerCase().contains("book") || ristorante.get(13).toLowerCase().contains("online") || 
+                    ristorante.get(13).toLowerCase().contains("reserve")) {
+                        ristorantiFiltrati.add(new Ristorante(ristorante));
+                    }
+                }
+            }
+                break;
+            default:
+            for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+                if (ristorante.get(input).equalsIgnoreCase(tipologia))  {
+                    ristorantiFiltrati.add(new Ristorante(ristorante));
+                }
+            }
+                break;
         }
- 
-        System.out.println("Totale ristoranti filtrati: " + listaFiltrati.size());
-        for (String nome : listaFiltrati) {
-            System.out.println(nome);
+    
+        System.out.println("Totale ristoranti filtrati: " + ristorantiFiltrati.size());
+        for (Ristorante r : ristorantiFiltrati) {
+            System.out.println(r.getDatiRistorante().get(0)); // stampa la nome del ristorante
         }
     }
 
