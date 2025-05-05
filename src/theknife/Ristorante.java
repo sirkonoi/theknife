@@ -2,7 +2,6 @@ package theknife;
 
 import java.util.*;
 import java.io.*;
-import java.nio.file.*;
 
 public class Ristorante {
 
@@ -11,63 +10,53 @@ public class Ristorante {
     
     //campi
     private LinkedList<List<String>> listaRistoranti;
+    private List<String> datiSingoloRistorante;
 
-    private List<String> datiRistorante;
-
-    //costruttore
+    //costruttore 1, prende intero  file
     public Ristorante(LinkedList<List<String>> listaRistoranti) {
         this.listaRistoranti = listaRistoranti;
     }
 
-    public Ristorante(List<String> datiRistorante) {
-        this.datiRistorante = datiRistorante;
+    //costruttore singolo ristorante
+    public Ristorante(List<String> datiSingoloRistorante) {
+        this.datiSingoloRistorante = datiSingoloRistorante;
     }
 
-    // metodi get
-    public List<String> getDatiRistorante() {
-        return datiRistorante;
-    }
-
-    public LinkedList<List<String>> getListaRistoranti() { 
-        return listaRistoranti;
-    }
-
-    @Override
-    public String toString() {
-        return datiRistorante != null ? datiRistorante.toString() : "Ristorante non inizializzato correttamente.";
-    }
-
-    public static List<String> parseCSVLine(String line) {
+    public static List<String> parseRistorante(String line) {
         List<String> restaurant = new ArrayList<>();
-        StringBuilder field = new StringBuilder();
-        boolean isQuotes = false;
+        String campo = "";
+        boolean isVirgolette = false;
     
         for (int i = 0; i < line.length(); i++) {
             char c = line.charAt(i);
     
             if (c == '\"') {
-                isQuotes = !isQuotes; // stato virgolette
-            } else if (c == ',' && !isQuotes) {
-                restaurant.add(field.toString().trim());
-                field.setLength(0); // reset buffer
+                isVirgolette = !isVirgolette; // cambia stato virgolette
+            } else if (c == ',' && !isVirgolette) {
+                restaurant.add(campo.trim());
+                campo = ""; // reset campo
             } else {
-                field.append(c); // aggiunge il campo
+                campo += c; // concatena il carattere
             }
         }
     
-        restaurant.add(field.toString().trim()); // aggiungi l'ultimo campo
+        restaurant.add(campo.trim()); // aggiungi l'ultimo campo
         return restaurant;
     }
-
+    
     public static Ristorante getRistoranti() throws IOException {
         LinkedList<List<String>> restaurants = new LinkedList<>();
-        List<String> lines = Files.readAllLines(Paths.get("data" + sep + "restaurants.csv"));
-        for (String line : lines) {
-            List<String> restaurant = parseCSVLine(line);
-            restaurants.add(restaurant);
+    
+        try (BufferedReader br = new BufferedReader(new FileReader("data" + sep + "restaurants.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                List<String> restaurant = parseRistorante(line);
+                restaurants.add(restaurant);
+            }
         }
+    
         return new Ristorante(restaurants);
-    }
+    }    
 
     public static boolean checkRistoranti (String name) throws IOException{
         boolean isCreated = false;
@@ -92,4 +81,19 @@ public class Ristorante {
             System.out.println("Errore...");
         }
     }
+
+    // metodi get
+    public List<String> getDatiRistorante() {
+        return datiSingoloRistorante;
+    }
+
+    public LinkedList<List<String>> getListaRistoranti() { 
+        return listaRistoranti;
+    }
+
+    @Override
+    public String toString() {
+        return datiSingoloRistorante != null ? datiSingoloRistorante.toString() : "Ristorante non inizializzato correttamente.";
+    }
+
 }

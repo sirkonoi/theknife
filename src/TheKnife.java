@@ -26,7 +26,7 @@ public class TheKnife {
     //menu registrazione, login, guest
     public static void menu_log() throws IOException {
         printLogo();
-        System.out.println("\n1 - Entra come Guest");
+        System.out.println("\nBenvenuto,\n1 - Entra come Guest");
         System.out.println("2 - Login");
         System.out.println("3 - Registrati");
 
@@ -129,6 +129,11 @@ public class TheKnife {
             }
             pulisci();printLogo();
             System.out.println("Benvenuto " + user.getUsername() + " sei un " + user.getRuolo() + " il tuo domicilio e' " + user.getDomicilio() + ", e' valido?? " + geoTheKnife.domicilioEsistente(domicilio));
+            /*
+            if user.getRuolo()=="utente" {
+            }
+            else {
+            }*/
         }
         public static void cerca() throws IOException {
             Scanner sc = new Scanner(System.in);
@@ -182,8 +187,8 @@ public class TheKnife {
          * System.out.println(Utente.checkRuolo("konoi"));
          */
         //System.out.println(geoTheKnife.getLatitudineLongitudine("Via Cremona 15 Busto Arsizio"));
-        menu_log();
-        //cerca();
+        //menu_log();
+        cerca();
         //Ristorante.scriviRistorante("konoi", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");
         //user = new Ristoratore("plesa", "null", "null", "null", "null");
         //Ristoratore.aggiungiRistorante("wiz", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");

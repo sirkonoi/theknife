@@ -18,7 +18,7 @@ public class geoTheKnife {
       return line != null && !line.equals("[]");
     }
 
-    public static String getLatitudineLongitudine(String indirizzo) throws IOException {
+    public static float[] getLatitudineLongitudine(String indirizzo) throws IOException {
         String urlString = "https://nominatim.openstreetmap.org/search?q=" + indirizzo.replace(" ", "+") + "&format=json&limit=1";
         URL url = new URL(urlString);
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -37,14 +37,19 @@ public class geoTheKnife {
         int lonIndex = json.indexOf("\"lon\":\"");
     
         if (latIndex == -1 || lonIndex == -1) {
-            return "Indirizzo non valido o non trovato.";
+            return null;
         }
     
+        float[] a = new float[2];
         String lat = json.substring(latIndex + 7, json.indexOf("\"", latIndex + 7));
         String lon = json.substring(lonIndex + 7, json.indexOf("\"", lonIndex + 7));
     
-        return "Latitudine: " + lat + ", Longitudine: " + lon;
+        a[0] = Float.parseFloat(lat);
+        a[1] = Float.parseFloat(lon);
+        return a; //restituisce array in cui pos. 0 è latitudine e pos.1 è longitudine
     }
+
+    
     
     
 }
