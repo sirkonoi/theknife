@@ -27,17 +27,18 @@ public abstract class GestioneUtenti {
     }
 
     // REGISTRAZIONE
-    public static Utente register(String username, String psw, String nome, String cognome, String domicilio,
+    public static GestioneUtenti register(String username, String psw, String nome, String cognome, String domicilio,
             String ruolo) throws UserAlreadyExists, IOException {
         if (checkUser(username))
             throw new UserAlreadyExists("Errore: L'utente e' gia' esistente.");
 
-        Utente newUser = null;
+        GestioneUtenti newUser = null;
 
         FileWriter fr = new FileWriter("data" + sep + "users.csv", true);
         try {
             fr.write("\n" + username + "," + Password.encrypt(psw) + "," + nome + "," + cognome + "," + domicilio + "," + ruolo.toLowerCase());
-            newUser = new Utente(username, psw, nome, cognome, domicilio, ruolo);
+            if (ruolo == "utente") {newUser = new Utente(username, psw, nome, cognome, domicilio, ruolo);}
+            else if(ruolo == "ristoratore") {newUser = new Ristoratore(username, psw, nome, cognome, domicilio);}
             fr.close();
         }
 
