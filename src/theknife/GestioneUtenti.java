@@ -126,7 +126,7 @@ public abstract class GestioneUtenti {
                 break;
         }
 
-        //stampa con freccetta
+        //Stampa con freccetta
         boolean stampa = true;
         Scanner sc = new Scanner(System.in);
         int count = 0;
@@ -137,8 +137,9 @@ public abstract class GestioneUtenti {
             int n1 = new_count/10;
             int n2 = ristorantiFiltrati.size()/10;       
 
+            // MANCA DA METTERE IL CERCA INTEGRATO!!!! RICORDATELO
             System.out.println("Lista ristoranti filtrati per: " + tipologia.toUpperCase() + " (Pagina " + n1 + " di " + n2 + ")\n");
-            // Stampa i ristoranti dalla pagina corrente
+            //Stampa pagina corrente
             for(int i = count; i < new_count && i < ristorantiFiltrati.size(); i++) {
                 Ristorante r = ristorantiFiltrati.get(i);
                 System.out.println(i+1 + ")" + r.getDatiRistorante().get(0));                
@@ -159,7 +160,7 @@ public abstract class GestioneUtenti {
                     if (new_count < ristorantiFiltrati.size()) {
                         count += 10;
                         new_count += 10;
-                        System.out.println("count con >" + count);
+                        //System.out.println("count con >" + new_count);
                     } else {
                         System.out.println("Errore. Non sono presenti altri ristoranti, esci oppure vai alla pagina precedente!");
                     }
@@ -169,7 +170,7 @@ public abstract class GestioneUtenti {
                     if (count > 0) {
                         count -= 10;
                         new_count -= 10;
-                        System.out.println("count con <" + count);
+                        //System.out.println("count con <" + new_count);
                     } else {
                         System.out.println("Errore. Non sono presenti altri ristoranti, esci oppure vai alla pagina successiva!");
                     }

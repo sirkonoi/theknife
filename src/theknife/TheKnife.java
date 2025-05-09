@@ -7,24 +7,28 @@ public class TheKnife {
 
     public static Scanner sc = new Scanner(System.in);
     public static GestioneUtenti user;
+    public static int raggio = 30;
 
-    //loghetto bello
+    // loghetto bello
     public static void printLogo() {
-        System.out.println(" ______  __ __    ___      __  _  ____   ____  _____  ___ ");
-        System.out.println("|      ||  |  |  /  _]    |  |/ ]|    \\ |    ||     |/  _]");
-        System.out.println("|      ||  |  | /  [_     |  ' / |  _  | |  | |   __/  [_ ");
-        System.out.println("|_|  |_||  _  ||    _]    |    \\ |  |  | |  | |  |_|    _]");
-        System.out.println("  |  |  |  |  ||   [_     |     ||  |  | |  | |   _]   [_ ");
-        System.out.println("  |  |  |  |  ||     |    |  .  ||  |  | |  | |  | |     |");
-        System.out.println("  |__|  |__|__||_____|    |__|\\_||__|__||____||__| |_____|");        
+        System.out.println("""
+                 ______  __ __    ___      __  _  ____   ____  _____  ___
+                |      ||  |  |  /  _]    |  |/ ]|    \\ |    ||     |/  _]
+                |      ||  |  | /  [_     |  ' / |  _  | |  | |   __/  [_
+                |_|  |_||  _  ||    _]    |    \\ |  |  | |  | |  |_|    _]
+                  |  |  |  |  ||   [_     |     ||  |  | |  | |   _]   [_
+                  |  |  |  |  ||     |    |  .  ||  |  | |  | |  | |     |
+                  |__|  |__|__||_____|    |__|\\_||__|__||____||__| |_____|
+                """);
     }
-    //pulisce il terminale
+
+    // pulisce il terminale
     public static void pulisci() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    //menu registrazione, login, guest
+    // menu registrazione, login, guest
     public static void menu_log() throws IOException {
         printLogo();
         System.out.println("\nBenvenuto,\n1 - Entra come Guest");
@@ -44,19 +48,25 @@ public class TheKnife {
         switch (m) {
             case "1":
                 pulisci();
-                while(true) {
+                while (true) {
                     System.out.println("Inserisci il tuo domicilio: ");
                     domicilio = sc.nextLine();
-                    if (geoTheKnife.domicilioEsistente(domicilio)) {break;}
-                    else {pulisci(); System.out.println("Errore. Domicilio non esistente.");}
+                    if (geoTheKnife.domicilioEsistente(domicilio)) {
+                        break;
+                    } else {
+                        pulisci();
+                        System.out.println("Errore. Domicilio non esistente.");
+                    }
                 }
-                user = new Guest(domicilio);pulisci();
+                user = new Guest(domicilio);
+                pulisci();
                 System.out.println("Benvenuto Guest, ti trovi a " + domicilio);
                 break;
             case "2":
                 while (true) {
                     try {
-                        pulisci();printLogo();
+                        pulisci();
+                        printLogo();
                         System.out.print("Login - The Knife\nInserisci il tuo username: ");
                         String username = sc.nextLine();
                         System.out.print("Inserisci la password: ");
@@ -81,106 +91,160 @@ public class TheKnife {
                 while (true) {
                     String username = "";
 
-                    pulisci();printLogo();
+                    pulisci();
+                    printLogo();
                     System.out.println("TheKnife - Registrazione");
-                    
+
                     while (true) {
-                            System.out.print("Inserisci il tuo username: ");
-                            username = sc.nextLine();                   
+                        System.out.print("Inserisci il tuo username: ");
+                        username = sc.nextLine();
                         if (Utente.checkUser(username)) {
                             System.out.println("Errore. Username già esistente. Riprova.");
                         } else {
                             break;
                         }
                     }
-                        pulisci();
-                        System.out.print("Inserisci la tua password: ");
-                        String psw = sc.nextLine();
-                        pulisci();
-                        System.out.print("Inserisci il tuo nome: ");
-                        String nome = sc.nextLine();                        
-                        pulisci();
-                        System.out.print("Inserisci il tuo cognome: ");
-                        String cognome = sc.nextLine();
-                        pulisci();
-                        while(true) {
-                            System.out.println("Inserisci il tuo domicilio: ");
-                            domicilio = sc.nextLine();
-                            if (geoTheKnife.domicilioEsistente(domicilio)) {break;}
-                            else {pulisci(); System.out.println("Errore. Domicilio non esistente.");}
+                    pulisci();
+                    System.out.print("Inserisci la tua password: ");
+                    String psw = sc.nextLine();
+                    pulisci();
+                    System.out.print("Inserisci il tuo nome: ");
+                    String nome = sc.nextLine();
+                    pulisci();
+                    System.out.print("Inserisci il tuo cognome: ");
+                    String cognome = sc.nextLine();
+                    pulisci();
+                    while (true) {
+                        System.out.println("Inserisci il tuo domicilio: ");
+                        domicilio = sc.nextLine();
+                        if (geoTheKnife.domicilioEsistente(domicilio)) {
+                            break;
+                        } else {
+                            pulisci();
+                            System.out.println("Errore. Domicilio non esistente.");
                         }
-                        pulisci();
-                        System.out.print("Inserisci il tuo ruolo (utente/ristoratore, default: utente): ");
-                        String ruolo = sc.nextLine();
-                        pulisci();
-                    try {                        
+                    }
+                    pulisci();
+                    System.out.print("Inserisci il tuo ruolo (utente/ristoratore, default: utente): ");
+                    String ruolo = sc.nextLine();
+                    pulisci();
+                    try {
                         if (ruolo.equals("ristoratore")) {
                             user = Ristoratore.register(username, psw, nome, cognome, domicilio, "ristoratore");
                         } else {
-                            user = Utente.register(username, psw, nome, cognome, domicilio, "utente");                          
+                            user = Utente.register(username, psw, nome, cognome, domicilio, "utente");
                         }
 
-                    } catch(UserAlreadyExists e) {
+                    } catch (UserAlreadyExists e) {
                         System.out.println("Errore. L'utente esiste gia'.");
                     }
                     pulisci();
-                    System.out.println("Registrazione ok, " + user.getUsername() + " sei un " + user.getRuolo());                    
+                    System.out.println("Registrazione ok, " + user.getUsername() + " sei un " + user.getRuolo());
                     break;
                 }
-            }
-            pulisci();printLogo();
-            System.out.println("Benvenuto " + user.getUsername() + " sei un " + user.getRuolo() + " il tuo domicilio e' " + user.getDomicilio() + ", e' valido?? " + geoTheKnife.domicilioEsistente(domicilio));
-            /*
-            if user.getRuolo()=="utente" {
-            }
-            else {
-            }*/
         }
-        public static void cerca() throws IOException {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("In base a cosa vuoi filtrare?: ");
-            int input = sc.nextInt();
-            String filtro = sc.nextLine();
-            switch (input) {
-                case 1:
-                    //tipologia di cucina
-                    input = 4;
-                    System.out.println("Inserisci la tipologia di cucina: ");
-                    filtro = sc.nextLine();
-                    GestioneUtenti.cercaRistorante(input, filtro);
+                main_menu();        
+    }
+
+    public static void main_menu() throws IOException {
+        pulisci();
+        printLogo();
+        //menu utente
+        if (user.getRuolo().equals("utente")) {
+            String sceltaMenu = "";
+            System.out.println("Benvenuto, " + user.getUsername() + ". Cosa vuoi fare? ");
+            System.out.println(
+                    "1 - Cerca un ristorante (con filtri)\n2 - Visualizza le informazioni di un ristorante.\n3 - Imposta raggio di ricerca (Ora " + raggio + " km).");
+            do {
+                sceltaMenu = sc.nextLine();
+                if (!((sceltaMenu.equals("1")) || (sceltaMenu.equals("2")) || (sceltaMenu.equalsIgnoreCase("3")))) {
+                    System.out.println("Input non valido. Inserisci nuovamente.");
+                }
+            } while (!((sceltaMenu.equals("1")) || (sceltaMenu.equals("2")) || (sceltaMenu.equalsIgnoreCase("3"))));
+
+            switch (sceltaMenu) {
+                case "1":
+                    cercaRistoranteFiltrato();
                     break;
-                case 2:
-                    //locazione geografica 
-                    input = 2;
-                    System.out.println("Inserisci la locazione geografica (citta, stato): ");
-                    filtro = sc.nextLine();
-                    GestioneUtenti.cercaRistorante(input, filtro);
+                case "2":
+                    // cercaRistorante()
                     break;
-                case 3:
-                    break;
-                case 4:
-                //disponiblita seervizio delivery
-                    input = 12;
-                    filtro = "delivery";
-                    GestioneUtenti.cercaRistorante(input, filtro);
-                    break;
-                case 5:
-                    input = 12;
-                    filtro = "booking";
-                    GestioneUtenti.cercaRistorante(input, filtro);
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                default:
-     
-                    break;
+                case "3":
+                    pulisci();printLogo();                
+                    System.out.println("Inserisci il raggio di ricerca dalla tua posizione (" + user.getDomicilio().toUpperCase() + ")");
+
+                    do {
+                        try {
+                            raggio = Integer.parseInt(sc.nextLine());
+                            if (raggio <= 0) {
+                                System.out.println("Errore. Raggio non valido, inserisci un nuovo valore: ");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Errore. Inserisci un numero intero valido: ");
+                        }
+                    } while (raggio <= 0);
+
+                    System.out.println("Il raggio di ricerca è stato correttamente impostato a " + raggio);
+                    main_menu();;
+
             }
         }
 
+        else if (user.getRuolo().equals("ristoratore")) {
+        }
+
+        else {
+
+        }        
+    }
+
+    public static void cercaRistoranteFiltrato() throws IOException {
+        Scanner sc = new Scanner(System.in);
+        pulisci();printLogo();
+        System.out.println(
+                "In base a cosa vuoi filtrare?:\n1 - Tipologia di cucina.\2 - Servizio delivery (SI/NO).\n3 - Fascia di prezzo.\n4 - Prenotazione online (SI/NO).\n 5 - Numero medio di stelle.");
+        int input = sc.nextInt();
+        String filtro = sc.nextLine();
+        switch (input) {
+            case 1:
+                // tipologia di cucina
+                input = 4;
+                System.out.println("Inserisci la tipologia di cucina: ");
+                filtro = sc.nextLine();
+                GestioneUtenti.cercaRistorante(input, filtro);
+                break;
+            case 2:
+                // locazione geografica
+                input = 2;
+                System.out.println("Inserisci la locazione geografica (citta, stato): ");
+                filtro = sc.nextLine();
+                GestioneUtenti.cercaRistorante(input, filtro);
+                break;
+            case 3:
+                break;
+            case 4:
+                // disponiblita seervizio delivery
+                input = 12;
+                filtro = "delivery";
+                GestioneUtenti.cercaRistorante(input, filtro);
+                break;
+            case 5:
+                input = 12;
+                filtro = "booking";
+                GestioneUtenti.cercaRistorante(input, filtro);
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            default:
+
+                break;
+        }
+    }
+
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException {
-        //menu_log();
-        cerca();
+        menu_log();
+        // cerca();
     }
 }
