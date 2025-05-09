@@ -2,6 +2,7 @@ package theknife;
 
 import java.io.*;
 import java.util.*;
+import theknife.*;
 
 public abstract class GestioneUtenti {
 
@@ -37,8 +38,8 @@ public abstract class GestioneUtenti {
         FileWriter fr = new FileWriter("data" + sep + "users.csv", true);
         try {
             fr.write("\n" + username + "," + Password.encrypt(psw) + "," + nome + "," + cognome + "," + domicilio + "," + ruolo.toLowerCase());
-            if (ruolo == "utente") {newUser = new Utente(username, psw, nome, cognome, domicilio, ruolo);}
-            else if(ruolo == "ristoratore") {newUser = new Ristoratore(username, psw, nome, cognome, domicilio);}
+            if (ruolo.equals("utente")) {newUser = new Utente(username, psw, nome, cognome, domicilio, ruolo);}
+            else if(ruolo.equals("ristoratore")) {newUser = new Ristoratore(username, psw, nome, cognome, domicilio);}
             fr.close();
         }
 
@@ -124,11 +125,65 @@ public abstract class GestioneUtenti {
             }
                 break;
         }
-    
-        System.out.println("Totale ristoranti filtrati: " + ristorantiFiltrati.size());
-        for (Ristorante r : ristorantiFiltrati) {
-            System.out.println(r.getDatiRistorante().get(0)); // stampa la nome del ristorante
+
+        //stampa con freccetta
+        boolean stampa = true;
+        Scanner sc = new Scanner(System.in);
+        int count = 0;
+        int new_count = 10;
+        while(stampa) {
+            TheKnife.pulisci();
+
+            int n1 = new_count/10;
+            int n2 = ristorantiFiltrati.size()/10;       
+
+            System.out.println("Lista ristoranti filtrati per: " + tipologia.toUpperCase() + " (Pagina " + n1 + " di " + n2 + ")\n");
+            // Stampa i ristoranti dalla pagina corrente
+            for(int i = count; i < new_count && i < ristorantiFiltrati.size(); i++) {
+                Ristorante r = ristorantiFiltrati.get(i);
+                System.out.println(i+1 + ")" + r.getDatiRistorante().get(0));                
+            }
+        
+            System.out.println("\nProssima Pagina:  >\nPagina precedente: <\nESCI - Torna al menu'\n");
+        
+            String controller = "";
+            do {
+                controller = sc.nextLine();
+                if (!((controller.equals("<")) || (controller.equals(">")) || (controller.equalsIgnoreCase("esci")))) {
+                    System.out.println("Input non valido. Inserisci nuovamente.");
+                }
+            } while (!(controller.equals("<") || controller.equals(">") || controller.equalsIgnoreCase("esci")));
+        
+            switch (controller) {
+                case ">":
+                    if (new_count < ristorantiFiltrati.size()) {
+                        count += 10;
+                        new_count += 10;
+                        System.out.println("count con >" + count);
+                    } else {
+                        System.out.println("Errore. Non sono presenti altri ristoranti, esci oppure vai alla pagina precedente!");
+                    }
+                    break;
+        
+                case "<":
+                    if (count > 0) {
+                        count -= 10;
+                        new_count -= 10;
+                        System.out.println("count con <" + count);
+                    } else {
+                        System.out.println("Errore. Non sono presenti altri ristoranti, esci oppure vai alla pagina successiva!");
+                    }
+                    break;
+        
+                default:
+                    System.out.println("Esco");
+                    stampa = false;
+                    break;
+            }
         }
+        
+        sc.close();
+        
     }
 
     //metodi get

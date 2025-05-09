@@ -1,5 +1,6 @@
+package theknife;
+
 import java.io.*;
-import theknife.*;
 import java.util.*;
 
 public class TheKnife {
@@ -137,6 +138,7 @@ public class TheKnife {
         }
         public static void cerca() throws IOException {
             Scanner sc = new Scanner(System.in);
+            System.out.println("In base a cosa vuoi filtrare?: ");
             int input = sc.nextInt();
             String filtro = sc.nextLine();
             switch (input) {
@@ -178,19 +180,7 @@ public class TheKnife {
         }
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException {
-        /*
-         * System.out.println(Utente.checkUser("konoi"));
-         * Utente.register("konod", "Ciao", "mattia", "rotteri", "Via Davide Plesa",
-         * "utente");
-         * Utente u = Utente.login("konoi", "ciao1234");
-         * System.out.println(u.getUsername());
-         * System.out.println(Utente.checkRuolo("konoi"));
-         */
-        //System.out.println(geoTheKnife.getLatitudineLongitudine("Via Cremona 15 Busto Arsizio"));
         //menu_log();
         cerca();
-        //Ristorante.scriviRistorante("konoi", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");
-        //user = new Ristoratore("plesa", "null", "null", "null", "null");
-        //Ristoratore.aggiungiRistorante("wiz", "Via Cremona", "ahsbas", "€€€", "Italiana", "010291301", 0, "null", "null");
     }
 }
