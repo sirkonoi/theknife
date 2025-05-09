@@ -243,7 +243,7 @@ public class TheKnife {
         }
     }
 
-    public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException {
+    public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException, RestaurantAlreadyExists {
         menu_log();
         // cerca();
     }

@@ -70,10 +70,10 @@ public class Ristorante {
         return isCreated;
     }
 
-    public static void scriviRistorante (String name,String address, String location, String price, String cuisine, String phoneNumber, int award, String greenStar, String facilitiesAndServices) throws IOException {
+    public static void scriviRistorante (String name, String address, String location, String price, String cuisine, double longitudine, double latitudine, String phoneNumber, String url, String webSiteUrl, int award, String greenStar, String facilitiesAndServices, String description) throws IOException {
         FileWriter fr = new FileWriter("data" + sep + "restaurants.csv", true);
         try {
-            fr.write("\n" + name + "," + address + "," + location + "," + price + "," + cuisine + "," + phoneNumber + "," + award + "," + greenStar + "," + facilitiesAndServices);
+            fr.write("\n" + name + "," + address + "," + location + "," + price + "," + cuisine + "," + longitudine + "," + latitudine + "," + phoneNumber + "," + award + "," + greenStar + "," + facilitiesAndServices);
             fr.close();
         }
 
