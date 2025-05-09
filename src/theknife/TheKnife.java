@@ -164,7 +164,7 @@ public class TheKnife {
 
             switch (sceltaMenu) {
                 case "1":
-                    cercaRistoranteFiltrato();
+                    //cercaRistoranteFiltrato();
                     break;
                 case "2":
                     // cercaRistorante()
@@ -198,7 +198,7 @@ public class TheKnife {
         }        
     }
 
-    public static void cercaRistoranteFiltrato() throws IOException {
+    /*public static void cercaRistoranteFiltrato() throws IOException {
         Scanner sc = new Scanner(System.in);
         pulisci();printLogo();
         System.out.println(
@@ -241,10 +241,14 @@ public class TheKnife {
 
                 break;
         }
-    }
+    }*/
 
-    public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException, RestaurantAlreadyExists {
-        menu_log();
-        // cerca();
+    public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException {
+        //menu_log();
+        //cerca();
+
+        String[] filtri = {"1", "2"};
+        Ristorante lista = GestioneUtenti.cercaFiltri(filtri);
+        GestioneUtenti.stampaRicerca(lista);
     }
 }
