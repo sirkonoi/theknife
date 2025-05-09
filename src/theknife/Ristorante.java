@@ -7,17 +7,17 @@ public class Ristorante {
 
     // separatore file
     public static String sep = (File.separator);
-    
-    //campi
+
+    // campi
     private LinkedList<List<String>> listaRistoranti;
     private List<String> datiSingoloRistorante;
 
-    //costruttore 1, prende intero  file
+    // costruttore 1, prende intero file
     public Ristorante(LinkedList<List<String>> listaRistoranti) {
         this.listaRistoranti = listaRistoranti;
     }
 
-    //costruttore singolo ristorante
+    // costruttore singolo ristorante
     public Ristorante(List<String> datiSingoloRistorante) {
         this.datiSingoloRistorante = datiSingoloRistorante;
     }
@@ -26,10 +26,10 @@ public class Ristorante {
         List<String> restaurant = new ArrayList<>();
         String campo = "";
         boolean isVirgolette = false;
-    
+
         for (int i = 0; i < line.length(); i++) {
             char c = line.charAt(i);
-    
+
             if (c == '\"') {
                 isVirgolette = !isVirgolette; // cambia stato virgolette
             } else if (c == ',' && !isVirgolette) {
@@ -39,14 +39,14 @@ public class Ristorante {
                 campo += c; // concatena il carattere
             }
         }
-    
+
         restaurant.add(campo.trim()); // aggiungi l'ultimo campo
         return restaurant;
     }
-    
+
     public static Ristorante getRistoranti() throws IOException {
         LinkedList<List<String>> restaurants = new LinkedList<>();
-    
+
         try (BufferedReader br = new BufferedReader(new FileReader("data" + sep + "restaurants.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -54,11 +54,11 @@ public class Ristorante {
                 restaurants.add(restaurant);
             }
         }
-    
-        return new Ristorante(restaurants);
-    }    
 
-    public static boolean checkRistoranti (String name) throws IOException{
+        return new Ristorante(restaurants);
+    }
+
+    public static boolean checkRistoranti(String name) throws IOException {
         boolean isCreated = false;
         Ristorante restaurants = getRistoranti();
         for (List<String> restaurant : restaurants.getListaRistoranti()) {
@@ -70,30 +70,59 @@ public class Ristorante {
         return isCreated;
     }
 
-    public static void scriviRistorante (String name,String address, String location, String price, String cuisine, String phoneNumber, int award, String greenStar, String facilitiesAndServices) throws IOException {
+    public static void scriviRistorante(String name, String address, String location, String price, String cuisine,
+            String phoneNumber, int award, String greenStar, String facilitiesAndServices) throws IOException {
         FileWriter fr = new FileWriter("data" + sep + "restaurants.csv", true);
         try {
-            fr.write("\n" + name + "," + address + "," + location + "," + price + "," + cuisine + "," + phoneNumber + "," + award + "," + greenStar + "," + facilitiesAndServices);
+            fr.write("\n" + name + "," + address + "," + location + "," + price + "," + cuisine + "," + phoneNumber
+                    + "," + award + "," + greenStar + "," + facilitiesAndServices);
             fr.close();
         }
 
-        catch(IOException e) {
+        catch (IOException e) {
             System.out.println("Errore...");
         }
     }
 
-    // metodi get
+    //METODI FILTRI
+
+    public static Ristorante filtraTipologia(Ristorante listaRistoranti, String tipologia) {
+        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
+
+        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+            if (ristorante.get(4).equalsIgnoreCase(tipologia)) {
+                ristorantiFiltrati.add(ristorante);
+            }
+        }
+        return new Ristorante(ristorantiFiltrati);
+    }
+
+    public static Ristorante filtraDelivery(Ristorante listaRistoranti) {
+        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
+
+        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+            String servizi = ristorante.get(13).toLowerCase();
+            if (servizi.contains("deliv") || servizi.contains("order") || servizi.contains("takeaway")) {
+                ristorantiFiltrati.add(ristorante);
+            }
+        }
+        return new Ristorante(ristorantiFiltrati);
+    }
+
+
+    //METODI GET
     public List<String> getDatiRistorante() {
         return datiSingoloRistorante;
     }
 
-    public LinkedList<List<String>> getListaRistoranti() { 
+    public LinkedList<List<String>> getListaRistoranti() {
         return listaRistoranti;
     }
 
     @Override
     public String toString() {
-        return datiSingoloRistorante != null ? datiSingoloRistorante.toString() : "Ristorante non inizializzato correttamente.";
+        return datiSingoloRistorante != null ? datiSingoloRistorante.toString()
+                : "Ristorante non inizializzato correttamente.";
     }
 
 }
