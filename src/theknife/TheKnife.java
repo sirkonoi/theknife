@@ -154,7 +154,7 @@ public class TheKnife {
             String sceltaMenu = "";
             System.out.println("Benvenuto, " + user.getUsername() + ". Cosa vuoi fare? ");
             System.out.println(
-                    "1 - Cerca un ristorante (con filtri)\n2 - Visualizza le informazioni di un ristorante.\n3 - Imposta raggio di ricerca (Ora " + raggio + " km).");
+                    "1 - Cerca un ristorante (con filtri)\n2 - Visualizza il tuo profilo.\n3 - Imposta raggio di ricerca (Ora " + raggio + " km).");
             do {
                 sceltaMenu = sc.nextLine();
                 if (!((sceltaMenu.equals("1")) || (sceltaMenu.equals("2")) || (sceltaMenu.equalsIgnoreCase("3")))) {
@@ -164,10 +164,30 @@ public class TheKnife {
 
             switch (sceltaMenu) {
                 case "1":
-                    //cercaRistoranteFiltrato();
+                    pulisci();
+                    System.out.println("Vuoi effetturare la ricerca dei ristoranti nelle vicinanze?\n- si\n- no");
+                    String vicinanzaUtente = sc.nextLine();
+
+                    if (vicinanzaUtente.equalsIgnoreCase("si")) {
+                        String indirizzoUser = user.getDomicilio();
+                        Ristorante lista = GestioneUtenti.cercaVicinanza(indirizzoUser, raggio);
+                        pulisci();
+                        System.out.println( "Inserisci i filtri desiderati per visualizzare la lista dei ristoranti ordinati per:\n1 - tipologia di cucina\n2 - disponibilità del servizio di delivery \n3 - disponibilità del servizio di prenotazione online\n4 - fascia di prezzo\n5 - Per media del numero di stelle\n ");
+                        String filtriUtente = sc.nextLine();
+                        String[] filtri = filtriUtente.split(",");
+                        lista = GestioneUtenti.cercaFiltri(lista, filtri);
+                        GestioneUtenti.stampaRicerca(lista);
+
+                    } else if (vicinanzaUtente.equalsIgnoreCase("no")) {
+                        System.out.println( "Inserisci i filtri desiderati per visualizzare la lista dei ristoranti ordinati per:\n1 - tipologia di cucina\n2 - disponibilità del servizio di delivery \n3 - disponibilità del servizio di prenotazione online\n4 - fascia di prezzo\n5 - Per locazione geografica\n6 - Per media del numero di stelle\n ");
+                        String filtriUtente = sc.nextLine();
+                        String[] filtri = filtriUtente.split(",");
+                        Ristorante lista = GestioneUtenti.cercaFiltri(filtri);
+                        GestioneUtenti.stampaRicerca(lista);
+                    }
                     break;
                 case "2":
-                    // cercaRistorante()
+                    // profilo()
                     break;
                 case "3":
                     pulisci();printLogo();                
@@ -244,11 +264,12 @@ public class TheKnife {
     }*/
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException {
-        //menu_log();
+        menu_log();
         //cerca();
-
+        /*
         String[] filtri = {"1", "2"};
         Ristorante lista = GestioneUtenti.cercaFiltri(filtri);
         GestioneUtenti.stampaRicerca(lista);
+        */
     }
 }

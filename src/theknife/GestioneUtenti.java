@@ -205,6 +205,12 @@ public abstract class GestioneUtenti {
      * }
      */
 
+    public static Ristorante cercaVicinanza(String indirizzo, int raggio) throws IOException{
+        Ristorante listaFiltrati = Ristorante.getRistoranti();
+        listaFiltrati = Ristorante.filtraVicinanza(listaFiltrati, indirizzo, raggio);
+        return listaFiltrati;
+    }
+
     public static Ristorante cercaFiltri(String[] filtri) throws IOException {
         Scanner sc = new Scanner(System.in);
         Ristorante listaFiltrati = Ristorante.getRistoranti();
@@ -223,11 +229,63 @@ public abstract class GestioneUtenti {
                 listaFiltrati = Ristorante.filtraDelivery(listaFiltrati);
             }
 
+            //Booking ON
+            if (filtro.equals("3")) {
+                listaFiltrati = Ristorante.filtraBooking(listaFiltrati);
+            }
+
+            //fascia prezzo
+            if (filtro.equals("4")) {
+                System.out.println("Inserisci il prezzo che desideri cercare:");
+                int prezzo = sc.nextInt();
+                listaFiltrati = Ristorante.filtraPrezzo(listaFiltrati, prezzo);
+            }
+
             //Prezzo
+            if (filtro.equals("5")) {
+                System.out.println("Inserisci la locazione geografica (citta, stato): ");
+                String localita = "";
+                localita = sc.nextLine();
+                listaFiltrati = Ristorante.filtraPosizione(listaFiltrati, localita);
+            }
             //etc.. etc...
 
         }
 
+        return listaFiltrati;
+    }
+
+    public static Ristorante cercaFiltri(Ristorante listaFiltrati, String[] filtri) throws IOException {
+        Scanner sc = new Scanner(System.in);
+
+        for (String filtro : filtri) {
+            //tipologia
+            if (filtro.equals("1")) {
+                // FAI LISTA CUCINE
+                System.out.println("Inserisci la tipologia di cucina desiderata tra: LISTA CUCINA DA FARE...");
+                String tipologia = "";
+                tipologia = sc.nextLine();
+                listaFiltrati = Ristorante.filtraTipologia(listaFiltrati, tipologia);
+            }
+
+            //Delivery ON
+            if (filtro.equals("2")) {
+                listaFiltrati = Ristorante.filtraDelivery(listaFiltrati);
+            }
+
+            //Booking ON
+            if (filtro.equals("3")) {
+                listaFiltrati = Ristorante.filtraBooking(listaFiltrati);
+            }
+
+            //fascia prezzo
+            if (filtro.equals("4")) {
+                System.out.println("Inserisci il prezzo che desideri cercare:");
+                int prezzo = sc.nextInt();
+                listaFiltrati = Ristorante.filtraPrezzo(listaFiltrati, prezzo);
+            }
+            //etc.. etc...
+        }
         return listaFiltrati;
     }
 

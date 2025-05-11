@@ -84,11 +84,11 @@ public class Ristorante {
 
     //METODI FILTRI
 
-    public static Ristorante filtraTipologia(Ristorante listaRistoranti, String tipologia) {
+public static Ristorante filtraTipologia(Ristorante listaRistoranti, String tipologia) {
         LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
 
         for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
-            if (ristorante.get(4).equalsIgnoreCase(tipologia)) {
+            if (ristorante.get(4).equalsIgnoreCase(tipologia) || ristorante.get(4).contains(tipologia)) {
                 ristorantiFiltrati.add(ristorante);
             }
         }
@@ -105,6 +105,73 @@ public class Ristorante {
             }
         }
         return new Ristorante(ristorantiFiltrati);
+    }
+
+    public static Ristorante filtraBooking(Ristorante listaRistoranti) {
+        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
+
+        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+            String servizi = ristorante.get(13).toLowerCase();
+            if (servizi.contains("book") || servizi.contains("online") || servizi.contains("reserve")) {
+                ristorantiFiltrati.add(ristorante);
+            }
+        }
+        return new Ristorante(ristorantiFiltrati);
+    }
+
+    public static Ristorante filtraPrezzo(Ristorante listaRistoranti, int prezzo) {
+        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
+
+        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+            String prezzoRistorante = ristorante.get(3);
+            String prezzoUtente = Integer.toString(prezzo);
+            if (prezzoUtente.length() == prezzoRistorante.length()) {
+                ristorantiFiltrati.add(ristorante);
+            }
+        }
+        return new Ristorante(ristorantiFiltrati);
+    }
+
+    public static Ristorante filtraPosizione(Ristorante listaRistoranti, String localita) {
+        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
+
+        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+            String localitaRistorante = ristorante.get(2).toLowerCase();
+            if (localita.equalsIgnoreCase(localitaRistorante)) {
+                ristorantiFiltrati.add(ristorante);
+            }
+        }
+        return new Ristorante(ristorantiFiltrati);
+    }
+
+    public static Ristorante filtraVicinanza(Ristorante listaRistoranti, String indirizzo, int raggio) throws IOException {
+        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
+        float[] coordinate = geoTheKnife.getLatitudineLongitudine(indirizzo);
+        float latitudineUtente = coordinate[0];
+        float longitudineUtente = coordinate[1];
+        boolean isFirst = true;
+
+        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+            if (isFirst) {
+                isFirst = false;
+                continue; // salta intestazione
+            }
+            float latitudineRistorante = Float.parseFloat(ristorante.get(6));
+            float longitudineRistorante = Float.parseFloat(ristorante.get(5));
+            double distanza = distanzaSemplificata(latitudineUtente, longitudineUtente, latitudineRistorante,
+                    longitudineRistorante);
+            if (distanza <= raggio) {
+                ristorantiFiltrati.add(ristorante);
+            }
+        }
+
+        return new Ristorante(ristorantiFiltrati);
+    }
+
+    public static double distanzaSemplificata(double lat1, double lon1, double lat2, double lon2) {
+        double latDistance = (lat2 - lat1) * 111; // 1 grado di latitudine ≈ 111 km ovunque
+        double lonDistance = (lon2 - lon1) * 111; // idem longitudine
+        return Math.sqrt(latDistance * latDistance + lonDistance * lonDistance);
     }
 
 
