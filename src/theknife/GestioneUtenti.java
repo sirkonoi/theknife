@@ -348,6 +348,21 @@ public abstract class GestioneUtenti {
     }
 }
 
+    public static void visualizzaRistorante(Ristorante ristorantiFiltrati, String nomeRistorante) { 
+        TheKnife.pulisci();
+        for (List<String> ristorante : ristorantiFiltrati.getListaRistoranti()) {
+            if (ristorante.get(0).equals(nomeRistorante)) {
+                System.out.println(ristorante.get(0) + "(" + ristorante.get(10) + "), " + ristorante.get(7));
+                System.out.println("Si trova in: " + ristorante.get(1));
+                System.out.println("Tipo di cucina: " + ristorante.get(4));
+                System.out.println("Booking: ");
+                System.out.println("Delivery: ");
+                System.out.println("Website: " + ristorante.get(9));
+                System.out.println("Descrizione: \n" + ristorante.get(13));
+            }
+        }
+    }
+
     // metodi get
     public abstract String getUsername();
 
