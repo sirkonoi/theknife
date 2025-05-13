@@ -205,9 +205,9 @@ public abstract class GestioneUtenti {
      * }
      */
 
-    public static Ristorante cercaVicinanza(String indirizzo, int raggio) throws IOException{
+    public static Ristorante cercaVicinanza(String indirizzo, int raggio) throws IOException {
         Ristorante listaFiltrati = Ristorante.getRistoranti();
-        listaFiltrati = Ristorante.filtraVicinanza(listaFiltrati, indirizzo, raggio);
+        listaFiltrati = geoTheKnife.filtraVicinanza(listaFiltrati, indirizzo, raggio);
         return listaFiltrati;
     }
 
@@ -215,7 +215,7 @@ public abstract class GestioneUtenti {
         Scanner sc = new Scanner(System.in);
         Ristorante listaFiltrati = Ristorante.getRistoranti();
         for (String filtro : filtri) {
-            //tipologia
+            // tipologia
             if (filtro.equals("1")) {
                 // FAI LISTA CUCINE
                 System.out.println("Inserisci la tipologia di cucina desiderata tra: LISTA CUCINA DA FARE...");
@@ -224,31 +224,39 @@ public abstract class GestioneUtenti {
                 listaFiltrati = Ristorante.filtraTipologia(listaFiltrati, tipologia);
             }
 
-            //Delivery ON
+            // Delivery ON
             if (filtro.equals("2")) {
                 listaFiltrati = Ristorante.filtraDelivery(listaFiltrati);
             }
 
-            //Booking ON
+            // Booking ON
             if (filtro.equals("3")) {
                 listaFiltrati = Ristorante.filtraBooking(listaFiltrati);
             }
 
-            //fascia prezzo
+            // fascia prezzo
             if (filtro.equals("4")) {
-                System.out.println("Inserisci il prezzo che desideri cercare:");
-                int prezzo = sc.nextInt();
+                String prezzo;
+                do {
+                    System.out.println("Inserisci la fascia di prezzo: (€, €€, €€€, €€€€, €€€€€):");
+                    prezzo = sc.nextLine().trim();
+                    if (!prezzo.matches("€{1,5}")) {
+                        System.out.println(
+                                "Input non valido. Inserisci solo da 1 a 5 simboli di euro (es: €, €€, €€€, ecc.).");
+                    }
+                } while (!prezzo.matches("€{1,5}"));
+
                 listaFiltrati = Ristorante.filtraPrezzo(listaFiltrati, prezzo);
             }
 
-            //Prezzo
+            // Prezzo
             if (filtro.equals("5")) {
                 System.out.println("Inserisci la locazione geografica (citta, stato): ");
                 String localita = "";
                 localita = sc.nextLine();
                 listaFiltrati = Ristorante.filtraPosizione(listaFiltrati, localita);
             }
-            //etc.. etc...
+            // etc.. etc...
 
         }
 
@@ -259,7 +267,7 @@ public abstract class GestioneUtenti {
         Scanner sc = new Scanner(System.in);
 
         for (String filtro : filtri) {
-            //tipologia
+            //Tipologia
             if (filtro.equals("1")) {
                 // FAI LISTA CUCINE
                 System.out.println("Inserisci la tipologia di cucina desiderata tra: LISTA CUCINA DA FARE...");
@@ -268,85 +276,94 @@ public abstract class GestioneUtenti {
                 listaFiltrati = Ristorante.filtraTipologia(listaFiltrati, tipologia);
             }
 
-            //Delivery ON
+            //Delivery
             if (filtro.equals("2")) {
                 listaFiltrati = Ristorante.filtraDelivery(listaFiltrati);
             }
 
-            //Booking ON
+            //Booking
             if (filtro.equals("3")) {
                 listaFiltrati = Ristorante.filtraBooking(listaFiltrati);
             }
 
-            //fascia prezzo
+            // da fixare..................................................................................
+            //Fascia prezzo
             if (filtro.equals("4")) {
-                System.out.println("Inserisci il prezzo che desideri cercare:");
-                int prezzo = sc.nextInt();
+                String prezzo;
+                do {
+                    TheKnife.pulisci();
+                    System.out.println("Inserisci la fascia di prezzo: (€, €€, €€€, €€€€)");
+                    prezzo = sc.nextLine().trim();
+
+                    if (!(prezzo.equals("€") || prezzo.equals("€€") || prezzo.equals("€€€") || prezzo.equals("€€€€") || prezzo.equals("€€€€€"))) {
+                        System.out.println("Input non valido. Inserisci una fascia valida (€, €€, €€€, €€€€).");
+                    }
+
+                } while (!(prezzo.equals("€") || prezzo.equals("€€") || prezzo.equals("€€€") || prezzo.equals("€€€€") || prezzo.equals("€€€€€")));
+
                 listaFiltrati = Ristorante.filtraPrezzo(listaFiltrati, prezzo);
             }
-            //etc.. etc...
         }
         return listaFiltrati;
     }
 
     public static void stampaRicerca(Ristorante ristoranti) {
-    boolean stampa = true;
-    Scanner sc = new Scanner(System.in);
-    int count = 0;
-    int new_count = 10;
+        boolean stampa = true;
+        Scanner sc = new Scanner(System.in);
+        int count = 0;
+        int new_count = 10;
 
-    // CORRETTO: usiamo getListaRistoranti() perché restituisce la lista completa
-    LinkedList<List<String>> datiRistoranti = ristoranti.getListaRistoranti();
+        LinkedList<List<String>> datiRistoranti = ristoranti.getListaRistoranti();
 
-    while (stampa) {
-        TheKnife.pulisci(); // metodo di pulizia dello schermo, suppongo tu l’abbia definito
+        while (stampa) {
+            TheKnife.pulisci();
 
-        int paginaCorrente = (count / 10) + 1;
-        int totalePagine = (datiRistoranti.size() + 9) / 10;
+            int paginaCorrente = (count / 10) + 1;
+            int totalePagine = (datiRistoranti.size() + 9) / 10;
 
-        System.out.println("Lista ristoranti filtrati (Pagina " + paginaCorrente + " di " + totalePagine + ")\n");
+            System.out.println("Lista ristoranti filtrati (Pagina " + paginaCorrente + " di " + totalePagine + ")\n");
 
-        for (int i = count; i < new_count && i < datiRistoranti.size(); i++) {
-            List<String> riga = datiRistoranti.get(i);
-            if (!riga.isEmpty()) {
-                System.out.println((i + 1) + ") " + riga.get(0)); // stampa solo il nome del ristorante
-            }
-        }
-
-        System.out.println("\nProssima Pagina:  >\nPagina precedente: <\nESCI - Torna al menu");
-
-        String controller;
-        do {
-            controller = sc.nextLine().trim();
-            if (!(controller.equals("<") || controller.equals(">") || controller.equalsIgnoreCase("esci"))) {
-                System.out.println("Input non valido. Inserisci nuovamente.");
-            }
-        } while (!(controller.equals("<") || controller.equals(">") || controller.equalsIgnoreCase("esci")));
-
-        switch (controller) {
-            case ">":
-                if (new_count < datiRistoranti.size()) {
-                    count += 10;
-                    new_count += 10;
-                } else {
-                    System.out.println("Errore. Non sono presenti altri ristoranti.");
+            for (int i = count; i < new_count && i < datiRistoranti.size(); i++) {
+                List<String> riga = datiRistoranti.get(i);
+                if (!riga.isEmpty()) {
+                    System.out.println((i + 1) + ") " + riga.get(0) + ", "+ riga.get(2));
                 }
-                break;
-            case "<":
-                if (count >= 10) {
-                    count -= 10;
-                    new_count -= 10;
-                } else {
-                    System.out.println("Errore. Sei già alla prima pagina.");
+            }
+
+            System.out.println("\nProssima Pagina:  >\nPagina precedente: <\nESCI - Torna al menu");
+
+            String controller;
+            do {
+                controller = sc.nextLine().trim();
+                if (!(controller.equals("<") || controller.equals(">") || controller.equalsIgnoreCase("esci"))) {
+                    System.out.println("Input non valido. Inserisci nuovamente.");
                 }
-                break;
-            default:
-                System.out.println("Esco...");
-                stampa = false;
-                break;
+            } while (!(controller.equals("<") || controller.equals(">") || controller.equalsIgnoreCase("esci")));
+
+            switch (controller) {
+                case ">":
+                    if (new_count < datiRistoranti.size()) {
+                        count += 10;
+                        new_count += 10;
+                    } else {
+                        System.out.println("Errore. Non sono presenti altri ristoranti.");
+                    }
+                    break;
+                case "<":
+                    if (count >= 10) {
+                        count -= 10;
+                        new_count -= 10;
+                    } else {
+                        System.out.println("Errore. Sei già alla prima pagina.");
+                    }
+                    break;
+                default:
+                    System.out.println("Esco...");
+                    stampa = false;
+                    break;
+            }
         }
     }
-}
 
     // metodi get
     public abstract String getUsername();
