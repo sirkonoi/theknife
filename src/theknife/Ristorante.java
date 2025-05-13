@@ -17,11 +17,6 @@ public class Ristorante {
         this.listaRistoranti = listaRistoranti;
     }
 
-    // costruttore singolo ristorante
-    public Ristorante(List<String> datiSingoloRistorante) {
-        this.datiSingoloRistorante = datiSingoloRistorante;
-    }
-
     public static List<String> parseRistorante(String line) {
         List<String> restaurant = new ArrayList<>();
         String campo = "";
@@ -176,10 +171,6 @@ public static Ristorante filtraTipologia(Ristorante listaRistoranti, String tipo
 
 
     //METODI GET
-    public List<String> getDatiRistorante() {
-        return datiSingoloRistorante;
-    }
-
     public LinkedList<List<String>> getListaRistoranti() {
         return listaRistoranti;
     }
