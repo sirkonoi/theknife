@@ -11,16 +11,10 @@ public class Ristorante {
 
     // campi
     private LinkedList<List<String>> listaRistoranti;
-    private List<String> datiSingoloRistorante;
 
     // costruttore 1, prende intero file
     public Ristorante(LinkedList<List<String>> listaRistoranti) {
         this.listaRistoranti = listaRistoranti;
-    }
-
-    // costruttore singolo ristorante
-    public Ristorante(List<String> datiSingoloRistorante) {
-        this.datiSingoloRistorante = datiSingoloRistorante;
     }
 
     public static List<String> parseRistorante(String line) {
@@ -150,17 +144,15 @@ public class Ristorante {
 
 
     //METODI GET
-    public List<String> getDatiRistorante() {
-        return datiSingoloRistorante;
-    }
-
     public LinkedList<List<String>> getListaRistoranti() {
         return listaRistoranti;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return datiSingoloRistorante != null ? datiSingoloRistorante.toString() : "Ristorante non inizializzato correttamente.";
-    }
+    }*/
+
+
 
 }
