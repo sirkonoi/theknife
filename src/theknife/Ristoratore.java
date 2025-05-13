@@ -5,8 +5,6 @@ import java.util.*;
 import theknife.*;
 
 public class Ristoratore extends Utente {
-    // campi
-
     // costruttore
     public Ristoratore(String username, String psw, String nome, String cognome, String domicilio) {
         super(username, psw, nome, cognome, domicilio, "ristoratore");
@@ -16,6 +14,7 @@ public class Ristoratore extends Utente {
 
     // metodi
     
+    //Manca printare in ristoratori nome ristoratore + nome ristorante
     //nota ricorda di aggiungere le virgolette (plesa sa)
     public static void aggiungiRistorante(String name, String address, String location, String price, String cuisine, String phoneNumber, String url, String webSiteUrl, int award, String greenStar, String facilitiesAndServices, String description) throws IOException, RestaurantAlreadyExists {
         /*

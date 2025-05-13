@@ -164,27 +164,14 @@ public class TheKnife {
 
             switch (sceltaMenu) {
                 case "1":
-                    pulisci();
-                    System.out.println("Vuoi effetturare la ricerca dei ristoranti nelle vicinanze?\n- si\n- no");
-                    String vicinanzaUtente = sc.nextLine();
-
-                    if (vicinanzaUtente.equalsIgnoreCase("si")) {
-                        String indirizzoUser = user.getDomicilio();
-                        Ristorante lista = GestioneUtenti.cercaVicinanza(indirizzoUser, raggio);
-                        pulisci();
-                        System.out.println( "Inserisci i filtri desiderati per visualizzare la lista dei ristoranti ordinati per:\n1 - tipologia di cucina\n2 - disponibilità del servizio di delivery \n3 - disponibilità del servizio di prenotazione online\n4 - fascia di prezzo\n5 - Per media del numero di stelle\n ");
+                //manca check format
+                    pulisci();printLogo();
+                        Ristorante lista = GestioneUtenti.cercaVicinanza(user.getDomicilio(), raggio);
+                        System.out.println( "Inserisci i filtri desiderati per visualizzare la lista dei ristoranti:\nFORMAT: (filtro1, filtro2, filtro3 ....)\nEsempio: 1, 2, 3\n1 - Tipologia di cucina.\n2 - Disponibilità del servizio di delivery.\n3 - Disponibilità del servizio di prenotazione online.\n4 - Fascia di prezzo.\n5 - Per media del numero di stelle.\n");
                         String filtriUtente = sc.nextLine();
                         String[] filtri = filtriUtente.split(",");
                         lista = GestioneUtenti.cercaFiltri(lista, filtri);
                         GestioneUtenti.stampaRicerca(lista);
-
-                    } else if (vicinanzaUtente.equalsIgnoreCase("no")) {
-                        System.out.println( "Inserisci i filtri desiderati per visualizzare la lista dei ristoranti ordinati per:\n1 - tipologia di cucina\n2 - disponibilità del servizio di delivery \n3 - disponibilità del servizio di prenotazione online\n4 - fascia di prezzo\n5 - Per locazione geografica\n6 - Per media del numero di stelle\n ");
-                        String filtriUtente = sc.nextLine();
-                        String[] filtri = filtriUtente.split(",");
-                        Ristorante lista = GestioneUtenti.cercaFiltri(filtri);
-                        GestioneUtenti.stampaRicerca(lista);
-                    }
                     break;
                 case "2":
                     // profilo()
@@ -200,7 +187,7 @@ public class TheKnife {
                                 System.out.println("Errore. Raggio non valido, inserisci un nuovo valore: ");
                             }
                         } catch (NumberFormatException e) {
-                            System.out.println("Errore. Inserisci un numero intero valido: ");
+                            System.out.println("Errore. Inserisci un numero valido: ");
                         }
                     } while (raggio <= 0);
 
@@ -217,51 +204,6 @@ public class TheKnife {
 
         }        
     }
-
-    /*public static void cercaRistoranteFiltrato() throws IOException {
-        Scanner sc = new Scanner(System.in);
-        pulisci();printLogo();
-        System.out.println(
-                "In base a cosa vuoi filtrare?:\n1 - Tipologia di cucina.\2 - Servizio delivery (SI/NO).\n3 - Fascia di prezzo.\n4 - Prenotazione online (SI/NO).\n 5 - Numero medio di stelle.");
-        int input = sc.nextInt();
-        String filtro = sc.nextLine();
-        switch (input) {
-            case 1:
-                // tipologia di cucina
-                input = 4;
-                System.out.println("Inserisci la tipologia di cucina: ");
-                filtro = sc.nextLine();
-                GestioneUtenti.cercaRistorante(input, filtro);
-                break;
-            case 2:
-                // locazione geografica
-                input = 2;
-                System.out.println("Inserisci la locazione geografica (citta, stato): ");
-                filtro = sc.nextLine();
-                GestioneUtenti.cercaRistorante(input, filtro);
-                break;
-            case 3:
-                break;
-            case 4:
-                // disponiblita seervizio delivery
-                input = 12;
-                filtro = "delivery";
-                GestioneUtenti.cercaRistorante(input, filtro);
-                break;
-            case 5:
-                input = 12;
-                filtro = "booking";
-                GestioneUtenti.cercaRistorante(input, filtro);
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            default:
-
-                break;
-        }
-    }*/
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException {
         //menu_log();
