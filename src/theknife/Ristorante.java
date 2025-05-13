@@ -10,7 +10,6 @@ public class Ristorante {
 
     // campi
     private LinkedList<List<String>> listaRistoranti;
-    private List<String> datiSingoloRistorante;
 
     // costruttore 1, prende intero file
     public Ristorante(LinkedList<List<String>> listaRistoranti) {
@@ -174,11 +173,5 @@ public static Ristorante filtraTipologia(Ristorante listaRistoranti, String tipo
     public LinkedList<List<String>> getListaRistoranti() {
         return listaRistoranti;
     }
-
-    @Override
-    public String toString() {
-        return datiSingoloRistorante != null ? datiSingoloRistorante.toString()
-                : "Ristorante non inizializzato correttamente.";
-    }
-
+    
 }
