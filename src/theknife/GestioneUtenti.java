@@ -36,8 +36,7 @@ public abstract class GestioneUtenti {
 
         FileWriter fr = new FileWriter("data" + sep + "users.csv", true);
         try {
-            fr.write("\n" + username + "," + Password.encrypt(psw) + "," + nome + "," + cognome + "," + domicilio + ","
-                    + ruolo.toLowerCase());
+            fr.write("\n" + username + "," + Password.encrypt(psw) + "," + nome + "," + cognome + "," + domicilio.replace(",", "") + "," + ruolo.toLowerCase());
             if (ruolo.equals("utente")) {
                 newUser = new Utente(username, psw, nome, cognome, domicilio, ruolo);
             } else if (ruolo.equals("ristoratore")) {
@@ -54,7 +53,6 @@ public abstract class GestioneUtenti {
 
     }
 
-    // Ricorda di cambiare PSW !!!!!!
     // Login (check username, password)
     public static Utente login(String username, String psw) throws ErroreLogin, IOException {
         LinkedList<List<String>> users = getUsers();
@@ -69,6 +67,7 @@ public abstract class GestioneUtenti {
 
         throw new ErroreLogin("Errore. Utente non esistente o credenziali errate.");
     }
+    
 
     // Controlla se un utente è già registrato
     public static boolean checkUser(String username) throws IOException {
@@ -197,7 +196,7 @@ public abstract class GestioneUtenti {
         return listaFiltrati;
     }
 
-    public static void stampaRicerca(Ristorante ristoranti) {
+    public static void stampaRicerca(Ristorante ristoranti) throws IOException {
         boolean stampa = true;
         Scanner sc = new Scanner(System.in);
         int count = 0;
@@ -248,7 +247,7 @@ public abstract class GestioneUtenti {
                     }
                     break;
                 default:
-                    System.out.println("Esco...");
+                    TheKnife.main_menu();
                     stampa = false;
                     break;
             }

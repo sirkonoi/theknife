@@ -30,7 +30,7 @@ public class TheKnife {
 
     // menu registrazione, login, guest
     public static void menu_log() throws IOException {
-        printLogo();
+        pulisci();printLogo();
         System.out.println("\nBenvenuto,\n1 - Entra come Guest");
         System.out.println("2 - Login");
         System.out.println("3 - Registrati");
@@ -91,8 +91,7 @@ public class TheKnife {
                 while (true) {
                     String username = "";
 
-                    pulisci();
-                    printLogo();
+                    pulisci();printLogo();
                     System.out.println("TheKnife - Registrazione");
 
                     while (true) {
@@ -106,7 +105,7 @@ public class TheKnife {
                     }
                     pulisci();
                     System.out.print("Inserisci la tua password: ");
-                    String psw = sc.nextLine();
+                    String psw = sc.nextLine().trim();
                     pulisci();
                     System.out.print("Inserisci il tuo nome: ");
                     String nome = sc.nextLine();
@@ -121,7 +120,7 @@ public class TheKnife {
                             break;
                         } else {
                             pulisci();
-                            System.out.println("Errore. Domicilio non esistente.");
+                            System.out.println("Errore. Domicilio non esistente. Inserisci nuovamente il tuo domicilio.");
                         }
                     }
                     pulisci();
@@ -139,7 +138,7 @@ public class TheKnife {
                         System.out.println("Errore. L'utente esiste gia'.");
                     }
                     pulisci();
-                    System.out.println("Registrazione ok, " + user.getUsername() + " sei un " + user.getRuolo());
+                    //System.out.println("Registrazione ok, " + user.getUsername() + " sei un " + user.getRuolo());
                     break;
                 }
         }
@@ -174,7 +173,7 @@ public class TheKnife {
                         GestioneUtenti.stampaRicerca(lista);
                     break;
                 case "2":
-                    // profilo()
+                    Utente.visualizzaProfilo((Utente)user);
                     break;
                 case "3":
                     pulisci();printLogo();                
