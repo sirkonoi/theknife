@@ -53,16 +53,64 @@ public class Ristorante {
         return new Ristorante(restaurants);
     }
 
-    public static boolean checkRistoranti(String name) throws IOException {
-        boolean isCreated = false;
+    public static List<String> getTipiCucina() throws IOException {
         Ristorante restaurants = getRistoranti();
+        List<String> tipiCucina = new ArrayList<>();
+
         for (List<String> restaurant : restaurants.getListaRistoranti()) {
-            if (restaurant.get(0).equals(name)) {
-                isCreated = true;
-                break;
+            if (!restaurant.isEmpty()) {
+                String tipi = restaurant.get(4);
+                String[] tipi_splittati = tipi.split(",");
+
+                for (String tipo : tipi_splittati) {
+                    tipo = tipo.trim();
+                    if (!tipiCucina.contains(tipo)) {
+                        tipiCucina.add(tipo);
+                    }
+                }
             }
         }
-        return isCreated;
+
+        return tipiCucina;
+    }
+
+
+
+    public static boolean checkRistoranti(String name) throws IOException {
+        Ristorante restaurants = getRistoranti();
+        for (List<String> restaurant : restaurants.getListaRistoranti()) {
+            if (!restaurant.isEmpty() && restaurant.get(0).equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void visualizzaRistorante(Ristorante ristorantiFiltrati, String nomeRistorante) {
+        TheKnife.pulisci();
+        String topb = "+------------------------------------------------------+";
+        String separator = "|------------------------------------------------------|";
+        String bottomb = "+------------------------------------------------------+";
+
+        for (List<String> ristorante : ristorantiFiltrati.getListaRistoranti()) {
+            if (ristorante.get(0).equalsIgnoreCase(nomeRistorante)) {
+                System.out.println(topb);
+                System.out.println("| NOME: " + ristorante.get(0) + " (" + ristorante.get(10) + ")");
+                System.out.println(separator);
+                System.out.println("| TELEFONO: " + ristorante.get(7));
+                System.out.println("| INDIRIZZO: " + ristorante.get(1));
+                System.out.println("| TIPO DI CUCINA: " + ristorante.get(4));
+                System.out.println("| BOOKING: " + (ristorante.get(11).isEmpty() ? "Non disponibile"
+                        : ristorante.get(15).equals("True") ? "Si" : "No"));
+                System.out.println("| DELIVERY: " + (ristorante.get(12).isEmpty() ? "Non disponibile"
+                        : ristorante.get(14).equals("True") ? "Si" : "No"));
+                System.out
+                        .println("| WEBSITE: " + (ristorante.get(9).isEmpty() ? "Non disponibile" : ristorante.get(9)));
+                System.out.println(separator);
+                System.out.println("| DESCRIZIONE:\n " + ristorante.get(13));
+                System.out.println(bottomb);
+            }
+        }
     }
     
     public static void scriviRistorante (String name, String address, String location, String price, String cuisine, double longitudine, double latitudine, String phoneNumber, String url, String webSiteUrl, int award, String greenStar, String facilitiesAndServices, String description) throws IOException {
@@ -75,7 +123,7 @@ public class Ristorante {
         catch (IOException e) {
             System.out.println("Errore...");
         }
-    }
+    }    
 
     //METODI FILTRI
 

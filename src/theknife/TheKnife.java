@@ -205,9 +205,10 @@ public class TheKnife {
     }
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException {
-        //menu_log();
+        menu_log();
         //cerca();
         
+        /*
         String[] filtri = {"1", "2"};
         Ristorante lista = GestioneUtenti.cercaFiltri(filtri);
         //GestioneUtenti.stampaRicerca(lista);
@@ -215,5 +216,6 @@ public class TheKnife {
         System.out.println("Che ristorante vuoi visualizzare?????");
         String nomeRistorante = sc.nextLine(); 
         GestioneUtenti.visualizzaRistorante(lista, nomeRistorante);
+        */
     }
 }
