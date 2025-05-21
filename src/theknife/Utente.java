@@ -57,6 +57,8 @@ public class Utente extends GestioneUtenti {
         }
     }
 
+    
+    
     // metodi Get
     public String getNome() {
         return this.nome;
