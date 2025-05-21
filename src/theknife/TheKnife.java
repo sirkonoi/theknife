@@ -170,7 +170,7 @@ public class TheKnife {
                         String filtriUtente = sc.nextLine();
                         String[] filtri = filtriUtente.split(",");
                         lista = GestioneUtenti.cercaFiltri(lista, filtri);
-                        GestioneUtenti.stampaRicerca(lista);
+                        GestioneUtenti.stampaRicerca(lista, user);
                     break;
                 case "2":
                     Utente.visualizzaProfilo((Utente)user);

@@ -106,7 +106,7 @@ public abstract class GestioneUtenti {
         for (String filtro : filtri) {
             // Tipologia
             if (filtro.equals("1")) {
-                String tipologia = getTipologia() ;
+                String tipologia = getTipologia();
                 listaFiltrati = Ristorante.filtraTipologia(listaFiltrati, tipologia);
             }
 
@@ -143,7 +143,7 @@ public abstract class GestioneUtenti {
         return listaFiltrati;
     }
 
-    public static void stampaRicerca(Ristorante ristoranti) throws IOException {
+    public static void stampaRicerca(Ristorante ristoranti, GestioneUtenti user) throws IOException {
         boolean stampa = true;
         Scanner sc = new Scanner(System.in);
         int count = 0;
@@ -213,27 +213,45 @@ public abstract class GestioneUtenti {
                 case "cerca":
                     boolean cerca = true;
                     while (cerca) {
-                        // controllo, se l'utente scrive solo cerca allora l'app chiede il nome del
-                        // ristorante
                         if (nomeRistorante == null || nomeRistorante.isEmpty()) {
                             System.out.println("Inserisci il nome del ristorante che vuoi visualizzare: ");
                             nomeRistorante = sc.nextLine().trim();
                         }
 
                         if (Ristorante.checkRistoranti(nomeRistorante)) {
-                            Ristorante.visualizzaRistorante(ristoranti, nomeRistorante);
-                        } else {
-                            System.out.println("Il ristorante non esiste.");
-                        }
+                            while (true) {
+                                Ristorante.visualizzaRistorante(ristoranti, nomeRistorante);
 
-                        String scelta;
-                        do {
-                            System.out.println("\nESCI - Torna ai ristoranti filtrati");
-                            scelta = sc.nextLine().trim().toLowerCase();
-                            if (!scelta.equals("esci")) {
-                                System.out.println("Scelta non valida.");
+                                if (!user.getRuolo().equals("guest")) {
+                                    System.out.println("\n1 - Inserisci il ristorante nella lista dei preferiti.");
+                                }
+                                System.out.println("ESCI - Torna ai ristoranti filtrati");
+
+                                String scelta = sc.nextLine().trim().toLowerCase();
+
+                                if (scelta.equals("1") && !user.getRuolo().equals("guest")) {
+                                    if (Utente.checkPreferiti(user.getUsername(), nomeRistorante)) {
+                                        System.out.println(
+                                                "Errore: il ristorante è già nella tua lista preferiti!\nPremi invio per continuare...");
+                                        sc.nextLine();
+                                    } else {
+                                        Utente.aggiungiPreferiti(user.getUsername(), nomeRistorante);
+                                        System.out.println(
+                                                "Ristorante aggiunto ai preferiti.\nPremi invio per continuare...");
+                                        sc.nextLine();
+                                        break;
+                                    }
+                                } else if (scelta.equals("esci")) {
+                                    break;
+                                } else {
+                                    System.out.println("Scelta non valida.\nPremi invio per continuare...");
+                                    sc.nextLine();
+                                }
                             }
-                        } while (!scelta.equals("esci"));
+                        } else {
+                            System.out.println("Il ristorante non esiste.\nPremi invio per tornare alla lista.");
+                            sc.nextLine();
+                        }
 
                         cerca = false;
                         nomeRistorante = null;
@@ -249,63 +267,62 @@ public abstract class GestioneUtenti {
         }
     }
 
-public static String getTipologia() throws IOException {
-    List<String> tipiCucina = Ristorante.getTipiCucina();
-    int count = 0;
-    int new_count = 10;
-    Scanner sc = new Scanner(System.in);
-    String tipologia = "";
+    public static String getTipologia() throws IOException {
+        List<String> tipiCucina = Ristorante.getTipiCucina();
+        int count = 0;
+        int new_count = 10;
+        Scanner sc = new Scanner(System.in);
+        String tipologia = "";
 
-    boolean stampa = true;
-    while (stampa) {
-        TheKnife.pulisci();
+        boolean stampa = true;
+        while (stampa) {
+            TheKnife.pulisci();
 
-        int paginaCorrente = (count / 10) + 1;
-        int totalePagine = (tipiCucina.size() + 9) / 10;
+            int paginaCorrente = (count / 10) + 1;
+            int totalePagine = (tipiCucina.size() + 9) / 10;
 
-        System.out.println("Tipi di cucina disponibili (Pagina " + paginaCorrente + " di " + totalePagine + "):\n");
+            System.out.println("Tipi di cucina disponibili (Pagina " + paginaCorrente + " di " + totalePagine + "):\n");
 
-        for (int i = count; i < new_count && i < tipiCucina.size(); i++) {
-            System.out.println("- " + tipiCucina.get(i));
+            for (int i = count; i < new_count && i < tipiCucina.size(); i++) {
+                System.out.println("- " + tipiCucina.get(i));
+            }
+
+            System.out.println("\nProssima Pagina:  >");
+            System.out.println("Pagina precedente: <");
+            System.out.println("Digita il nome della cucina per selezionarla.");
+
+            String input = sc.nextLine().trim();
+
+            switch (input.toLowerCase()) {
+                case ">":
+                    if (new_count < tipiCucina.size()) {
+                        count += 10;
+                        new_count += 10;
+                    } else {
+                        System.out.println("Errore. Non sono presenti altri tipi di cucina.");
+                    }
+                    break;
+
+                case "<":
+                    if (count >= 10) {
+                        count -= 10;
+                        new_count -= 10;
+                    } else {
+                        System.out.println("Errore. Sei già alla prima pagina.");
+                    }
+                default:
+                    if (tipiCucina.contains(input)) {
+                        tipologia = input;
+                        stampa = false;
+                    } else {
+                        System.out.println("Tipo di cucina non valido.");
+                    }
+                    break;
+            }
         }
 
-        System.out.println("\nProssima Pagina:  >");
-        System.out.println("Pagina precedente: <");
-        System.out.println("Digita il nome della cucina per selezionarla.");
-
-        String input = sc.nextLine().trim();
-
-        switch (input.toLowerCase()) {
-            case ">":
-                if (new_count < tipiCucina.size()) {
-                    count += 10;
-                    new_count += 10;
-                } else {
-                    System.out.println("Errore. Non sono presenti altri tipi di cucina.");
-                }
-                break;
-
-            case "<":
-                if (count >= 10) {
-                    count -= 10;
-                    new_count -= 10;
-                } else {
-                    System.out.println("Errore. Sei già alla prima pagina.");
-                }
-            default:
-                if (tipiCucina.contains(input)) {
-                    tipologia = input;
-                    stampa = false;
-                } else {
-                    System.out.println("Tipo di cucina non valido.");
-                }
-                break;
-        }
+        return tipologia;
     }
-
-    return tipologia;
-}
-
 
     public static Ristorante cercaFiltri(String[] filtri) throws IOException {
         Scanner sc = new Scanner(System.in);
