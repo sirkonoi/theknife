@@ -165,12 +165,12 @@ public class TheKnife {
                 case "1":
                 //manca check format
                     pulisci();printLogo();
-                        Ristorante lista = GestioneUtenti.cercaVicinanza(user.getDomicilio(), raggio);
+                        Ristorante lista = geoTheKnife.cercaVicinanza(user.getDomicilio(), raggio);
                         System.out.println( "Inserisci i filtri desiderati per visualizzare la lista dei ristoranti:\nFORMAT: (filtro1, filtro2, filtro3 ....)\nEsempio: 1, 2, 3\n1 - Tipologia di cucina.\n2 - Disponibilità del servizio di delivery.\n3 - Disponibilità del servizio di prenotazione online.\n4 - Fascia di prezzo.\n5 - Per media del numero di stelle.\n");
                         String filtriUtente = sc.nextLine();
                         String[] filtri = filtriUtente.split(",");
-                        lista = GestioneUtenti.cercaFiltri(lista, filtri);
-                        GestioneUtenti.stampaRicerca(lista, user);
+                        lista = Utility.cercaFiltri(lista, filtri);
+                        Utility.stampaRicerca(lista, "filtri", user, "filtrati",true);
                     break;
                 case "2":
                     Utente.visualizzaProfilo((Utente)user);
@@ -206,18 +206,7 @@ public class TheKnife {
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException, RestaurantAlreadyExists {
         menu_log();
-        //cerca();
-        
-        /*
-        String[] filtri = {"1", "2"};
-        Ristorante lista = GestioneUtenti.cercaFiltri(filtri);
-        //GestioneUtenti.stampaRicerca(lista);
-        
-        System.out.println("Che ristorante vuoi visualizzare?????");
-        String nomeRistorante = sc.nextLine(); 
-        GestioneUtenti.visualizzaRistorante(lista, nomeRistorante);
-        */
-
-        //Utente.aggiungiPreferiti("konoi", "Da Plesha");
+        //user = GestioneUtenti.login("konoe", "ciao1234");
+        //Utility.stampaRicerca(Ristorante.getRistoranti(), "preferiti", user, "preferiti", true);
     }
 }

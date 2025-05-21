@@ -54,7 +54,8 @@ public class geoTheKnife {
         return a; // restituisce array in cui pos. 0 è latitudine e pos.1 è longitudine
     }
 
-    public static Ristorante filtraVicinanza(Ristorante listaRistoranti, String indirizzo, int raggio) throws IOException {
+    public static Ristorante filtraVicinanza(Ristorante listaRistoranti, String indirizzo, int raggio)
+            throws IOException {
         LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
         float[] coordinate = geoTheKnife.getLatitudineLongitudine(indirizzo);
         float latitudineUtente = coordinate[0];
@@ -79,6 +80,12 @@ public class geoTheKnife {
         double latDistance = (lat2 - lat1) * 111;
         double lonDistance = (lon2 - lon1) * 111;
         return Math.sqrt(latDistance * latDistance + lonDistance * lonDistance);
+    }
+
+    public static Ristorante cercaVicinanza(String indirizzo, int raggio) throws IOException {
+        Ristorante listaFiltrati = Ristorante.getRistoranti();
+        listaFiltrati = geoTheKnife.filtraVicinanza(listaFiltrati, indirizzo, raggio);
+        return listaFiltrati;
     }
 
 }

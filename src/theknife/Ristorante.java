@@ -7,7 +7,6 @@ public class Ristorante {
 
     // separatore file
     public static String sep = (File.separator);
-    public String filePath = "";
 
     // campi
     private LinkedList<List<String>> listaRistoranti;
@@ -92,8 +91,8 @@ public class Ristorante {
     public static void scriviRistorante (String name, String address, String location, String price, String cuisine, double longitudine, double latitudine, String phoneNumber, String url, String webSiteUrl, int award, String greenStar, String facilitiesAndServices, String description, boolean delivery, boolean booking) throws IOException {
         FileWriter fr = new FileWriter("data" + sep + "restaurants.csv", true);
         try {
-            fr.write("\n" + name + "," + address + "," + location + "," + price + "," + cuisine + "," + longitudine + "," + latitudine + "," + phoneNumber + "," + award + "," + greenStar + "," + facilitiesAndServices + "," + delivery + "," + delivery);
-            fr.close();
+           fr.write("\n" + name + "," + address + "," + location + "," + price + "," + cuisine + "," + longitudine + "," + latitudine + "," + phoneNumber + "," + url + "," + webSiteUrl + "," + award + "," + greenStar + "," + facilitiesAndServices + "," + description + "," + delivery + "," + booking);
+           fr.close();
         }
 
         catch (IOException e) {
