@@ -59,8 +59,15 @@ public class Utente extends GestioneUtenti {
         }
     }
 
-    public static void getPreferiti(String user) {
-        
+    public static LinkedList<String> getPreferiti(String user) throws IOException {
+        LinkedList<List<String>> filePreferiti = GestioneFile.getFilePreferiti();
+        LinkedList<String> preferitiUtente = new LinkedList<>();
+        for (List<String> preferiti : filePreferiti) {
+            if (preferiti.get(0).equals(user)) {
+                preferitiUtente.add(preferiti.get(1).substring(1, preferiti.get(1).length()));
+            }
+        }
+        return preferitiUtente;
     }
     
     // metodi Get
