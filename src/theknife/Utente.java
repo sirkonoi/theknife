@@ -207,6 +207,28 @@ public class Utente extends GestioneUtenti {
         }
     }
     
+    public static void aggiungiRecensione(String nomeRistorante, Utente user) throws IOException{
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Inserisci una valutazione del ristorante: (da 1 a 5 stelle): ");
+        String valutazione = sc.nextLine();
+        System.out.println("Aggiungi una recensione: (da 1 a 5 stelle): ");
+        String recensione = sc.nextLine();
+        String username = user.getUsername();
+        scriviRecensione(username, nomeRistorante, valutazione, recensione);
+    }
+
+    public static void scriviRecensione(String utente_recensore, String nomeRistorante, String Valutazione, String Recensione) throws IOException {
+        FileWriter fr = new FileWriter("data" + sep + "recensioni.csv", true);
+        try {
+            fr.write("\n" + utente_recensore + "," + nomeRistorante + "," + Valutazione + "," +  Recensione);
+            fr.close();
+        }
+
+        catch (IOException e) {
+            System.out.println("Errore...");
+        }
+    }
+    
     // metodi Get
     public String getNome() {
         return this.nome;
