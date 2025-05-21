@@ -17,35 +17,13 @@ public class Ristorante {
         this.listaRistoranti = listaRistoranti;
     }
 
-    public static List<String> parseRistorante(String line) {
-        List<String> restaurant = new ArrayList<>();
-        String campo = "";
-        boolean isVirgolette = false;
-
-        for (int i = 0; i < line.length(); i++) {
-            char c = line.charAt(i);
-
-            if (c == '\"') {
-                isVirgolette = !isVirgolette; // cambia stato virgolette
-            } else if (c == ',' && !isVirgolette) {
-                restaurant.add(campo.trim());
-                campo = ""; // reset campo
-            } else {
-                campo += c; // concatena il carattere
-            }
-        }
-
-        restaurant.add(campo.trim()); // aggiungi l'ultimo campo
-        return restaurant;
-    }
-
     public static Ristorante getRistoranti() throws IOException {
         LinkedList<List<String>> restaurants = new LinkedList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader("data" + sep + "restaurants.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                List<String> restaurant = parseRistorante(line);
+                List<String> restaurant = GestioneFile.parseRiga(line);
                 restaurants.add(restaurant);
             }
         }
@@ -73,8 +51,6 @@ public class Ristorante {
 
         return tipiCucina;
     }
-
-
 
     public static boolean checkRistoranti(String name) throws IOException {
         Ristorante restaurants = getRistoranti();
