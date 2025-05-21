@@ -2,6 +2,7 @@ package theknife;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -41,7 +42,8 @@ public class Utente extends GestioneUtenti {
             System.out.println("Sei un: " + user.getRuolo().toUpperCase());
 
             System.out.println("1 - Visualizza password.");            
-            System.out.println("2 - Torna al menu' principale.");
+            System.out.println("2 - Visualizza i tuoi ristoranti preferiti.");              
+            System.out.println("3 - Torna al menu' principale.");
             sceltaMenu = sc.nextLine();
 
             if (sceltaMenu.equals("1")) {
@@ -49,14 +51,29 @@ public class Utente extends GestioneUtenti {
                 psw = Password.decrypt(user.getPsw());
             } 
             else if (sceltaMenu.equals("2")) {
+                //stampaPreferiti(user.getUsername());
+            } 
+            else if (sceltaMenu.equals("3")) {
                 TheKnife.main_menu();
                 break;
-            }            
+            }                       
             else {
                 TheKnife.pulisci();TheKnife.printLogo();
                 System.out.println("Scelta non valida. Riprova.");
             }
         }
+    }
+
+    public static void aggiungiPreferiti(String username, String nomeRistorante) throws IOException {
+        FileWriter fr = new FileWriter("data" + sep + "preferiti.csv", true);
+        try {
+            fr.write("\n" + username + "," + "\"" + nomeRistorante + "\"");
+            fr.close();
+        }
+
+        catch (IOException e) {
+            System.out.println("Errore...");
+        } 
     }
 
     public static void getPreferiti(String user) {

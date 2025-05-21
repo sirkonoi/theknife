@@ -217,5 +217,7 @@ public class TheKnife {
         String nomeRistorante = sc.nextLine(); 
         GestioneUtenti.visualizzaRistorante(lista, nomeRistorante);
         */
+
+        //Utente.aggiungiPreferiti("konoi", "Da Plesha");
     }
 }
