@@ -205,7 +205,7 @@ public class TheKnife {
     }
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException, RestaurantAlreadyExists {
-        menu_log();
+        //menu_log();
         //user = GestioneUtenti.login("konoe", "ciao1234");
         //Utility.stampaRicerca(Ristorante.getRistoranti(), "preferiti", user, "preferiti", true);
     }

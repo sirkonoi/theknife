@@ -2,6 +2,7 @@ package theknife;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,4 +49,19 @@ public class GestioneFile {
 
         return preferiti;
     }
+
+    public static LinkedList<List<String>> getFileRecensioni() throws FileNotFoundException, IOException {
+        LinkedList<List<String>> recensioni = new LinkedList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("data" + sep + "recensioni.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                List<String> recensione = GestioneFile.parseRiga(line);
+                recensioni.add(recensione);
+            }
+        }
+
+        return recensioni;
+    }
+
 }

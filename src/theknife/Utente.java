@@ -1,9 +1,6 @@
 package theknife;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Utente extends GestioneUtenti {
@@ -42,8 +39,9 @@ public class Utente extends GestioneUtenti {
             System.out.println("Sei un: " + user.getRuolo().toUpperCase());
 
             System.out.println("1 - Visualizza password.");            
-            System.out.println("2 - Visualizza i tuoi ristoranti preferiti.");              
-            System.out.println("3 - Torna al menu' principale.");
+            System.out.println("2 - Visualizza i tuoi ristoranti preferiti.");      
+            System.out.println("3 - Visualizza le tue recensioni.");                      
+            System.out.println("4 - Torna al menu' principale.");
             sceltaMenu = sc.nextLine();
 
             if (sceltaMenu.equals("1")) {
@@ -53,10 +51,13 @@ public class Utente extends GestioneUtenti {
             else if (sceltaMenu.equals("2")) {
                 Utility.stampaRicerca(Ristorante.getRistoranti(), "preferiti", user, "preferiti", true);
             } 
-            else if (sceltaMenu.equals("3")) {
+            else if(sceltaMenu.equals("3")) {
+                Recensione.visualizzaRecensioniUtente(user.getUsername(), Recensione.getRecensioni(user.getUsername()));
+            }  
+            else if (sceltaMenu.equals("4")) {
                 TheKnife.main_menu();
                 break;
-            }                       
+            }                                 
             else {
                 TheKnife.pulisci();TheKnife.printLogo();
                 System.out.println("Scelta non valida. Riprova.");
@@ -97,28 +98,6 @@ public class Utente extends GestioneUtenti {
             }
         }
         return false;
-    }
-    
-    public static void aggiungiRecensione(String nomeRistorante, Utente user) throws IOException{
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Inserisci una valutazione del ristorante: (da 1 a 5 stelle): ");
-        String valutazione = sc.nextLine();
-        System.out.println("Aggiungi una recensione: (da 1 a 5 stelle): ");
-        String recensione = sc.nextLine();
-        String username = user.getUsername();
-        scriviRecensione(username, nomeRistorante, valutazione, recensione);
-    }
-
-    public static void scriviRecensione(String utente_recensore, String nomeRistorante, String Valutazione, String Recensione) throws IOException {
-        FileWriter fr = new FileWriter("data" + sep + "recensioni.csv", true);
-        try {
-            fr.write("\n" + utente_recensore + "," + nomeRistorante + "," + Valutazione + "," +  Recensione);
-            fr.close();
-        }
-
-        catch (IOException e) {
-            System.out.println("Errore...");
-        }
     }
     
     // metodi Get

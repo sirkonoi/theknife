@@ -99,14 +99,23 @@ public class Utility {
                     break;
 
                 case "cerca":
-                    if (nomeRistorante != null && Ristorante.checkRistoranti(nomeRistorante)) {
+                    if (nomeRistorante == null || nomeRistorante.isEmpty()) {
+                        System.out.println("Inserisci il nome del ristorante che vuoi visualizzare: ");
+                        nomeRistorante = sc.nextLine().trim();
+                    }                
+
+                    if (!nomeRistorante.isEmpty() && Ristorante.checkRistoranti(nomeRistorante)) {
                         while (true) {
                             Ristorante.visualizzaRistorante(new Ristorante(listaDaStampare), nomeRistorante);
 
                             if (mostraAddPreferiti && !user.getRuolo().equals("guest")) {
                                 System.out.println("\n1 - Inserisci il ristorante nella lista dei preferiti.");
                             }
-                            System.out.println("ESCI - Torna alla lista dei ristoranti preferiti");
+                            if (!user.getRuolo().equals("guest")) {
+                                System.out.println("2 - Scrivi una recensione");
+                            }
+                            System.out.println("3 - Visualizza tutte le recensioni del ristorante.");                                                        
+                            System.out.println("ESCI - Torna alla lista dei ristoranti.");
 
                             String scelta = sc.nextLine().trim().toLowerCase();
 
@@ -119,10 +128,20 @@ public class Utility {
                                 }
                                 System.out.println("Premi invio per continuare..");
                                 sc.nextLine();
+                            } else if (scelta.equals("2")) {
+                                try {
+                                    Recensione.aggiungiRecensione(nomeRistorante, (Utente)user);
+                                } catch (RecensioneAlreadyExists e) {
+                                    System.out.println("Errore: Hai gia' scritto una recensione per questo ristorante! Modificala/Eliminala dal tuo profilo!");
+                                    System.out.println("Premi invio per continuare...");
+                                    sc.nextLine();
+                                }
+                            } else if (scelta.equals("3")) {
+                                Recensione.visualizzaRecensioniRistorante(nomeRistorante, Recensione.getRecensioniRistorante(nomeRistorante));
                             } else if (scelta.equals("esci")) {
                                 break;
                             } else {
-                                System.out.println("Scelta non valida.\nPremi invio per continuare...");
+                                System.out.println("Input non valido. Ritenta!\nPremi invio per continuare...");
                                 sc.nextLine();
                             }
                         }

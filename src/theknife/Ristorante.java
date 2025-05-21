@@ -61,7 +61,7 @@ public class Ristorante {
         return false;
     }
 
-    public static void visualizzaRistorante(Ristorante ristorantiFiltrati, String nomeRistorante) {
+    public static void visualizzaRistorante(Ristorante ristorantiFiltrati, String nomeRistorante) throws FileNotFoundException, IOException {
         TheKnife.pulisci();
         String topb = "+------------------------------------------------------+";
         String separator = "|------------------------------------------------------|";
@@ -72,6 +72,7 @@ public class Ristorante {
                 System.out.println(topb);
                 System.out.println("| NOME: " + ristorante.get(0) + " (" + ristorante.get(10) + ")");
                 System.out.println(separator);
+                 System.out.println("| MEDIA VOTI: " + Recensione.getMediaVoti(nomeRistorante));               
                 System.out.println("| TELEFONO: " + ristorante.get(7));
                 System.out.println("| INDIRIZZO: " + ristorante.get(1));
                 System.out.println("| TIPO DI CUCINA: " + ristorante.get(4));
@@ -170,11 +171,6 @@ public class Ristorante {
     public LinkedList<List<String>> getListaRistoranti() {
         return listaRistoranti;
     }
-
-    /*@Override
-    public String toString() {
-        return datiSingoloRistorante != null ? datiSingoloRistorante.toString() : "Ristorante non inizializzato correttamente.";
-    }*/
 
 
 
