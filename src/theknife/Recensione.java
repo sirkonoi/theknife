@@ -176,8 +176,9 @@ public class Recensione {
         boolean stampa = true;
         while (stampa) {
             TheKnife.pulisci();
+            int pagina = recensioniUtente.size()==0 ? 0 : count +1;            
 
-            System.out.println(nomeRistorante.toUpperCase() + " - Recensione (Numero " + (count + 1) + " di "
+            System.out.println(nomeRistorante.toUpperCase() + " - Recensione (Numero " + (pagina + 1) + " di "
                     + recensioniUtente.size() + " totali):\n");
 
             for (int i = count; i < new_count && i < recensioniUtente.size(); i++) {

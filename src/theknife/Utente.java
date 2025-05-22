@@ -20,7 +20,7 @@ public class Utente extends GestioneUtenti {
         this.ruolo = ruolo;
     }
 
-    public static void visualizzaProfilo(Utente user) throws IOException {
+    public static void visualizzaProfilo(Utente user) throws IOException, RestaurantAlreadyExists {
         TheKnife.pulisci();TheKnife.printLogo();
         String sceltaMenu = "";
         String psw = "";
@@ -49,7 +49,7 @@ public class Utente extends GestioneUtenti {
                 psw = Password.decrypt(user.getPsw());
             } 
             else if (sceltaMenu.equals("2")) {
-                Utility.stampaRicerca(Ristorante.getRistoranti(), "preferiti", user, "preferiti", true);
+                Utility.stampaRicerca(Ristorante.getRistoranti(), "preferiti", user, "Lista dei ristoranti preferiti", true);
             } 
             else if(sceltaMenu.equals("3")) {
                 Recensione.visualizzaRecensioniUtente(user.getUsername(), Recensione.getRecensioni(user.getUsername()));

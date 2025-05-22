@@ -13,7 +13,7 @@ public class Ristoratore extends Utente {
 
     // metodi
     //nota ricorda di aggiungere le virgolette (plesa sa)
-    public static void aggiungiRistorante(String name, String address, String location, String price, String cuisine, String phoneNumber, String url, String webSiteUrl, int award, String greenStar, String facilitiesAndServices, String description, boolean delivery, boolean booking) throws IOException, RestaurantAlreadyExists {
+    public static void aggiungiRistorante(String username, String name, String address, String location, String price, String cuisine, String phoneNumber, String url, String webSiteUrl, int award, String greenStar, String facilitiesAndServices, String description, boolean delivery, boolean booking) throws IOException, RestaurantAlreadyExists {
 
         double longitudine = 0;
         double latitudine = 0;
@@ -38,6 +38,32 @@ public class Ristoratore extends Utente {
             }
         }
 
+    }
+
+    public static Ristorante getRistorantiRistoratore(String username) throws FileNotFoundException, IOException {
+        LinkedList<List<String>> ristorantiRistoratore = new LinkedList<>();
+        Ristorante listaRistoranti = Ristorante.getRistoranti();
+        LinkedList<List<String>> fileRistoratori = GestioneFile.getFileRistoratori();
+
+        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+            for (List<String> riga : fileRistoratori) {
+                if (riga.get(1).equalsIgnoreCase(username) && ristorante.get(0).equalsIgnoreCase(riga.get(2))) {
+                    ristorantiRistoratore.add(ristorante);
+                }
+            }
+
+        }
+        return new Ristorante(ristorantiRistoratore);
+    }
+
+    public boolean isProprietario(String username, String nomeRistorante) throws FileNotFoundException, IOException {
+        Ristorante listaRistoranti = getRistorantiRistoratore(username);
+        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+            if(ristorante.get(0).equalsIgnoreCase(nomeRistorante)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

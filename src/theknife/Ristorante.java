@@ -67,23 +67,25 @@ public class Ristorante {
         String separator = "|------------------------------------------------------|";
         String bottomb = "+------------------------------------------------------+";
 
+        double media = Recensione.getMediaVoti(nomeRistorante);
+
         for (List<String> ristorante : ristorantiFiltrati.getListaRistoranti()) {
             if (ristorante.get(0).equalsIgnoreCase(nomeRistorante)) {
                 System.out.println(topb);
-                System.out.println("| NOME: " + ristorante.get(0) + " (" + ristorante.get(10) + ")");
+                System.out.println("| Nome: " + ristorante.get(0).toUpperCase() + " (" + ristorante.get(10) + ")");
                 System.out.println(separator);
-                 System.out.println("| MEDIA VOTI: " + Recensione.getMediaVoti(nomeRistorante));               
-                System.out.println("| TELEFONO: " + ristorante.get(7));
-                System.out.println("| INDIRIZZO: " + ristorante.get(1));
-                System.out.println("| TIPO DI CUCINA: " + ristorante.get(4));
-                System.out.println("| BOOKING: " + (ristorante.get(11).isEmpty() ? "Non disponibile"
+                System.out.println("| Media Voti: " + (media < 0 ? "Nessuna valutazione." : media));              
+                System.out.println("| Telefono: " + ristorante.get(7));
+                System.out.println("| Indirizzo: " + ristorante.get(1).toUpperCase());
+                System.out.println("| Tipo di Cucina: " + ristorante.get(4).toUpperCase());
+                System.out.println("| Booking: " + (ristorante.get(11).isEmpty() ? "Non disponibile"
                         : ristorante.get(15).equals("True") ? "Si" : "No"));
-                System.out.println("| DELIVERY: " + (ristorante.get(12).isEmpty() ? "Non disponibile"
+                System.out.println("| Delivery: " + (ristorante.get(12).isEmpty() ? "Non disponibile"
                         : ristorante.get(14).equals("True") ? "Si" : "No"));
                 System.out
-                        .println("| WEBSITE: " + (ristorante.get(9).isEmpty() ? "Non disponibile" : ristorante.get(9)));
+                        .println("| Sito Web: " + (ristorante.get(9).isEmpty() ? "Non disponibile" : ristorante.get(9)));
                 System.out.println(separator);
-                System.out.println("| DESCRIZIONE:\n " + ristorante.get(13));
+                System.out.println("| Descrizione:\n " + ristorante.get(13));
                 System.out.println(bottomb);
             }
         }

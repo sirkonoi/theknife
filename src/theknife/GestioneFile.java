@@ -64,4 +64,18 @@ public class GestioneFile {
         return recensioni;
     }
 
+    public static LinkedList<List<String>> getFileRistoratori() throws FileNotFoundException, IOException {
+        LinkedList<List<String>> ristoratori = new LinkedList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("data" + sep + "ristoratori.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                List<String> recensione = GestioneFile.parseRiga(line);
+                ristoratori.add(recensione);
+            }
+        }
+
+        return ristoratori;
+    }
+
 }

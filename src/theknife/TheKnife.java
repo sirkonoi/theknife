@@ -29,8 +29,9 @@ public class TheKnife {
     }
 
     // menu registrazione, login, guest
-    public static void menu_log() throws IOException {
-        pulisci();printLogo();
+    public static void menu_log() throws IOException, RestaurantAlreadyExists {
+        pulisci();
+        printLogo();
         System.out.println("\nBenvenuto,\n1 - Entra come Guest");
         System.out.println("2 - Login");
         System.out.println("3 - Registrati");
@@ -91,7 +92,8 @@ public class TheKnife {
                 while (true) {
                     String username = "";
 
-                    pulisci();printLogo();
+                    pulisci();
+                    printLogo();
                     System.out.println("TheKnife - Registrazione");
 
                     while (true) {
@@ -120,7 +122,8 @@ public class TheKnife {
                             break;
                         } else {
                             pulisci();
-                            System.out.println("Errore. Domicilio non esistente. Inserisci nuovamente il tuo domicilio.");
+                            System.out
+                                    .println("Errore. Domicilio non esistente. Inserisci nuovamente il tuo domicilio.");
                         }
                     }
                     pulisci();
@@ -138,75 +141,94 @@ public class TheKnife {
                         System.out.println("Errore. L'utente esiste gia'.");
                     }
                     pulisci();
-                    //System.out.println("Registrazione ok, " + user.getUsername() + " sei un " + user.getRuolo());
+                    // System.out.println("Registrazione ok, " + user.getUsername() + " sei un " +
+                    // user.getRuolo());
                     break;
                 }
         }
-                main_menu();        
+        main_menu();
     }
 
-    public static void main_menu() throws IOException {
-        pulisci();
-        printLogo();
-        //menu utente
-        if (user.getRuolo().equals("utente")) {
-            String sceltaMenu = "";
-            System.out.println("Benvenuto, " + user.getUsername() + ". Cosa vuoi fare? ");
-            System.out.println(
-                    "1 - Cerca un ristorante (con filtri)\n2 - Visualizza il tuo profilo.\n3 - Imposta raggio di ricerca (Ora " + raggio + " km).");
-            do {
-                sceltaMenu = sc.nextLine();
-                if (!((sceltaMenu.equals("1")) || (sceltaMenu.equals("2")) || (sceltaMenu.equalsIgnoreCase("3")))) {
-                    System.out.println("Input non valido. Inserisci nuovamente.");
+    public static void main_menu() throws IOException, RestaurantAlreadyExists {
+        pulisci();printLogo();
+        int opzioneProfilo = 0, opzioneRistorante = 0, opzioneRaggio = 0;
+        boolean isProfiloAbilitato = false, isRistoranteAbilitato = false;
+        int count = 1;
+
+        System.out.println("Benvenuto, " + user.getUsername() + ". Cosa vuoi fare? ");
+
+        System.out.println(count + " - Visualizza la lista di ristoranti (con filtri)");
+
+        if (user.getRuolo().equals("utente") || user.getRuolo().equals("ristoratore")) {
+            opzioneProfilo = ++count;
+            isProfiloAbilitato = true;
+            System.out.println(opzioneProfilo + " - Visualizza il tuo profilo.");
+        }
+        opzioneRaggio = ++count;
+        System.out.println(opzioneRaggio + " - Imposta raggio di ricerca (Ora " + raggio + " km).");
+
+        if (user.getRuolo().equals("ristoratore")) {
+            opzioneRistorante = ++count;
+            isRistoranteAbilitato = true;
+            System.out.println(opzioneRistorante + " - Visualizza i tuoi ristoranti.");
+        }
+
+        int scelta = -1000;
+        while (scelta < 1 || scelta > count) {
+            try {
+                scelta = Integer.parseInt(sc.nextLine());
+                if (scelta < 1 || scelta > count) {
+                    System.out.println("Scelta non valida, riprova.");
                 }
-            } while (!((sceltaMenu.equals("1")) || (sceltaMenu.equals("2")) || (sceltaMenu.equalsIgnoreCase("3"))));
-
-            switch (sceltaMenu) {
-                case "1":
-                //manca check format
-                    pulisci();printLogo();
-                        Ristorante lista = geoTheKnife.cercaVicinanza(user.getDomicilio(), raggio);
-                        System.out.println( "Inserisci i filtri desiderati per visualizzare la lista dei ristoranti:\nFORMAT: (filtro1, filtro2, filtro3 ....)\nEsempio: 1, 2, 3\n1 - Tipologia di cucina.\n2 - Disponibilità del servizio di delivery.\n3 - Disponibilità del servizio di prenotazione online.\n4 - Fascia di prezzo.\n5 - Per media del numero di stelle.\n");
-                        String filtriUtente = sc.nextLine();
-                        String[] filtri = filtriUtente.split(",");
-                        lista = Utility.cercaFiltri(lista, filtri);
-                        Utility.stampaRicerca(lista, "filtri", user, "filtrati",true);
-                    break;
-                case "2":
-                    Utente.visualizzaProfilo((Utente)user);
-                    break;
-                case "3":
-                    pulisci();printLogo();                
-                    System.out.println("Inserisci il raggio di ricerca dalla tua posizione (" + user.getDomicilio().toUpperCase() + ")");
-
-                    do {
-                        try {
-                            raggio = Integer.parseInt(sc.nextLine());
-                            if (raggio <= 0) {
-                                System.out.println("Errore. Raggio non valido, inserisci un nuovo valore: ");
-                            }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Errore. Inserisci un numero valido: ");
-                        }
-                    } while (raggio <= 0);
-
-                    System.out.println("Il raggio di ricerca è stato correttamente impostato a " + raggio);
-                    main_menu();;
-
+            } catch (NumberFormatException e) {
+                System.out.println("Errore: formato errato, perfavore inserisci un'opzione valida!");
             }
         }
 
-        else if (user.getRuolo().equals("ristoratore")) {
+        if (scelta == 1) {
+            pulisci();
+            printLogo();
+            Ristorante lista = geoTheKnife.cercaVicinanza(user.getDomicilio(), raggio);
+            System.out.println(
+                    "Inserisci i filtri desiderati per visualizzare la lista dei ristoranti:\nFORMAT: (filtro1, filtro2, filtro3 ....)\nEsempio: 1, 2, 3\n1 - Tipologia di cucina.\n2 - Disponibilità del servizio di delivery.\n3 - Disponibilità del servizio di prenotazione online.\n4 - Fascia di prezzo.\n5 - Per media del numero di stelle.\n");
+            String filtriUtente = sc.nextLine();
+            String[] filtri = filtriUtente.split(",");
+            lista = Utility.cercaFiltri(lista, filtri);
+            Utility.stampaRicerca(lista, "filtri", user, "Lista dei ristoranti filtrati", true);
         }
 
-        else {
+        else if (isProfiloAbilitato && scelta == opzioneProfilo) {
+            Utente.visualizzaProfilo((Utente) user);
+        } else if (scelta == opzioneRaggio) {
+            pulisci();
+            printLogo();
+            System.out.println(
+                    "Inserisci il raggio di ricerca dalla tua posizione (" + user.getDomicilio().toUpperCase() + ")");
 
-        }        
+            do {
+                try {
+                    raggio = Integer.parseInt(sc.nextLine());
+                    if (raggio <= 0) {
+                        System.out.println("Errore. Raggio non valido, inserisci un nuovo valore: ");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Errore. Inserisci un numero valido: ");
+                }
+            } while (raggio <= 0);
+
+            System.out.println("Il raggio di ricerca è stato correttamente impostato a " + raggio);
+            main_menu();
+
+        } else if (isRistoranteAbilitato && scelta == opzioneRistorante) {
+            Utility.stampaRicerca(Ristoratore.getRistorantiRistoratore(user.getUsername()), "ristoratore", user,"Lista dei tuoi ristoranti", false);
+        }
     }
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException, RestaurantAlreadyExists {
-        //menu_log();
-        //user = GestioneUtenti.login("konoe", "ciao1234");
-        //Utility.stampaRicerca(Ristorante.getRistoranti(), "preferiti", user, "preferiti", true);
+        //bug da fixare: addRistorante(), tipologia lettera minuscola, €
+        menu_log();
+        // user = GestioneUtenti.login("konoe", "ciao1234");
+        // Utility.stampaRicerca(Ristorante.getRistoranti(), "preferiti", user,
+        // "preferiti", true);
     }
 }
