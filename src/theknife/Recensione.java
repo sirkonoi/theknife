@@ -69,13 +69,12 @@ public class Recensione {
         }
 
         LinkedList<List<String>> tutteLeRecensioni = GestioneFile.getFileRecensioni();
-        Iterator<List<String>> iterator = tutteLeRecensioni.iterator();
-        while (iterator.hasNext()) {
-            List<String> riga = iterator.next();
+        for (int i = 0; i < tutteLeRecensioni.size(); i++) {
+            List<String> riga = tutteLeRecensioni.get(i);
             if (riga.size() >= 2 &&
                     riga.get(0).equals(nomeUtente) &&
                     riga.get(1).equalsIgnoreCase(nomeRistorante)) {
-                iterator.remove();
+                tutteLeRecensioni.remove(i);
                 break;
             }
         }
