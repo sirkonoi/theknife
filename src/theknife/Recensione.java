@@ -62,11 +62,7 @@ public class Recensione {
     }
 
     public static void eliminaRecensione(Utente user, String nomeRistorante) throws IOException { //mi serviva nomeRistorante come parametro cosi da metterlo in modificaRecensione
-        Scanner sc = new Scanner(System.in);
-        String nomeUtente = user.getUsername();/*
-        System.out.println("Di quale ristorante vuoi eliminare la recensione?");
-        String nomeRistorante = sc.nextLine();
-        */
+        String nomeUtente = user.getUsername();
         if (!checkRecensione(nomeUtente, nomeRistorante)) {
             System.out.println("Recensione non trovata.");
             return;
@@ -86,19 +82,23 @@ public class Recensione {
         GestioneFile.salvaFileRecensioni(tutteLeRecensioni);
     }
 
-    public static void scriviRecensione(String utente_recensore, String nomeRistorante, String valutazione,
-            String recensione) throws IOException {
-        FileWriter fr = new FileWriter("data" + sep + "recensioni.csv", true);
-        try {
-            fr.write("\n" + utente_recensore + "," + "\"" + nomeRistorante + "\"" + "," + valutazione + "," + "\""
-                    + recensione + "\"");
-            fr.close();
+        public static void scriviRecensione(String utente_recensore, String nomeRistorante, String valutazione, String recensione) throws IOException {
+            File file = new File("data" + sep + "recensioni.csv");
+            boolean fileEsistente = file.exists() && file.length() > 0;
+
+            FileWriter fr = new FileWriter(file, true);
+            try {
+                if (fileEsistente) {
+                    fr.write("");
+                }
+                fr.write(utente_recensore + "," + "\"" + nomeRistorante + "\"" + "," + valutazione + "," + "\"" + recensione + "\"");
+            } catch (IOException e) {
+                System.out.println("Errore...");
+            } finally {
+                fr.close();
+            }
         }
 
-        catch (IOException e) {
-            System.out.println("Errore...");
-        }
-    }
 
     public static LinkedList<List<String>> getRecensioni(String username) throws IOException {
         LinkedList<List<String>> fileRecensioni = GestioneFile.getFileRecensioni();
@@ -122,11 +122,11 @@ public class Recensione {
         return recensioniUtente;
     }
 
-    public static void visualizzaRecensioniUtente(String nomeUtente, LinkedList<List<String>> recensioniRistorante) {
+    public static void visualizzaRecensioniUtente(Utente user, LinkedList<List<String>> recensioniRistorante) throws IOException, RecensioneAlreadyExists {
         int count = 0;
         int new_count = 1;
         Scanner sc = new Scanner(System.in);
-
+        String nomeRistorante = "";
         boolean stampa = true;
         while (stampa) {
             TheKnife.pulisci();
@@ -152,7 +152,7 @@ public class Recensione {
                 for (int j = 0; j < numStelle; j++) {
                     stelle += "*";
                 }
-
+                nomeRistorante = recensione.get(1);
                 System.out.println("==========================================");
                 System.out.println(" Ristorante : " + recensione.get(1));
                 System.out.println(" Valutazione: " + stelle + " Stelle");
@@ -164,6 +164,8 @@ public class Recensione {
 
             System.out.println("\nProssima Recensione:  >");
             System.out.println("Recensione precedente: <");
+            System.out.println("\nMODIFICA - Modifica la recensione.");
+            System.out.println("ELIMINA - Elimina la recensione.");            
             System.out.println("ESCI - Torna indietro.");
 
             String input = sc.nextLine().trim();
@@ -190,7 +192,24 @@ public class Recensione {
                         sc.nextLine();
                     }
                     break;
-
+                case "modifica":
+                    modificaRecensione(user,nomeRistorante);
+                    System.out.println("Recensione modificata con successo.");
+                    System.out.println("Premi invio per continuare...");
+                    sc.nextLine(); 
+                    recensioniRistorante = getRecensioni(user.getUsername());
+                    count = 0;
+                    new_count = 1;                                        
+                    break;
+                case "elimina":
+                    eliminaRecensione(user, nomeRistorante);
+                    System.out.println("Recensione eliminata con successo.");
+                    System.out.println("Premi invio per continuare...");
+                    sc.nextLine();            
+                    recensioniRistorante = getRecensioni(user.getUsername());
+                    count = 0;
+                    new_count = 1;                             
+                    break;                    
                 case "esci":
                     stampa = false;
                     break;

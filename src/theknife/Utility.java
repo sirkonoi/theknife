@@ -18,7 +18,7 @@ public class Utility {
      * "Aggiungi ristorante ai preferiti"
      */
     public static void stampaRicerca(Ristorante ristoranti, String tipoMenu, GestioneUtenti user, String titolo,
-            boolean mostraAddPreferiti) throws IOException, RestaurantAlreadyExists {
+            boolean mostraAddPreferiti) throws IOException, RestaurantAlreadyExists, RecensioneAlreadyExists {
         boolean stampa = true;
         Scanner sc = new Scanner(System.in);
         int count = 0;

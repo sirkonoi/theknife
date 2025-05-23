@@ -1,8 +1,8 @@
-utente_recensore, "Nome Ristorante", Valutazione, "Recensione"
-konoe,"Bellamano",5,"Bellissimo ristorante!"
-paolo,"Bellamane",5,"Bellissimo ristorante!"
-konoe,"Sdrellamane",2,"Bellissimo ponzo!"
-konoe,"Acquerello",3,"Bellissimo ristorante, ambiente bellix e cibo buonix"
-paolone,"Acquerello",5,"Bellissimoooooooooooooooooooooooooooooooooooooooooooooo, cibo ok"
-arco,"Acquerello",4,"ok"
-konoe,"Villa Crespi",5,"bella"
+utente_recensore,"Nome Ristorante",Valutazione,"Recensione"
+paolo,Bellamane,5,Bellissimo ristorante!
+paolone,Acquerello,5,"Bellissimoooooooooooooooooooooooooooooooooooooooooooooo, cibo ok"
+arco,Acquerello,4,ok
+konoe,Sdrellamane,5,Bello
+konoe,Acquerello,5,Bello
+konoe,Villa Crespi,3,Bella
+konoe,"Bellamano",2,"Bellissimo"

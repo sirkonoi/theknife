@@ -29,7 +29,7 @@ public class TheKnife {
     }
 
     // menu registrazione, login, guest
-    public static void menu_log() throws IOException, RestaurantAlreadyExists {
+    public static void menu_log() throws IOException, RestaurantAlreadyExists, RecensioneAlreadyExists {
         pulisci();
         printLogo();
         System.out.println("\nBenvenuto,\n1 - Entra come Guest");
@@ -149,7 +149,7 @@ public class TheKnife {
         main_menu();
     }
 
-    public static void main_menu() throws IOException, RestaurantAlreadyExists {
+    public static void main_menu() throws IOException, RestaurantAlreadyExists, RecensioneAlreadyExists {
         pulisci();printLogo();
         int opzioneProfilo = 0, opzioneRistorante = 0, opzioneRaggio = 0;
         boolean isProfiloAbilitato = false, isRistoranteAbilitato = false;
@@ -224,8 +224,8 @@ public class TheKnife {
         }
     }
 
-    public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException, RestaurantAlreadyExists {
-        //bug da fixare: addRistorante(), tipologia lettera minuscola, €
+    public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException, RestaurantAlreadyExists, RecensioneAlreadyExists {
+        //bug da fixare: addRistorante(), tipologia lettera minuscola, €, menu Scrivi recensione per owner ristorante, visualizzaRiepilogo() in menu ristoratore del suo ristorante
         menu_log();
         // user = GestioneUtenti.login("konoe", "ciao1234");
         // Utility.stampaRicerca(Ristorante.getRistoranti(), "preferiti", user,
