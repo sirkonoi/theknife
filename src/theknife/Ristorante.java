@@ -51,10 +51,10 @@ public class Ristorante {
         return tipiCucina;
     }
 
-    public static boolean checkRistoranti(String name) throws IOException {
+    public static boolean checkRistoranti(String nomeRistorante) throws IOException {
         Ristorante restaurants = getRistoranti();
         for (List<String> restaurant : restaurants.getListaRistoranti()) {
-            if (!restaurant.isEmpty() && restaurant.get(0).equalsIgnoreCase(name)) {
+            if (!restaurant.isEmpty() && restaurant.get(0).equalsIgnoreCase(nomeRistorante)) {
                 return true;
             }
         }

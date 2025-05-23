@@ -47,7 +47,7 @@ public class Ristoratore extends Utente {
 
         for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
             for (List<String> riga : fileRistoratori) {
-                if (riga.get(1).equalsIgnoreCase(username) && ristorante.get(0).equalsIgnoreCase(riga.get(2))) {
+                if (riga.get(0).equalsIgnoreCase(username) && ristorante.get(0).equalsIgnoreCase(riga.get(1).replace("\"", ""))) {
                     ristorantiRistoratore.add(ristorante);
                 }
             }
@@ -56,7 +56,7 @@ public class Ristoratore extends Utente {
         return new Ristorante(ristorantiRistoratore);
     }
 
-    public boolean isProprietario(String username, String nomeRistorante) throws FileNotFoundException, IOException {
+    public static boolean isProprietario(String username, String nomeRistorante) throws FileNotFoundException, IOException {
         Ristorante listaRistoranti = getRistorantiRistoratore(username);
         for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
             if(ristorante.get(0).equalsIgnoreCase(nomeRistorante)) {

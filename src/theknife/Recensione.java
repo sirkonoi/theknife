@@ -17,7 +17,7 @@ public class Recensione {
         }
 
         return false;
-    }    
+    }
 
     public static void aggiungiRecensione(String nomeRistorante, Utente user)
             throws IOException, RecensioneAlreadyExists {
@@ -54,7 +54,8 @@ public class Recensione {
             String recensione) throws IOException {
         FileWriter fr = new FileWriter("data" + sep + "recensioni.csv", true);
         try {
-            fr.write("\n" + utente_recensore + "," + "\"" + nomeRistorante + "\"" + "," + valutazione + "," + "\"" + recensione + "\"");
+            fr.write("\n" + utente_recensore + "," + "\"" + nomeRistorante + "\"" + "," + valutazione + "," + "\""
+                    + recensione + "\"");
             fr.close();
         }
 
@@ -167,8 +168,8 @@ public class Recensione {
         }
     }
 
-    public static void visualizzaRecensioniRistorante(String nomeRistorante,
-            LinkedList<List<String>> recensioniUtente) {
+    public static void visualizzaRecensioniRistorante(String nomeRistorante, String username,
+            LinkedList<List<String>> recensioniUtente) throws FileNotFoundException, IOException {
         int count = 0;
         int new_count = 1;
         Scanner sc = new Scanner(System.in);
@@ -176,19 +177,19 @@ public class Recensione {
         boolean stampa = true;
         while (stampa) {
             TheKnife.pulisci();
-            int pagina = recensioniUtente.size()==0 ? 0 : count +1;            
 
-            System.out.println(nomeRistorante.toUpperCase() + " - Recensione (Numero " + (pagina + 1) + " di "
+            int pagina = recensioniUtente.isEmpty() ? 0 : count + 1;
+
+            System.out.println(nomeRistorante.toUpperCase() + " - Recensione (Numero " + pagina + " di "
                     + recensioniUtente.size() + " totali):\n");
 
-            for (int i = count; i < new_count && i < recensioniUtente.size(); i++) {
-                List<String> recensione = recensioniUtente.get(i);
+            if (recensioniUtente.isEmpty()) {
+                System.out.println("Nessuna recensione disponibile per questo ristorante.\n");
+            } else {
+                List<String> recensione = recensioniUtente.get(count);
                 int numStelle = Integer.parseInt(recensione.get(2));
+                String stelle = "*".repeat(numStelle);
 
-                String stelle = "";
-                for (int j = 0; j < numStelle; j++) {
-                    stelle += "*";
-                }
                 System.out.println("==========================================");
                 System.out.println(" Utente : " + recensione.get(0));
                 System.out.println(" Valutazione: " + stelle + " Stelle");
@@ -196,13 +197,14 @@ public class Recensione {
                 System.out.println(" Recensione:");
                 System.out.println(" " + recensione.get(3).replaceAll("\"", ""));
                 System.out.println("==========================================\n");
-
             }
 
             System.out.println("\nProssima Recensione:  >");
             System.out.println("Recensione precedente: <");
+            if (Ristoratore.isProprietario(username, nomeRistorante)) {
+                System.out.println("RISPONDI - Rispondi alla recensione dell'utente.");
+            }
             System.out.println("ESCI - Torna indietro.");
-
             String input = sc.nextLine().trim();
 
             switch (input.toLowerCase()) {
@@ -212,6 +214,8 @@ public class Recensione {
                         new_count += 1;
                     } else {
                         System.out.println("Errore. Non sono presenti altre recensioni.");
+                        System.out.println("Premi invio per continuare...");
+                        sc.nextLine();
                     }
                     break;
 
@@ -221,10 +225,26 @@ public class Recensione {
                         new_count -= 1;
                     } else {
                         System.out.println("Errore. Sei già alla prima recensione.");
+                        System.out.println("Premi invio per continuare...");
+                        sc.nextLine();
                     }
                     break;
-                default:
+                case "rispondi":
+                    if (!Ristoratore.isProprietario(username, nomeRistorante)) {
+                        System.out.println(
+                                "Errore: non sei il proprietario del ristorante!\nPremi invio per continuare...");
+                        sc.nextLine();
+                        break;
+                    }
+                    // rispondiRecensione();
+                    break;
+                case "esci":
                     stampa = false;
+                    break;
+                default:
+                    System.out.println("Errore: inserisci un comando valido. Riprova.");
+                    System.out.println("Premi invio per continuare...");
+                    sc.nextLine();
                     break;
             }
         }
@@ -235,15 +255,15 @@ public class Recensione {
         double totvoti = 0.0;
         int count = 0;
         for (List<String> recensioni : recensioniUtente) {
-            totvoti+=Double.parseDouble(recensioni.get(2));
+            totvoti += Double.parseDouble(recensioni.get(2));
             count++;
         }
-        return totvoti/count;
+        return totvoti / count;
 
     }
 
     public static void visualizzaRiepilogo(String nomeRistorante) throws IOException {
         System.out.println("Numero di recensioni: " + getRecensioniRistorante(nomeRistorante).size());
-        System.out.println("Media Voti: " + getMediaVoti(nomeRistorante));        
+        System.out.println("Media Voti: " + getMediaVoti(nomeRistorante));
     }
 }

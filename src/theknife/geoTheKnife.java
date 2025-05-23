@@ -2,20 +2,18 @@ package theknife;
 
 import java.io.*;
 import java.net.*;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class geoTheKnife {
 
     public static boolean domicilioEsistente(String domicilio) throws IOException {
         String urlString = "https://nominatim.openstreetmap.org/search?q=" + domicilio.replace(" ", "+")
                 + "&format=json&limit=1";
-        URL url = new URL(urlString);
+        URL url = URI.create(urlString).toURL();
 
-        InputStream response = url.openStream(); // manda una richiesta a Nominatim OpenStreetMap
+        InputStream response = url.openStream();
 
-        BufferedReader rd = new BufferedReader(new InputStreamReader(response)); // legge la risposta -> se la linea è
-                                                                                 // vuota non esiste l'indirizzo
+        BufferedReader rd = new BufferedReader(new InputStreamReader(response));
         String line = rd.readLine();
         rd.close();
 
@@ -25,19 +23,16 @@ public class geoTheKnife {
     public static float[] getLatitudineLongitudine(String indirizzo) throws IOException {
         String urlString = "https://nominatim.openstreetmap.org/search?q=" + indirizzo.replace(" ", "+")
                 + "&format=json&limit=1";
-        URL url = new URL(urlString);
+        URL url = URI.create(urlString).toURL();
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
-        StringBuilder response = new StringBuilder();
+        String json = "";
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+            json = json + inputLine;
         }
         in.close();
 
-        String json = response.toString();
-
-        // Trova latitudine
         int latIndex = json.indexOf("\"lat\":\"");
         int lonIndex = json.indexOf("\"lon\":\"");
 
@@ -51,7 +46,7 @@ public class geoTheKnife {
 
         a[0] = Float.parseFloat(lat);
         a[1] = Float.parseFloat(lon);
-        return a; // restituisce array in cui pos. 0 è latitudine e pos.1 è longitudine
+        return a; //a[0] è la latitudine e a[1] è long
     }
 
     public static Ristorante filtraVicinanza(Ristorante listaRistoranti, String indirizzo, int raggio)
@@ -87,5 +82,4 @@ public class geoTheKnife {
         listaFiltrati = geoTheKnife.filtraVicinanza(listaFiltrati, indirizzo, raggio);
         return listaFiltrati;
     }
-
 }

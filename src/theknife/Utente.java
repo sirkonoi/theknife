@@ -21,7 +21,6 @@ public class Utente extends GestioneUtenti {
     }
 
     public static void visualizzaProfilo(Utente user) throws IOException, RestaurantAlreadyExists {
-        TheKnife.pulisci();TheKnife.printLogo();
         String sceltaMenu = "";
         String psw = "";
         Scanner sc = new Scanner(System.in);
@@ -31,6 +30,7 @@ public class Utente extends GestioneUtenti {
         }
 
         while (true) {
+            TheKnife.pulisci();TheKnife.printLogo();            
             System.out.println("Username: " + user.getUsername());
             System.out.println("Password: " + psw);                 
             System.out.println("Nome: " + user.getNome().toUpperCase());

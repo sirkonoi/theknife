@@ -31,7 +31,7 @@ public class Utility {
             listaDaStampare = ristoranti.getListaRistoranti();
         } 
         else if (tipoMenu.equals("ristoratore")) {
-            listaDaStampare = ristoranti.getListaRistoranti();
+            listaDaStampare = Ristoratore.getRistorantiRistoratore(user.getUsername()).getListaRistoranti();
             isMenuRistoratore = true;
         }
         else if (tipoMenu.equals("preferiti")) {
@@ -142,8 +142,7 @@ public class Utility {
 
                             String scelta = sc.nextLine().trim().toLowerCase();
                             if (scelta.equals("1")) {
-                                Recensione.visualizzaRecensioniRistorante(nomeRistorante,
-                                        Recensione.getRecensioniRistorante(nomeRistorante));
+                                Recensione.visualizzaRecensioniRistorante(nomeRistorante, user.getUsername(), Recensione.getRecensioniRistorante(nomeRistorante));
                             } else if (scelta.equals("2") && mostraAddPreferiti && !user.getRuolo().equals("guest")) {
                                 if (Utente.checkPreferiti(user.getUsername(), nomeRistorante)) {
                                     System.out.println("Errore: il ristorante è già nei preferiti!");
@@ -343,8 +342,14 @@ public class Utility {
         boolean booking, delivery;
 
         TheKnife.pulisci();
-        System.out.println("Inserisci il nome del ristorante");
-        nomeRistorante = sc.nextLine();
+        do {
+            System.out.println("Inserisci il nome del ristorante");
+            nomeRistorante = sc.nextLine();
+            if (Ristorante.checkRistoranti(nomeRistorante)) {
+                System.out.println("Errore: Nome già esistente, riprova.");
+            }
+        } while (Ristorante.checkRistoranti(nomeRistorante));
+
 
         TheKnife.pulisci();        
         System.out.println("Inserisci l'indirizzo del ristorante (FORMAT: VIA NOMEVIA NUMCIVICO CITTA' NAZIONE)\nEsempio: Viale Stelvio 17 Busto Arsizio Italia");
