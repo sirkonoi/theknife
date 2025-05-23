@@ -1,9 +1,11 @@
 package theknife;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -76,6 +78,35 @@ public class GestioneFile {
         }
 
         return ristoratori;
+    }
+
+    public static void salvaFileRecensioni(List<List<String>> recensioni) throws IOException {
+        File file = new File("data" + sep + "recensioni.csv");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            // scrivi una sola volta l'header
+            writer.write("utente_recensore,\"Nome Ristorante\",Valutazione,\"Recensione\"");
+            writer.newLine();
+
+            for (List<String> riga : recensioni) {
+                // Salta righe che sono un duplicato dell'header
+                if (riga.get(0).equalsIgnoreCase("utente_recensore")) {
+                    continue;
+                }
+
+                for (int i = 0; i < riga.size(); i++) {
+                    String campo = riga.get(i);
+                    if (campo.contains(",") || campo.contains("\"")) {
+                        campo = "\"" + campo.replace("\"", "\"\"") + "\"";
+                    }
+                    writer.write(campo);
+                    if (i < riga.size() - 1) {
+                        writer.write(",");
+                    }
+                }
+                writer.newLine();
+            }
+        }
     }
 
 }

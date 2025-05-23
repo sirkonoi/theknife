@@ -50,6 +50,42 @@ public class Recensione {
         scriviRecensione(username, nomeRistorante, valutazione, recensione);
     }
 
+        public static void modificaRecensione(Utente user, String nomeRistorante) throws IOException, RecensioneAlreadyExists {
+        Scanner sc = new Scanner(System.in);
+        String nomeUtente = user.getUsername();
+
+        if (checkRecensione(nomeUtente, nomeRistorante) == true) 
+        {
+            eliminaRecensione(user, nomeRistorante);
+            aggiungiRecensione(nomeRistorante, user);
+        }
+    }
+
+    public static void eliminaRecensione(Utente user, String nomeRistorante) throws IOException { //mi serviva nomeRistorante come parametro cosi da metterlo in modificaRecensione
+        Scanner sc = new Scanner(System.in);
+        String nomeUtente = user.getUsername();/*
+        System.out.println("Di quale ristorante vuoi eliminare la recensione?");
+        String nomeRistorante = sc.nextLine();
+        */
+        if (!checkRecensione(nomeUtente, nomeRistorante)) {
+            System.out.println("Recensione non trovata.");
+            return;
+        }
+
+        LinkedList<List<String>> tutteLeRecensioni = GestioneFile.getFileRecensioni();
+        Iterator<List<String>> iterator = tutteLeRecensioni.iterator();
+        while (iterator.hasNext()) {
+            List<String> riga = iterator.next();
+            if (riga.size() >= 2 &&
+                    riga.get(0).equals(nomeUtente) &&
+                    riga.get(1).equalsIgnoreCase(nomeRistorante)) {
+                iterator.remove();
+                break;
+            }
+        }
+        GestioneFile.salvaFileRecensioni(tutteLeRecensioni);
+    }
+
     public static void scriviRecensione(String utente_recensore, String nomeRistorante, String valutazione,
             String recensione) throws IOException {
         FileWriter fr = new FileWriter("data" + sep + "recensioni.csv", true);
