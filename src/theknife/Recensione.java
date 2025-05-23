@@ -88,12 +88,9 @@ public class Recensione {
 
             FileWriter fr = new FileWriter(file, true);
             try {
-                if (fileEsistente) {
-                    fr.write("");
-                }
                 fr.write(utente_recensore + "," + "\"" + nomeRistorante + "\"" + "," + valutazione + "," + "\"" + recensione + "\"");
             } catch (IOException e) {
-                System.out.println("Errore...");
+                System.out.println("Errore!!!!!");
             } finally {
                 fr.close();
             }
