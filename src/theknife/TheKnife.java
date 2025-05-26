@@ -225,7 +225,7 @@ public class TheKnife {
     }
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException, RestaurantAlreadyExists, RecensioneAlreadyExists {
-        //bug da fixare: addRistorante(), tipologia lettera minuscola, €, menu Scrivi recensione per owner ristorante, visualizzaRiepilogo() in menu ristoratore del suo ristorante
+        //bug da fixare: addRistorante(), €, menu Scrivi recensione per owner ristorante, visualizzaRiepilogo() in menu ristoratore del suo ristorante
         menu_log();
         // user = GestioneUtenti.login("konoe", "ciao1234");
         // Utility.stampaRicerca(Ristorante.getRistoranti(), "preferiti", user,

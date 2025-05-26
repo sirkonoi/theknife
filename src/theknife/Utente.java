@@ -30,7 +30,16 @@ public class Utente extends GestioneUtenti {
         }
 
         while (true) {
-            TheKnife.pulisci();TheKnife.printLogo();            
+            TheKnife.pulisci();
+            System.out.println("""
+                 ____  ____   ___   _____  ____  _       ___  
+                |    \\|    \\ /   \\ |     ||    || |     /   \\ 
+                |  o  )  D  )     ||   __| |  | | |    |     |
+                |   _/|    /|  O  ||  |_   |  | | |___ |  O  |
+                |  |  |    \\|     ||   _]  |  | |     ||     |
+                |  |  |  .  \\     ||  |    |  | |     ||     |
+                |__|  |__|\\_|\\___/ |__|   |____||_____| \\___/ 
+                    """);
             System.out.println("Username: " + user.getUsername());
             System.out.println("Password: " + psw);                 
             System.out.println("Nome: " + user.getNome().toUpperCase());

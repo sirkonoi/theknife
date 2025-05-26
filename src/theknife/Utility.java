@@ -29,12 +29,10 @@ public class Utility {
 
         if (tipoMenu.equals("filtri")) {
             listaDaStampare = ristoranti.getListaRistoranti();
-        } 
-        else if (tipoMenu.equals("ristoratore")) {
+        } else if (tipoMenu.equals("ristoratore")) {
             listaDaStampare = Ristoratore.getRistorantiRistoratore(user.getUsername()).getListaRistoranti();
             isMenuRistoratore = true;
-        }
-        else if (tipoMenu.equals("preferiti")) {
+        } else if (tipoMenu.equals("preferiti")) {
             LinkedList<String> listaPreferiti = Utente.getPreferiti(user.getUsername());
             LinkedList<List<String>> listaRistoranti = Ristorante.getRistoranti().getListaRistoranti();
 
@@ -136,13 +134,17 @@ public class Utility {
                                 System.out.println("2 - Inserisci il ristorante nella lista dei preferiti.");
                             }
                             if (!user.getRuolo().equals("guest")) {
-                                System.out.println("3 - Scrivi una recensione");
+                                System.out.println("RECENSIONE - Scrivi una recensione.");
                             }
+                            if(Ristoratore.isProprietario(user.getUsername(), nomeRistorante)) {
+                                System.out.println("RIEPILOGO - Ricevi un riepilogo delle recensioni del tuo ristorante.");                                
+                            }                            
                             System.out.println("ESCI - Torna alla lista dei ristoranti.");
 
                             String scelta = sc.nextLine().trim().toLowerCase();
                             if (scelta.equals("1")) {
-                                Recensione.visualizzaRecensioniRistorante(nomeRistorante, user.getUsername(), Recensione.getRecensioniRistorante(nomeRistorante));
+                                Recensione.visualizzaRecensioniRistorante(nomeRistorante, user.getUsername(),
+                                        Recensione.getRecensioniRistorante(nomeRistorante));
                             } else if (scelta.equals("2") && mostraAddPreferiti && !user.getRuolo().equals("guest")) {
                                 if (Utente.checkPreferiti(user.getUsername(), nomeRistorante)) {
                                     System.out.println("Errore: il ristorante è già nei preferiti!");
@@ -160,8 +162,14 @@ public class Utility {
                                             "Errore: Hai gia' scritto una recensione per questo ristorante! Modificala/Eliminala dal tuo profilo!");
                                     System.out.println("Premi invio per continuare...");
                                     sc.nextLine();
-                                }
-                            } else if (scelta.equals("esci")) {
+                                } 
+                            } else if(Ristoratore.isProprietario(user.getUsername(), nomeRistorante) && scelta.equalsIgnoreCase("riepilogo")) {
+                                TheKnife.pulisci();
+                                Recensione.visualizzaRiepilogo(nomeRistorante);
+                                System.out.println("Premi invio per continuare..");
+                                sc.nextLine();                               
+                            }
+                            else if (scelta.equals("esci")) {
                                 break;
                             } else {
                                 System.out.println("Input non valido. Ritenta!\nPremi invio per continuare...");
@@ -230,11 +238,20 @@ public class Utility {
                         System.out.println("Errore. Sei già alla prima pagina.");
                     }
                 default:
-                    if (tipiCucina.contains(input)) {
-                        tipologia = input;
-                        stampa = false;
-                    } else {
+                    boolean trovato = false;
+                    for (String tipo : tipiCucina) {
+                        if (tipo.equalsIgnoreCase(input)) {
+                            tipologia = tipo.toLowerCase();
+                            stampa = false;
+                            trovato = true;
+                            break;
+                        }
+                    }
+
+                    if (!trovato) {
                         System.out.println("Tipo di cucina non valido.");
+                        System.out.println("Premi invio per continuare...");
+                        sc.nextLine();
                     }
                     break;
             }
@@ -337,7 +354,8 @@ public class Utility {
 
     public static void menuAggiungiRistorante(String username) throws IOException, RestaurantAlreadyExists {
         Scanner sc = new Scanner(System.in);
-        String nomeRistorante, viaRistorante, nazione, prezzo, tipologiaCucina, numeroCell, url="", website, GreenStar = "", FacilitiesAndServices = "", descrizione;
+        String nomeRistorante, viaRistorante, nazione, prezzo, tipologiaCucina, numeroCell, url = "", website,
+                GreenStar = "", FacilitiesAndServices = "", descrizione;
         int stelle = 0;
         boolean booking, delivery;
 
@@ -350,19 +368,21 @@ public class Utility {
             }
         } while (Ristorante.checkRistoranti(nomeRistorante));
 
-
-        TheKnife.pulisci();        
-        System.out.println("Inserisci l'indirizzo del ristorante (FORMAT: VIA NOMEVIA NUMCIVICO CITTA' NAZIONE)\nEsempio: Viale Stelvio 17 Busto Arsizio Italia");
+        TheKnife.pulisci();
+        System.out.println(
+                "Inserisci l'indirizzo del ristorante (FORMAT: VIA NOMEVIA NUMCIVICO CITTA' NAZIONE)\nEsempio: Viale Stelvio 17 Busto Arsizio Italia");
         do {
             viaRistorante = sc.nextLine();
-            if(!geoTheKnife.domicilioEsistente(viaRistorante)) {System.out.println("Errore. Inserisci un indirizzo esistente!");}
-        } while(!geoTheKnife.domicilioEsistente(viaRistorante));
+            if (!geoTheKnife.domicilioEsistente(viaRistorante)) {
+                System.out.println("Errore. Inserisci un indirizzo esistente!");
+            }
+        } while (!geoTheKnife.domicilioEsistente(viaRistorante));
 
-        TheKnife.pulisci();        
+        TheKnife.pulisci();
         System.out.println("Inserisci la nazione: ");
         nazione = sc.nextLine();
 
-        TheKnife.pulisci();        
+        TheKnife.pulisci();
         do {
             System.out.println("Inserisci la fascia di prezzo (€, €€, €€€, €€€€):");
             prezzo = sc.nextLine().trim();
@@ -378,30 +398,34 @@ public class Utility {
         tipologiaCucina = sc.nextLine();
 
         TheKnife.pulisci();
-        System.out.println("Inserisci il numero di cellulare (ATTENZIONE, includi il prefisso):\nEsempio: +393928847562");
+        System.out
+                .println("Inserisci il numero di cellulare (ATTENZIONE, includi il prefisso):\nEsempio: +393928847562");
         do {
             numeroCell = sc.nextLine().trim();
 
             if (!numeroCell.startsWith("+") || numeroCell.length() < 10) {
-                System.out.println("Numero non valido. Assicurati di includere il prefisso (es. +39) e di inserire almeno 10 cifre.");
+                System.out.println(
+                        "Numero non valido. Assicurati di includere il prefisso (es. +39) e di inserire almeno 10 cifre.");
             }
 
         } while (!numeroCell.startsWith("+") || numeroCell.length() < 10);
 
         TheKnife.pulisci();
-        System.out.println("Inserisci il link del sito web del ristorante (Formato: www.nomesito.dominio, se non ne possiedi uno scrivi semplicemente \"No\"):");
+        System.out.println(
+                "Inserisci il link del sito web del ristorante (Formato: www.nomesito.dominio, se non ne possiedi uno scrivi semplicemente \"No\"):");
         do {
             website = sc.nextLine().trim();
 
-            if (!website.equalsIgnoreCase("no") && 
-                !(website.startsWith("www.") && website.contains(".") && website.length() > 7)) {
-                System.out.println("Link non valido. Inserisci un sito nel formato www.nomesito.dominio oppure scrivi \"no\".");
+            if (!website.equalsIgnoreCase("no") &&
+                    !(website.startsWith("www.") && website.contains(".") && website.length() > 7)) {
+                System.out.println(
+                        "Link non valido. Inserisci un sito nel formato www.nomesito.dominio oppure scrivi \"no\".");
             }
 
-        TheKnife.pulisci();
+            TheKnife.pulisci();
         } while (!website.equalsIgnoreCase("no") && !(website.startsWith("www.") && website.contains(".")));
 
-            System.out.println("Inserisci il numero di stelle Michelin (da 0 a 3):");        
+        System.out.println("Inserisci il numero di stelle Michelin (da 0 a 3):");
         do {
             String input = sc.nextLine().trim();
 
@@ -420,7 +444,7 @@ public class Utility {
         System.out.println("Il ristorante offre un servizio di delivery? (Si/No)");
         do {
             String risposta = sc.nextLine().trim().toLowerCase();
-            
+
             if (risposta.equals("si")) {
                 delivery = true;
                 break;
@@ -436,7 +460,7 @@ public class Utility {
         System.out.println("Il ristorante offre un servizio di prenotazione? (Si/No)");
         do {
             String risposta = sc.nextLine().trim().toLowerCase();
-            
+
             if (risposta.equals("si")) {
                 booking = true;
                 break;
@@ -446,7 +470,7 @@ public class Utility {
             } else {
                 System.out.println("Errore: Risposta non valida. Inserisci \"Si\" oppure \"No\".");
             }
-        } while (true);   
+        } while (true);
 
         TheKnife.pulisci();
         System.out.println("Inserisci una descrizione per il tuo ristorante (Almeno 30 caratteri):");
@@ -457,10 +481,11 @@ public class Utility {
                 System.out.println("La descrizione e' troppo breve. Inserisci almeno 30 caratteri:");
             }
         } while (descrizione.length() < 30);
-        
+
         TheKnife.pulisci();
         System.out.println("Ristorante creato con successo.\nPremi invio per continuare...");
-        Ristoratore.aggiungiRistorante(username, nomeRistorante, viaRistorante, nazione, prezzo, tipologiaCucina, numeroCell, url, website, stelle, GreenStar, FacilitiesAndServices, descrizione, delivery, booking);
+        Ristoratore.aggiungiRistorante(username, nomeRistorante, viaRistorante, nazione, prezzo, tipologiaCucina,
+                numeroCell, url, website, stelle, GreenStar, FacilitiesAndServices, descrizione, delivery, booking);
         sc.nextLine();
     }
 }

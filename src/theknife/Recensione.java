@@ -83,7 +83,6 @@ public class Recensione {
 
         public static void scriviRecensione(String utente_recensore, String nomeRistorante, String valutazione, String recensione) throws IOException {
             File file = new File("data" + sep + "recensioni.csv");
-            boolean fileEsistente = file.exists() && file.length() > 0;
 
             FileWriter fr = new FileWriter(file, true);
             try {
