@@ -49,18 +49,18 @@ public class geoTheKnife {
         return a; //a[0] è la latitudine e a[1] è long
     }
 
-    public static Ristorante filtraVicinanza(Ristorante listaRistoranti, String indirizzo, int raggio)
+    public static ListaRistorante filtraVicinanza(ListaRistorante listaRistoranti, String indirizzo, int raggio)
             throws IOException {
-        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
+        List<Ristorante> ristorantiFiltrati = new LinkedList<>();
         float[] coordinate = geoTheKnife.getLatitudineLongitudine(indirizzo);
         float latitudineUtente = coordinate[0];
         float longitudineUtente = coordinate[1];
         listaRistoranti.getListaRistoranti().remove(0);
 
-        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
+        for (Ristorante ristorante : listaRistoranti.getListaRistoranti()) {
 
-            float latitudineRistorante = Float.parseFloat(ristorante.get(6));
-            float longitudineRistorante = Float.parseFloat(ristorante.get(5));
+            float latitudineRistorante = (float) ristorante.getLatitudine();
+            float longitudineRistorante = (float) ristorante.getLongitudine();
             double distanza = distanzaSemplificata(latitudineUtente, longitudineUtente, latitudineRistorante,
                     longitudineRistorante);
             if (distanza <= raggio) {
@@ -68,7 +68,7 @@ public class geoTheKnife {
             }
         }
 
-        return new Ristorante(ristorantiFiltrati);
+        return new ListaRistorante(ristorantiFiltrati);
     }
 
     public static double distanzaSemplificata(double lat1, double lon1, double lat2, double lon2) {
@@ -77,8 +77,8 @@ public class geoTheKnife {
         return Math.sqrt(latDistance * latDistance + lonDistance * lonDistance);
     }
 
-    public static Ristorante cercaVicinanza(String indirizzo, int raggio) throws IOException {
-        Ristorante listaFiltrati = Ristorante.getRistoranti();
+    public static ListaRistorante cercaVicinanza(String indirizzo, int raggio) throws IOException {
+        ListaRistorante listaFiltrati = ListaRistorante.getRistoranti();
         listaFiltrati = geoTheKnife.filtraVicinanza(listaFiltrati, indirizzo, raggio);
         return listaFiltrati;
     }

@@ -17,7 +17,7 @@ public class Utility {
      * mostraAddPreferiti = true / false , specifica se mostrare o meno il pulsante
      * "Aggiungi ristorante ai preferiti"
      */
-    public static void stampaRicerca(Ristorante ristoranti, String tipoMenu, GestioneUtenti user, String titolo,
+    public static void stampaRicerca(ListaRistorante ristoranti, String tipoMenu, GestioneUtenti user, String titolo,
             boolean mostraAddPreferiti) throws IOException, RestaurantAlreadyExists, RecensioneAlreadyExists {
         boolean stampa = true;
         Scanner sc = new Scanner(System.in);
@@ -25,7 +25,7 @@ public class Utility {
         int new_count = 10;
         boolean isMenuRistoratore = false;
 
-        LinkedList<List<String>> listaDaStampare = new LinkedList<>();
+        List<Ristorante> listaDaStampare = new LinkedList<>();
 
         if (tipoMenu.equals("filtri")) {
             listaDaStampare = ristoranti.getListaRistoranti();
@@ -34,12 +34,11 @@ public class Utility {
             isMenuRistoratore = true;
         } else if (tipoMenu.equals("preferiti")) {
             LinkedList<String> listaPreferiti = Utente.getPreferiti(user.getUsername());
-            LinkedList<List<String>> listaRistoranti = Ristorante.getRistoranti().getListaRistoranti();
-
+            List<Ristorante> listaRistoranti = ListaRistorante.getRistoranti().getListaRistoranti();
             for (String nomePreferito : listaPreferiti) {
-                for (List<String> riga : listaRistoranti) {
-                    if (riga.get(0).equalsIgnoreCase(nomePreferito)) {
-                        listaDaStampare.add(riga);
+                for (Ristorante ristorante : listaRistoranti) {
+                    if (ristorante.getNome().equalsIgnoreCase(nomePreferito)) {
+                        listaDaStampare.add(ristorante);
                         break;
                     }
                 }
@@ -58,9 +57,9 @@ public class Utility {
                     titolo + " (Pagina " + paginaCorrente + " di " + totalePagine + ")\n");
 
             for (int i = count; i < new_count && i < listaDaStampare.size(); i++) {
-                List<String> riga = listaDaStampare.get(i);
-                if (!riga.isEmpty()) {
-                    System.out.println((i + 1) + ") " + riga.get(0) + ", " + riga.get(2));
+                Ristorante riga = listaDaStampare.get(i);
+                if (riga != null) {
+                    System.out.println((i + 1) + ") " + riga.getNome() + ", " + riga.getIndirizzo());
                 }
             }
 
@@ -125,9 +124,9 @@ public class Utility {
                         nomeRistorante = sc.nextLine().trim();
                     }
 
-                    if (!nomeRistorante.isEmpty() && Ristorante.checkRistoranti(nomeRistorante)) {
+                    if (!nomeRistorante.isEmpty() && ListaRistorante.checkRistoranti(nomeRistorante)) {
                         while (true) {
-                            Ristorante.visualizzaRistorante(new Ristorante(listaDaStampare), nomeRistorante);
+                            ListaRistorante.visualizzaRistorante(new ListaRistorante(listaDaStampare), nomeRistorante);
 
                             if (mostraAddPreferiti && !user.getRuolo().equals("guest")) {
                                 System.out.println("\n1 - Visualizza tutte le recensioni del ristorante.");
@@ -195,7 +194,7 @@ public class Utility {
 
     // Serve per selezione nei filtri della tipologia del ristorante
     public static String getTipologia() throws IOException {
-        List<String> tipiCucina = Ristorante.getTipiCucina();
+        List<String> tipiCucina = ListaRistorante.getTipiCucina();
         int count = 0;
         int new_count = 10;
         Scanner sc = new Scanner(System.in);
@@ -261,26 +260,26 @@ public class Utility {
     }
 
     // da fixare prezzo
-    public static Ristorante cercaFiltri(String[] filtri) throws IOException {
+    public static ListaRistorante cercaFiltri(String[] filtri) throws IOException {
         Scanner sc = new Scanner(System.in);
-        Ristorante listaFiltrati = Ristorante.getRistoranti();
+        ListaRistorante listaFiltrati = ListaRistorante.getRistoranti();
         for (String filtro : filtri) {
             // tipologia
             if (filtro.equals("1")) {
                 System.out.println("Inserisci la tipologia di cucina desiderata tra: LISTA CUCINA DA FARE...");
                 String tipologia = "";
                 tipologia = sc.nextLine();
-                listaFiltrati = Ristorante.filtraTipologia(listaFiltrati, tipologia);
+                listaFiltrati = ListaRistorante.filtraTipologia(listaFiltrati, tipologia);
             }
 
             // delivery:on
             if (filtro.equals("2")) {
-                listaFiltrati = Ristorante.filtraDelivery(listaFiltrati);
+                listaFiltrati = ListaRistorante.filtraDelivery(listaFiltrati);
             }
 
             // booking:on
             if (filtro.equals("3")) {
-                listaFiltrati = Ristorante.filtraBooking(listaFiltrati);
+                listaFiltrati = ListaRistorante.filtraBooking(listaFiltrati);
             }
 
             // fascia prezzo
@@ -295,7 +294,7 @@ public class Utility {
                     }
                 } while (!prezzo.matches("€{1,5}"));
 
-                listaFiltrati = Ristorante.filtraPrezzo(listaFiltrati, prezzo);
+                listaFiltrati = ListaRistorante.filtraPrezzo(listaFiltrati, prezzo);
             }
 
             // Prezzo
@@ -303,30 +302,30 @@ public class Utility {
                 System.out.println("Inserisci la locazione geografica (citta, stato): ");
                 String localita = "";
                 localita = sc.nextLine();
-                listaFiltrati = Ristorante.filtraPosizione(listaFiltrati, localita);
+                listaFiltrati = ListaRistorante.filtraPosizione(listaFiltrati, localita);
             }
         }
         return listaFiltrati;
     }
 
-    public static Ristorante cercaFiltri(Ristorante listaFiltrati, String[] filtri) throws IOException {
+    public static ListaRistorante cercaFiltri(ListaRistorante listaFiltrati, String[] filtri) throws IOException {
         Scanner sc = new Scanner(System.in);
 
         for (String filtro : filtri) {
             // Tipologia
             if (filtro.equals("1")) {
                 String tipologia = Utility.getTipologia();
-                listaFiltrati = Ristorante.filtraTipologia(listaFiltrati, tipologia);
+                listaFiltrati = ListaRistorante.filtraTipologia(listaFiltrati, tipologia);
             }
 
             // Delivery
             if (filtro.equals("2")) {
-                listaFiltrati = Ristorante.filtraDelivery(listaFiltrati);
+                listaFiltrati = ListaRistorante.filtraDelivery(listaFiltrati);
             }
 
             // Booking
             if (filtro.equals("3")) {
-                listaFiltrati = Ristorante.filtraBooking(listaFiltrati);
+                listaFiltrati = ListaRistorante.filtraBooking(listaFiltrati);
             }
 
             // dafixare..................................................................................
@@ -346,7 +345,7 @@ public class Utility {
                 } while (!(prezzo.equals("€") || prezzo.equals("€€") || prezzo.equals("€€€") || prezzo.equals("€€€€")
                         || prezzo.equals("€€€€€")));
 
-                listaFiltrati = Ristorante.filtraPrezzo(listaFiltrati, prezzo);
+                listaFiltrati = ListaRistorante.filtraPrezzo(listaFiltrati, prezzo);
             }
         }
         return listaFiltrati;
@@ -363,10 +362,10 @@ public class Utility {
         do {
             System.out.println("Inserisci il nome del ristorante");
             nomeRistorante = sc.nextLine();
-            if (Ristorante.checkRistoranti(nomeRistorante)) {
+            if (ListaRistorante.checkRistoranti(nomeRistorante)) {
                 System.out.println("Errore: Nome già esistente, riprova.");
             }
-        } while (Ristorante.checkRistoranti(nomeRistorante));
+        } while (ListaRistorante.checkRistoranti(nomeRistorante));
 
         TheKnife.pulisci();
         System.out.println(

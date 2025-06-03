@@ -1,179 +1,106 @@
 package theknife;
 
-import java.util.*;
-import java.io.*;
-
 public class Ristorante {
+    private String nome;
+    private String indirizzo;
+    private String localita;
+    private String prezzo;
+    private String tipoCucina;
+    private double longitudine;
+    private double latitudine;
+    private String telefono;
+    private String url;
+    private String sitoWeb;
+    private String premio;
+    private String greenStar;
+    private String servizi;
+    private String descrizione;
+    private boolean delivery;
+    private boolean booking;
 
-    // separatore file
-    public static String sep = (File.separator);
-
-    // campi
-    private LinkedList<List<String>> listaRistoranti;
-
-    // costruttore 1, prende intero file
-    public Ristorante(LinkedList<List<String>> listaRistoranti) {
-        this.listaRistoranti = listaRistoranti;
+    public Ristorante(String nome, String indirizzo, String localita, String prezzo, String tipoCucina,
+            double longitudine, double latitudine, String telefono, String url, String sitoWeb,
+            String premio, String greenStar, String servizi, String descrizione,
+            boolean delivery, boolean booking) {
+        this.nome = nome;
+        this.indirizzo = indirizzo;
+        this.localita = localita;
+        this.prezzo = prezzo;
+        this.tipoCucina = tipoCucina;
+        this.longitudine = longitudine;
+        this.latitudine = latitudine;
+        this.telefono = telefono;
+        this.url = url;
+        this.sitoWeb = sitoWeb;
+        this.premio = premio;
+        this.greenStar = greenStar;
+        this.servizi = servizi;
+        this.descrizione = descrizione;
+        this.delivery = delivery;
+        this.booking = booking;
     }
 
-    public static Ristorante getRistoranti() throws IOException {
-        LinkedList<List<String>> restaurants = new LinkedList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader("data" + sep + "restaurants.csv"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                List<String> restaurant = GestioneFile.parseRiga(line);
-                restaurants.add(restaurant);
-            }
-        }
-
-        return new Ristorante(restaurants);
+    public String getNome() {
+        return nome;
     }
 
-    public static List<String> getTipiCucina() throws IOException {
-        Ristorante restaurants = getRistoranti();
-        List<String> tipiCucina = new ArrayList<>();
-
-        for (List<String> restaurant : restaurants.getListaRistoranti()) {
-            if (!restaurant.isEmpty()) {
-                String tipi = restaurant.get(4);
-                String[] tipi_splittati = tipi.split(",");
-
-                for (String tipo : tipi_splittati) {
-                    tipo = tipo.trim();
-                    if (!tipiCucina.contains(tipo)) {
-                        tipiCucina.add(tipo);
-                    }
-                }
-            }
-        }
-
-        return tipiCucina;
+    public String getIndirizzo() {
+        return indirizzo;
     }
 
-    public static boolean checkRistoranti(String nomeRistorante) throws IOException {
-        Ristorante restaurants = getRistoranti();
-        for (List<String> restaurant : restaurants.getListaRistoranti()) {
-            if (!restaurant.isEmpty() && restaurant.get(0).equalsIgnoreCase(nomeRistorante)) {
-                return true;
-            }
-        }
-        return false;
+    public String getLocalita() {
+        return localita;
     }
 
-    public static void visualizzaRistorante(Ristorante ristorantiFiltrati, String nomeRistorante) throws FileNotFoundException, IOException {
-        TheKnife.pulisci();
-        String topb = "+------------------------------------------------------+";
-        String separator = "|------------------------------------------------------|";
-        String bottomb = "+------------------------------------------------------+";
-
-        double media = Recensione.getMediaVoti(nomeRistorante);
-
-        for (List<String> ristorante : ristorantiFiltrati.getListaRistoranti()) {
-            if (ristorante.get(0).equalsIgnoreCase(nomeRistorante)) {
-                System.out.println(topb);
-                System.out.println("| Nome: " + ristorante.get(0).toUpperCase() + " (" + ristorante.get(10) + ")");
-                System.out.println(separator);
-                System.out.println("| Media Voti: " + (media < 0 ? "Nessuna valutazione." : media));              
-                System.out.println("| Telefono: " + ristorante.get(7));
-                System.out.println("| Indirizzo: " + ristorante.get(1).toUpperCase());
-                System.out.println("| Tipo di Cucina: " + ristorante.get(4).toUpperCase());
-                System.out.println("| Booking: " + (ristorante.get(11).isEmpty() ? "Non disponibile"
-                        : ristorante.get(15).equals("True") ? "Si" : "No"));
-                System.out.println("| Delivery: " + (ristorante.get(12).isEmpty() ? "Non disponibile"
-                        : ristorante.get(14).equals("True") ? "Si" : "No"));
-                System.out
-                        .println("| Sito Web: " + (ristorante.get(9).isEmpty() ? "Non disponibile" : ristorante.get(9)));
-                System.out.println(separator);
-                System.out.println("| Descrizione:\n " + ristorante.get(13));
-                System.out.println(bottomb);
-            }
-        }
-    }
-    
-    public static void scriviRistorante (String name, String address, String location, String price, String cuisine, double longitudine, double latitudine, String phoneNumber, String url, String webSiteUrl, int award, String greenStar, String facilitiesAndServices, String description, boolean delivery, boolean booking) throws IOException {
-        FileWriter fr = new FileWriter("data" + sep + "restaurants.csv", true);
-        try {
-           fr.write("\n" + name + "," + address + "," + location + "," + price + "," + cuisine + "," + longitudine + "," + latitudine + "," + phoneNumber + "," + url + "," + webSiteUrl + "," + award + "," + greenStar + "," + facilitiesAndServices + "," + description + "," + delivery + "," + booking);
-           fr.close();
-        }
-
-        catch (IOException e) {
-            System.out.println("Errore...");
-        }
-    }    
-
-    //METODI FILTRI
-
-    public static Ristorante filtraTipologia(Ristorante listaRistoranti, String tipologia) {
-        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
-
-        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
-            if (ristorante.get(4).equalsIgnoreCase(tipologia) || ristorante.get(4).contains(tipologia)) {
-                ristorantiFiltrati.add(ristorante);
-            }
-        }
-        return new Ristorante(ristorantiFiltrati);
+    public String getPrezzo() {
+        return prezzo;
     }
 
-    //14
-    public static Ristorante filtraDelivery(Ristorante listaRistoranti) {
-        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
-
-        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
-            String servizi = ristorante.get(14).toLowerCase();
-            if (servizi.equals("true")) {
-                ristorantiFiltrati.add(ristorante);
-            }
-        }
-        return new Ristorante(ristorantiFiltrati);
+    public String getTipoCucina() {
+        return tipoCucina;
     }
 
-    //da rifare
-    public static Ristorante filtraBooking(Ristorante listaRistoranti) {
-        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
-
-        //15
-        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
-            String servizi = ristorante.get(15).toLowerCase();
-            if (servizi.equals("true")) {
-                ristorantiFiltrati.add(ristorante);
-            }
-        }
-        return new Ristorante(ristorantiFiltrati);
+    public double getLongitudine() {
+        return longitudine;
     }
 
-    public static Ristorante filtraPrezzo(Ristorante listaRistoranti, String prezzo) {
-        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
-
-        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
-            String prezzoRistorante = ristorante.get(3);
-            if (prezzo.length() == prezzoRistorante.length()) {
-                ristorantiFiltrati.add(ristorante);
-            }
-        }
-        return new Ristorante(ristorantiFiltrati);
+    public double getLatitudine() {
+        return latitudine;
     }
 
-    //inutile?????
-    public static Ristorante filtraPosizione(Ristorante listaRistoranti, String localita) {
-        LinkedList<List<String>> ristorantiFiltrati = new LinkedList<>();
-
-        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
-            String localitaRistorante = ristorante.get(2).toLowerCase();
-            if (localita.equalsIgnoreCase(localitaRistorante)) {
-                ristorantiFiltrati.add(ristorante);
-            }
-        }
-        return new Ristorante(ristorantiFiltrati);
+    public String getTelefono() {
+        return telefono;
     }
 
-
-    //METODI GET
-    public LinkedList<List<String>> getListaRistoranti() {
-        return listaRistoranti;
+    public String getUrl() {
+        return url;
     }
 
+    public String getSitoWeb() {
+        return sitoWeb;
+    }
 
+    public String getPremio() {
+        return premio;
+    }
 
+    public String getGreenStar() {
+        return greenStar;
+    }
+
+    public String getServizi() {
+        return servizi;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public boolean isDelivery() {
+        return delivery;
+    }
+
+    public boolean isBooking() {
+        return booking;
+    }
 }

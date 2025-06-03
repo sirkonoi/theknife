@@ -58,7 +58,7 @@ public class Utente extends GestioneUtenti {
                 psw = Password.decrypt(user.getPsw());
             } 
             else if (sceltaMenu.equals("2")) {
-                Utility.stampaRicerca(Ristorante.getRistoranti(), "preferiti", user, "Lista dei ristoranti preferiti", true);
+                Utility.stampaRicerca(ListaRistorante.getRistoranti(), "preferiti", user, "Lista dei ristoranti preferiti", true);
             } 
             else if(sceltaMenu.equals("3")) {
                 Recensione.visualizzaRecensioniUtente(user, Recensione.getRecensioni(user.getUsername()));

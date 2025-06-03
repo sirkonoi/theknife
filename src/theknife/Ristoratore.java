@@ -17,7 +17,7 @@ public class Ristoratore extends Utente {
 
         double longitudine = 0;
         double latitudine = 0;
-        if (Ristorante.checkRistoranti(name)) {
+        if (ListaRistorante.checkRistoranti(name)) {
             throw new RestaurantAlreadyExists("Ristorante già presente");
         } else {
             if (geoTheKnife.domicilioEsistente(address)) {
@@ -26,7 +26,7 @@ public class Ristoratore extends Utente {
                 longitudine = coordinate[1];
                 
             } 
-            Ristorante.scriviRistorante(name, address, location, price, cuisine, longitudine, latitudine, phoneNumber,url, webSiteUrl, award, greenStar, facilitiesAndServices, description, delivery, booking );
+            ListaRistorante.scriviRistorante(name, address, location, price, cuisine, longitudine, latitudine, phoneNumber,url, webSiteUrl, award, greenStar, facilitiesAndServices, description, delivery, booking );
             FileWriter fr = new FileWriter("data" + sep + "ristoratori.csv", true);           
 
             try {
@@ -40,26 +40,32 @@ public class Ristoratore extends Utente {
 
     }
 
-    public static Ristorante getRistorantiRistoratore(String username) throws FileNotFoundException, IOException {
-        LinkedList<List<String>> ristorantiRistoratore = new LinkedList<>();
-        Ristorante listaRistoranti = Ristorante.getRistoranti();
-        LinkedList<List<String>> fileRistoratori = GestioneFile.getFileRistoratori();
+ public static ListaRistorante getRistorantiRistoratore(String username) throws IOException {
+    List<Ristorante> ristorantiRistoratore = new LinkedList<>();
+    ListaRistorante listaRistoranti = ListaRistorante.getRistoranti();
+    LinkedList<List<String>> fileRistoratori = GestioneFile.getFileRistoratori(); // CORRETTO tipo
 
-        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
-            for (List<String> riga : fileRistoratori) {
-                if (riga.get(0).equalsIgnoreCase(username) && ristorante.get(0).equalsIgnoreCase(riga.get(1).replace("\"", ""))) {
+    for (List<String> riga : fileRistoratori) {
+        String usernameRistoratore = riga.get(0).replace("\"", "");
+        String nomeRistorante = riga.get(1).replace("\"", "");
+
+        if (usernameRistoratore.equalsIgnoreCase(username)) {
+            for (Ristorante ristorante : listaRistoranti.getListaRistoranti()) {
+                if (ristorante.getNome().equalsIgnoreCase(nomeRistorante)) {
                     ristorantiRistoratore.add(ristorante);
+                    break;
                 }
             }
-
         }
-        return new Ristorante(ristorantiRistoratore);
     }
 
+    return new ListaRistorante(ristorantiRistoratore);
+}
+
     public static boolean isProprietario(String username, String nomeRistorante) throws FileNotFoundException, IOException {
-        Ristorante listaRistoranti = getRistorantiRistoratore(username);
-        for (List<String> ristorante : listaRistoranti.getListaRistoranti()) {
-            if(ristorante.get(0).equalsIgnoreCase(nomeRistorante)) {
+        ListaRistorante listaRistoranti = getRistorantiRistoratore(username);
+        for (Ristorante ristorante : listaRistoranti.getListaRistoranti()) {
+            if(ristorante.getNome().equalsIgnoreCase(nomeRistorante)) {
                 return true;
             }
         }

@@ -188,7 +188,7 @@ public class TheKnife {
         if (scelta == 1) {
             pulisci();
             printLogo();
-            Ristorante lista = geoTheKnife.cercaVicinanza(user.getDomicilio(), raggio);
+            ListaRistorante lista = geoTheKnife.cercaVicinanza(user.getDomicilio(), raggio);
             System.out.println(
                     "Inserisci i filtri desiderati per visualizzare la lista dei ristoranti:\nFORMAT: (filtro1, filtro2, filtro3 ....)\nEsempio: 1, 2, 3\n1 - Tipologia di cucina.\n2 - Disponibilità del servizio di delivery.\n3 - Disponibilità del servizio di prenotazione online.\n4 - Fascia di prezzo.\n5 - Per media del numero di stelle.\n");
             String filtriUtente = sc.nextLine();
