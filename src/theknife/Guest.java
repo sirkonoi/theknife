@@ -1,21 +1,47 @@
 package theknife;
 
+/**
+ * La classe Guest rappresenta un utente ospite nell'app, ovvero che non ha effettuato la registrazione.
+ * Un guest ha un username fisso "Guest" e un domicilio associato, per la ricerca dei ristoranti nelle vicinanze.
+ * La classe estende {@link GestioneUtenti}.
+ */
+
 public class Guest extends GestioneUtenti {
     private String username;
-    private String luogo;
+    private String domicilio;
 
-    public Guest(String luogo) {
+    /**
+     * Costruttore della classe Guest, riceve come parametro il domicilio.
+     * L'username è impostato di default a "Guest".
+     * 
+     * @param luogo Il domicilio associato al guest.
+     */    
+    public Guest(String domicilio) {
         this.username = "Guest";
-        this.luogo = luogo;
+        this.domicilio = domicilio;
     }
     
-    //metodi get
+    /**
+     * Restituisce il domicilio associato al guest.
+     * 
+     * @return Il domicilio del guest.
+     */
     public String getDomicilio() {
-        return luogo;
+        return domicilio;
     }
+    /**
+     * Restituisce l'username ("Guest") associato al guest.
+     * 
+     * @return "Guest"
+     */    
     public String getUsername() {
         return username;
     }
+    /**
+     * Restituisce il ruolo associato al guest.
+     * 
+     * @return Il ruolo del guest.
+     */    
     public String getRuolo() {
         return "guest";
     }    

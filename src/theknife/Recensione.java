@@ -4,20 +4,38 @@ import java.io.*;
 import java.util.*;
 
 public class Recensione {
-
-    public static String sep = (File.separator);
+    String usernameUtente, nomeRistorante, desc;
+    double valutazione = 0.0; 
+    public Recensione(String usernameUtente, String nomeRistorante, double valutazione, String desc) {
+        this.usernameUtente = usernameUtente;
+        this.nomeRistorante = nomeRistorante;
+        this.valutazione = valutazione;
+        this.desc = desc;
+    }
 
     public static boolean checkRecensione(String username, String nomeRistorante) throws IOException {
         LinkedList<List<String>> listaRecensioni = getRecensioni(username);
 
         for (List<String> recensioni : listaRecensioni) {
-            if (recensioni.get(0).equals(username) && recensioni.get(1).equalsIgnoreCase(nomeRistorante)) {
+            if (recensioni.get(0).equalsIgnoreCase(username) && recensioni.get(1).equalsIgnoreCase(nomeRistorante)) {
                 return true;
             }
         }
 
         return false;
     }
+
+    public static boolean checkRisposta(String usernameUtente, String usernameRistoratore, String nomeRistorante) throws IOException {
+        LinkedList<List<String>> listaRisposte = GestioneFile.getFileRisposteRecensioni();
+
+        for (List<String> risposta : listaRisposte) {
+            if (risposta.get(0).equalsIgnoreCase(usernameUtente) && risposta.get(1).equalsIgnoreCase(nomeRistorante) && risposta.get(2).equalsIgnoreCase(usernameRistoratore)) {
+                return true;
+            }
+        }
+
+        return false;
+    }    
 
     public static void aggiungiRecensione(String nomeRistorante, Utente user)
             throws IOException, RecensioneAlreadyExists {
@@ -27,7 +45,7 @@ public class Recensione {
         }
 
         Scanner sc = new Scanner(System.in);
-        TheKnife.pulisci();
+        Utility.pulisci();
         System.out.println("Scrivi la tua recensione per il ristorante " + nomeRistorante + ": ");
         String recensione = sc.nextLine();
         int voto = -15;
@@ -68,23 +86,22 @@ public class Recensione {
             return;
         }
 
-        LinkedList<List<String>> tutteLeRecensioni = GestioneFile.getFileRecensioni();
-        for (int i = 0; i < tutteLeRecensioni.size(); i++) {
-            List<String> riga = tutteLeRecensioni.get(i);
+        LinkedList<List<String>> fileRecensioni = GestioneFile.getFileRecensioni();
+        for (int i = 0; i < fileRecensioni.size(); i++) {
+            List<String> riga = fileRecensioni.get(i);
             if (riga.size() >= 2 &&
                     riga.get(0).equals(nomeUtente) &&
                     riga.get(1).equalsIgnoreCase(nomeRistorante)) {
-                tutteLeRecensioni.remove(i);
+                fileRecensioni.remove(i);
                 break;
             }
         }
-        GestioneFile.salvaFileRecensioni(tutteLeRecensioni);
+        GestioneFile.salvaFileRecensioni(fileRecensioni);
     }
 
         public static void scriviRecensione(String utente_recensore, String nomeRistorante, String valutazione, String recensione) throws IOException {
-            File file = new File("data" + sep + "recensioni.csv");
 
-            FileWriter fr = new FileWriter(file, true);
+            FileWriter fr = new FileWriter(GestioneFile.getPathRecensioni(), true);
             try {
                 fr.write(utente_recensore + "," + "\"" + nomeRistorante + "\"" + "," + valutazione + "," + "\"" + recensione + "\"");
             } catch (IOException e) {
@@ -93,6 +110,37 @@ public class Recensione {
                 fr.close();
             }
         }
+
+        public static void scriviRisposta(Recensione r, String usernameRistoratore, String risposta) throws IOException {
+
+            FileWriter fr = new FileWriter(GestioneFile.getPathRisposteRecensioni(), true);
+            try {
+                fr.write(r.getUser() + "," + "\"" + r.nomeRistorante + "\"" + "," + usernameRistoratore + "," + "\"" + risposta + "\" " + "\n");
+            } catch (IOException e) {
+                System.out.println("Errore!!!!!");
+            } finally {
+                fr.close();
+            }
+        }        
+
+    public static void rispondiRecensione(String username, Recensione r) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        String risposta;
+        if(checkRisposta(r.getUser(), username, r.getNomeRistorante())) {
+            System.out.println("Errore. Hai gia' risposto a questa recensione!\nPremi invio per continuare...");
+            sc.nextLine();
+            return;
+        }
+        Utility.pulisci();
+        System.out.println("Scrivi una risposta alla recensione: ");
+        risposta = sc.nextLine();
+        scriviRisposta(r, username, risposta);
+        System.out.println("Fatto!\nPremi invio per continuare");
+        sc.nextLine();
+        return;
+    }
+
+
 
 
     public static LinkedList<List<String>> getRecensioni(String username) throws IOException {
@@ -117,14 +165,46 @@ public class Recensione {
         return recensioniUtente;
     }
 
+        public static void visualizzaRisposta(String usernameUtente, String nomeRistorante) throws IOException {
+            LinkedList<List<String>> fileRisposte = GestioneFile.getFileRisposteRecensioni();
+            Scanner sc = new Scanner(System.in);
+            boolean recensioneTrovata = false;
+
+            for (List<String> risposta : fileRisposte) {
+                if (risposta.get(0).equalsIgnoreCase(usernameUtente) &&
+                    risposta.get(1).replaceAll("\"", "").equalsIgnoreCase(nomeRistorante)) {
+
+                    String testo_risposta = risposta.get(3).replaceAll("\"", "");
+
+                    Utility.pulisci();
+                    System.out.println("==========================================");
+                    System.out.println("Risposta del ristoratore (" + risposta.get(2) + "):");
+                    System.out.println(testo_risposta);
+                    System.out.println("==========================================");
+                    recensioneTrovata = true;
+                    break;
+                }
+            }
+
+            if (!recensioneTrovata) {
+                System.out.println("Errore: nessuna risposta trovata per questa recensione.");
+            }
+
+            System.out.println("Premi invio per continuare...");
+            sc.nextLine();
+        }
+
+
     public static void visualizzaRecensioniUtente(Utente user, LinkedList<List<String>> recensioniRistorante) throws IOException, RecensioneAlreadyExists {
         int count = 0;
         int new_count = 1;
         Scanner sc = new Scanner(System.in);
         String nomeRistorante = "";
         boolean stampa = true;
+
+        Recensione recensioneCorrente = null;     
         while (stampa) {
-            TheKnife.pulisci();
+            Utility.pulisci();
 
             System.out.println(
                     "Recensione (Numero " + (count + 1) + " di " + recensioniRistorante.size() + " totali):\n");
@@ -147,6 +227,7 @@ public class Recensione {
                 for (int j = 0; j < numStelle; j++) {
                     stelle += "*";
                 }
+             
                 nomeRistorante = recensione.get(1);
                 System.out.println("==========================================");
                 System.out.println(" Ristorante : " + recensione.get(1));
@@ -155,11 +236,13 @@ public class Recensione {
                 System.out.println(" Recensione:");
                 System.out.println(" " + recensione.get(3).replaceAll("\"", ""));
                 System.out.println("==========================================\n");
+                recensioneCorrente = new Recensione(recensione.get(0), recensione.get(1), Double.parseDouble(recensione.get(2)), recensione.get(3));                
             }
 
             System.out.println("\nProssima Recensione:  >");
             System.out.println("Recensione precedente: <");
-            System.out.println("\nMODIFICA - Modifica la recensione.");
+            System.out.println("\nVISUALIZZA RISPOSTA - Visualizza la risposta del ristoratore.");
+            System.out.println("MODIFICA - Modifica la recensione.");
             System.out.println("ELIMINA - Elimina la recensione.");            
             System.out.println("ESCI - Torna indietro.");
 
@@ -187,6 +270,9 @@ public class Recensione {
                         sc.nextLine();
                     }
                     break;
+                case "visualizza risposta":
+                visualizzaRisposta(user.getUsername(), nomeRistorante);          
+                break;    
                 case "modifica":
                     modificaRecensione(user,nomeRistorante);
                     System.out.println("Recensione modificata con successo.");
@@ -223,10 +309,10 @@ public class Recensione {
         int count = 0;
         int new_count = 1;
         Scanner sc = new Scanner(System.in);
-
+        Recensione recensioneCorrente = null;
         boolean stampa = true;
         while (stampa) {
-            TheKnife.pulisci();
+            Utility.pulisci();
 
             int pagina = recensioniUtente.isEmpty() ? 0 : count + 1;
 
@@ -247,13 +333,15 @@ public class Recensione {
                 System.out.println(" Recensione:");
                 System.out.println(" " + recensione.get(3).replaceAll("\"", ""));
                 System.out.println("==========================================\n");
+                recensioneCorrente = new Recensione(recensione.get(0), recensione.get(1), Double.parseDouble(recensione.get(2)), recensione.get(3));                 
             }
 
             System.out.println("\nProssima Recensione:  >");
             System.out.println("Recensione precedente: <");
+            System.out.println("\nVISUALIZZA RISPOSTA - Visualizza la risposta del ristoratore.");
             if (Ristoratore.isProprietario(username, nomeRistorante)) {
                 System.out.println("RISPONDI - Rispondi alla recensione dell'utente.");
-            }
+            }          
             System.out.println("ESCI - Torna indietro.");
             String input = sc.nextLine().trim();
 
@@ -286,8 +374,15 @@ public class Recensione {
                         sc.nextLine();
                         break;
                     }
-                    // rispondiRecensione();
+                    if(checkRisposta(recensioneCorrente.getUser(), username, nomeRistorante)) {
+                        System.out.println("Errore: hai gia' scritto una risposta!\nPremi invio per continuare...");
+                        sc.nextLine();
+                        break;                        
+                    }                  
+                    rispondiRecensione(username, recensioneCorrente);
                     break;
+                case "visualizza risposta":
+                visualizzaRisposta(recensioneCorrente.getUser(), recensioneCorrente.getNomeRistorante());                        
                 case "esci":
                     stampa = false;
                     break;
@@ -316,4 +411,18 @@ public class Recensione {
         System.out.println("Numero di recensioni: " + getRecensioniRistorante(nomeRistorante).size());
         System.out.println("Media Voti: " + getMediaVoti(nomeRistorante));
     }
+
+    //Metodi get
+    public String getUser() {
+        return this.usernameUtente;
+    }
+    public String getValutazione() {
+        return Double.toString(this.valutazione);
+    }
+    public String getNomeRistorante() {
+        return this.nomeRistorante;
+    }
+    public String getDesc() {
+        return this.desc;
+    }            
 }

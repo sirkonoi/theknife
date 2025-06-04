@@ -3,16 +3,14 @@ package theknife;
 import java.io.*;
 import java.util.*;
 
-public abstract class GestioneUtenti {
-
-    public static String sep = (File.separator);
+public abstract class GestioneUtenti {   
 
     // Restituisce LinkedList di List (una lista = 1 utente), presi da users.csv
     public static LinkedList<List<String>> getUsers() throws IOException {
         LinkedList<List<String>> users = new LinkedList<>();
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("data" + sep + "users.csv"));
+            br = new BufferedReader(new FileReader(GestioneFile.getPathUtenti()));
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
@@ -34,7 +32,7 @@ public abstract class GestioneUtenti {
 
         GestioneUtenti newUser = null;
 
-        FileWriter fr = new FileWriter("data" + sep + "users.csv", true);
+        FileWriter fr = new FileWriter(GestioneFile.getPathUtenti(), true);
         try {
             fr.write("\n" + username + "," + Password.encrypt(psw) + "," + nome + "," + cognome + ","
                     + domicilio.replace(",", "") + "," + ruolo.toLowerCase());

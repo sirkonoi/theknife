@@ -9,29 +9,10 @@ public class TheKnife {
     public static GestioneUtenti user;
     public static int raggio = 30;
 
-    // loghetto bello
-    public static void printLogo() {
-        System.out.println("""
-                 ______  __ __    ___      __  _  ____   ____  _____  ___
-                |      ||  |  |  /  _]    |  |/ ]|    \\ |    ||     |/  _]
-                |      ||  |  | /  [_     |  ' / |  _  | |  | |   __/  [_
-                |_|  |_||  _  ||    _]    |    \\ |  |  | |  | |  |_|    _]
-                  |  |  |  |  ||   [_     |     ||  |  | |  | |   _]   [_
-                  |  |  |  |  ||     |    |  .  ||  |  | |  | |  | |     |
-                  |__|  |__|__||_____|    |__|\\_||__|__||____||__| |_____|
-                """);
-    }
-
-    // pulisce il terminale
-    public static void pulisci() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
-
     // menu registrazione, login, guest
     public static void menu_log() throws IOException, RestaurantAlreadyExists, RecensioneAlreadyExists {
-        pulisci();
-        printLogo();
+        Utility.pulisci();
+        Utility.printLogo();
         System.out.println("\nBenvenuto,\n1 - Entra come Guest");
         System.out.println("2 - Login");
         System.out.println("3 - Registrati");
@@ -48,26 +29,25 @@ public class TheKnife {
 
         switch (m) {
             case "1":
-                pulisci();
+                Utility.pulisci();
                 while (true) {
                     System.out.println("Inserisci il tuo domicilio: ");
                     domicilio = sc.nextLine();
                     if (geoTheKnife.domicilioEsistente(domicilio)) {
                         break;
                     } else {
-                        pulisci();
+                        Utility.pulisci();
                         System.out.println("Errore. Domicilio non esistente.");
                     }
                 }
                 user = new Guest(domicilio);
-                pulisci();
+                Utility.pulisci();
                 System.out.println("Benvenuto Guest, ti trovi a " + domicilio);
                 break;
             case "2":
                 while (true) {
                     try {
-                        pulisci();
-                        printLogo();
+                        Utility.pulisci();Utility.printLogo();
                         System.out.print("Login - The Knife\nInserisci il tuo username: ");
                         String username = sc.nextLine();
                         System.out.print("Inserisci la password: ");
@@ -76,15 +56,14 @@ public class TheKnife {
                         user = Utente.login(username, psw);
                         break; // login riuscito allora esce dal ciclo
                     } catch (ErroreLogin e) {
-                        pulisci();
+                        Utility.pulisci();
                         System.out.println(
                                 "Errore. Login non riuscito! Vuoi: \n1 - Tornare al menu' \n2 - Ritentare il login");
                         String scelta = sc.nextLine();
                         if (scelta.equals("1")) {
-                            menu_log(); // torna al menu
+                            menu_log();
                             break;
                         }
-                        // se 2, viene ripetuto il ciclo
                     }
                 }
                 break;
@@ -92,8 +71,7 @@ public class TheKnife {
                 while (true) {
                     String username = "";
 
-                    pulisci();
-                    printLogo();
+                    Utility.pulisci();Utility.printLogo();
                     System.out.println("TheKnife - Registrazione");
 
                     while (true) {
@@ -105,31 +83,31 @@ public class TheKnife {
                             break;
                         }
                     }
-                    pulisci();
+                    Utility.pulisci();
                     System.out.print("Inserisci la tua password: ");
                     String psw = sc.nextLine().trim();
-                    pulisci();
+                    Utility.pulisci();
                     System.out.print("Inserisci il tuo nome: ");
                     String nome = sc.nextLine();
-                    pulisci();
+                    Utility.pulisci();
                     System.out.print("Inserisci il tuo cognome: ");
                     String cognome = sc.nextLine();
-                    pulisci();
+                    Utility.pulisci();
                     while (true) {
                         System.out.println("Inserisci il tuo domicilio: ");
                         domicilio = sc.nextLine();
                         if (geoTheKnife.domicilioEsistente(domicilio)) {
                             break;
                         } else {
-                            pulisci();
+                            Utility.pulisci();
                             System.out
                                     .println("Errore. Domicilio non esistente. Inserisci nuovamente il tuo domicilio.");
                         }
                     }
-                    pulisci();
+                    Utility.pulisci();
                     System.out.print("Inserisci il tuo ruolo (utente/ristoratore, default: utente): ");
                     String ruolo = sc.nextLine();
-                    pulisci();
+                    Utility.pulisci();
                     try {
                         if (ruolo.equals("ristoratore")) {
                             user = Ristoratore.register(username, psw, nome, cognome, domicilio, "ristoratore");
@@ -140,7 +118,7 @@ public class TheKnife {
                     } catch (UserAlreadyExists e) {
                         System.out.println("Errore. L'utente esiste gia'.");
                     }
-                    pulisci();
+                    Utility.pulisci();
                     // System.out.println("Registrazione ok, " + user.getUsername() + " sei un " +
                     // user.getRuolo());
                     break;
@@ -150,7 +128,7 @@ public class TheKnife {
     }
 
     public static void main_menu() throws IOException, RestaurantAlreadyExists, RecensioneAlreadyExists {
-        pulisci();printLogo();
+        Utility.pulisci();Utility.printLogo();
         int opzioneProfilo = 0, opzioneRistorante = 0, opzioneRaggio = 0;
         boolean isProfiloAbilitato = false, isRistoranteAbilitato = false;
         int count = 1;
@@ -172,25 +150,32 @@ public class TheKnife {
             isRistoranteAbilitato = true;
             System.out.println(opzioneRistorante + " - Visualizza i tuoi ristoranti.");
         }
+        System.out.println("ESCI - Chiudi l'applicazione.");
 
         int scelta = -1000;
         while (scelta < 1 || scelta > count) {
             try {
-                scelta = Integer.parseInt(sc.nextLine());
+
+                String input = sc.nextLine();
+                if (input.equalsIgnoreCase("esci")) {
+                        System.exit(0);
+                }   
+                scelta = Integer.parseInt(input);
                 if (scelta < 1 || scelta > count) {
                     System.out.println("Scelta non valida, riprova.");
                 }
             } catch (NumberFormatException e) {
+                if ((Integer.toString(scelta).equalsIgnoreCase("esci"))) {
+                    System.exit(0);
+                }
                 System.out.println("Errore: formato errato, perfavore inserisci un'opzione valida!");
             }
         }
 
         if (scelta == 1) {
-            pulisci();
-            printLogo();
+            Utility.pulisci();Utility.printLogo();
             ListaRistorante lista = geoTheKnife.cercaVicinanza(user.getDomicilio(), raggio);
-            System.out.println(
-                    "Inserisci i filtri desiderati per visualizzare la lista dei ristoranti:\nFORMAT: (filtro1, filtro2, filtro3 ....)\nEsempio: 1, 2, 3\n1 - Tipologia di cucina.\n2 - Disponibilità del servizio di delivery.\n3 - Disponibilità del servizio di prenotazione online.\n4 - Fascia di prezzo.\n5 - Per media del numero di stelle.\n");
+            System.out.println("Inserisci i filtri desiderati per visualizzare la lista dei ristoranti:\nPer visualizzare TUTTI i ristoranti, premi INVIO.\nFORMAT FILTRI: (filtro1, filtro2, filtro3 ....)\nEsempio: 1, 2, 3\n1 - Tipologia di cucina.\n2 - Disponibilità del servizio di delivery.\n3 - Disponibilità del servizio di prenotazione online.\n4 - Fascia di prezzo.\n5 - Per media del numero di stelle.\n");
             String filtriUtente = sc.nextLine();
             String[] filtri = filtriUtente.split(",");
             lista = Utility.cercaFiltri(lista, filtri);
@@ -200,8 +185,7 @@ public class TheKnife {
         else if (isProfiloAbilitato && scelta == opzioneProfilo) {
             Utente.visualizzaProfilo((Utente) user);
         } else if (scelta == opzioneRaggio) {
-            pulisci();
-            printLogo();
+            Utility.pulisci();Utility.printLogo();
             System.out.println(
                     "Inserisci il raggio di ricerca dalla tua posizione (" + user.getDomicilio().toUpperCase() + ")");
 

@@ -5,10 +5,10 @@ import java.util.*;
 
 public class Utente extends GestioneUtenti {
     protected String nome, cognome;
-    protected static String username;
+    protected String username;
     protected String psw;
     protected String domicilio;
-    protected String ruolo;
+    protected String ruolo;    
 
     // costruttore
     public Utente(String username, String psw, String nome, String cognome, String domicilio, String ruolo) {
@@ -30,7 +30,7 @@ public class Utente extends GestioneUtenti {
         }
 
         while (true) {
-            TheKnife.pulisci();
+            Utility.pulisci();
             System.out.println("""
                  ____  ____   ___   _____  ____  _       ___  
                 |    \\|    \\ /   \\ |     ||    || |     /   \\ 
@@ -54,7 +54,7 @@ public class Utente extends GestioneUtenti {
             sceltaMenu = sc.nextLine();
 
             if (sceltaMenu.equals("1")) {
-                TheKnife.pulisci();TheKnife.printLogo();
+                Utility.pulisci();Utility.printLogo();
                 psw = Password.decrypt(user.getPsw());
             } 
             else if (sceltaMenu.equals("2")) {
@@ -68,7 +68,7 @@ public class Utente extends GestioneUtenti {
                 break;
             }                                 
             else {
-                TheKnife.pulisci();TheKnife.printLogo();
+                Utility.pulisci();Utility.printLogo();
                 System.out.println("Scelta non valida. Riprova.");
             }
         }
@@ -76,7 +76,7 @@ public class Utente extends GestioneUtenti {
 
     //Aggiunge un ristorante ai preferiti
     public static void aggiungiPreferiti(String username, String nomeRistorante) throws IOException {
-        FileWriter fr = new FileWriter("data" + sep + "preferiti.csv", true);
+        FileWriter fr = new FileWriter(GestioneFile.getPathPreferiti(), true);
         try {
             fr.write("\n" + username + "," + "\"" + nomeRistorante + "\"");
             fr.close();
