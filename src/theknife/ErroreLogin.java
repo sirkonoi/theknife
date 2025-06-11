@@ -1,19 +1,19 @@
 package theknife;
 
 /**
- * Eccezione personalizzata legata ad errore durante il login.
+ * Eccezione personalizzata legata ad errori durante il login.
  *
- * Viene utilizzata per segnalare credenziali errate all'utente durante il login.
+ * <p>Viene utilizzata per segnalare credenziali errate inserite durante il login dall'utente.</p>
  */
 
 public class ErroreLogin extends Exception {
 
     /**
-     * Costruttore dell'eccezione ErroreLogin.
+     * Costruttore dell'eccezione {@code ErroreLogin}.
      *
-     * @param errore Messaggio di errore.
+     * @param error Messaggio di errore.
      */    
-    public ErroreLogin(String errore) {
-        super(errore);
+    public ErroreLogin(String error) {
+        super(error);
     }
 }

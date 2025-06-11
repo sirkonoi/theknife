@@ -10,7 +10,7 @@ import java.util.*;
  * <p>
  * La classe gestisce il caricamento e il salvataggio dei dati da e verso file CSV,
  * relativi a ristoranti, utenti, recensioni, preferiti e risposte alle recensioni.
- * Include anche un parser per la lettura corretta di righe CSV con virgolette, per evitare problemi che possono derivarne.
+ * Include anche un parser per la lettura corretta di righe CSV con virgolette, per evitare problemi che possono derivarne.</p>
  */
 
 public class GestioneFile {
@@ -79,7 +79,8 @@ public class GestioneFile {
 
     /**
      * Esegue il parsing di una riga CSV, le virgolette vengono considerate come modo per delimitare i differenti campi.
-     *
+     * Per esempio, la stringa: {@code mattia,ciao1234,"via rossi 15",ristoratore} 
+     * verrà convertita in una lista con 4 elementi.
      * @param line riga CSV da analizzare
      * @return lista dei campi contenuti nella riga
      */
@@ -107,7 +108,7 @@ public class GestioneFile {
     /**
      * Legge il file dei preferiti e restituisce una lista contenente le righe.
      *
-     * @return Lista di righe, rappresentata come una lista di stringhe (Una stringa = un campo)
+     * @return Lista dei preferiti, rappresentata come una lista di stringhe (Una stringa = un campo)
      * @throws IOException Il file non puo' essere letto.
      */
     public static LinkedList<List<String>> getFilePreferiti() throws IOException {
@@ -127,7 +128,7 @@ public class GestioneFile {
     /**
      * Legge il file delle recensioni e restituisce una lista contenente le righe.
      *
-     * @return Lista di recensioni.
+     * @return Lista di TUTTE recensioni.
      * @throws IOException Il file non puo' essere letto.
      */
     public static LinkedList<List<String>> getFileRecensioni() throws FileNotFoundException, IOException {
@@ -147,7 +148,7 @@ public class GestioneFile {
     /**
      * Legge il file dei ristoratori e restituisce una lista contenente le righe.
      *
-     * @return Lista dei ristoratori.
+     * @return Lista di TUTTI i ristoratori.
      * @throws IOException Il file non puo' essere letto.
      */
     public static LinkedList<List<String>> getFileRistoratori() throws FileNotFoundException, IOException {
@@ -192,9 +193,8 @@ public class GestioneFile {
      * @throws IOException Errore durante la scrittura.
      */    
     public static void salvaFileRecensioni(List<List<String>> recensioni) throws IOException {
-        File file = new File(pathRecensioni.toString());
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getPathRecensioni()))) {
             writer.write("utente_recensore,\"Nome Ristorante\",Valutazione,\"Recensione\"");
             writer.newLine();
 
@@ -217,5 +217,39 @@ public class GestioneFile {
             }
         }
     }
+
+    /**
+     * Scrive una lista di preferiti nel file preferiti.csv, viene utilizzato per
+     * l'eliminazione dei preferiti da parte di un utente.
+     *
+     * @param preferiti Lista dei preferiti da scrivere.
+     * @throws IOException Errore durante la scrittura.
+     */     
+public static void salvaFilePreferiti(List<List<String>> preferiti) throws IOException {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(getPathPreferiti()))) {
+        writer.write("utente,Nome_ristorante_preferito");
+        writer.newLine();
+
+        for (List<String> riga : preferiti) {
+            if (riga.size() >= 2 && !riga.get(0).equalsIgnoreCase("utente_recensore")) {
+                String rigaCSV = "";
+
+                for (int i = 0; i < riga.size(); i++) {
+                    String campo = riga.get(i);
+                    if (campo.contains(",") || campo.contains("\"")) {
+                        campo = "\"" + campo.replace("\"", "\"\"") + "\"";
+                    }
+                    rigaCSV += campo;
+                    if (i < riga.size() - 1) {
+                        rigaCSV += ",";
+                    }
+                }
+
+                writer.write(rigaCSV);
+                writer.newLine();
+            }
+        }
+    }
+}  
 
 }

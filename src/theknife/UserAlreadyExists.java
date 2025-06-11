@@ -1,7 +1,17 @@
 package theknife;
 
+/**
+ * Eccezione personalizzata che viene lanciata  quando si tenta di registrare un utente
+ * con un username già esistente.
+ */
+
 public class UserAlreadyExists extends Exception {
-    public UserAlreadyExists(String s) {
-        super(s);
+    /**
+     * Costruttore dell'eccezione {@code UserAlreadyExists}.
+     *
+     * @param error Messaggio di errore.
+     */        
+    public UserAlreadyExists(String error) {
+        super(error);
     }
 }

@@ -3,29 +3,53 @@ package theknife;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Classe principale dell'applicazione TheKnife.
+ * <p>
+ * TheKnife è un'applicazione console che permette agli utenti di registrarsi,
+ * effettuare il login, esplorare ristoranti filtrandoli per vari criteri
+ * e gestire il proprio profilo, inclusi utenti guest e ristoratori.
+ * </p>
+ *
+ * <p>
+ * Requisiti: Java 23.0.1, codifica UTF-8 attiva nel terminale.
+ * </p>
+ * 
+ * @author Mattia Rotteri, Davide Plesa, Davide Mantovan
+ * @version 1.0
+ */
+
 public class TheKnife {
 
     public static Scanner sc = new Scanner(System.in);
     public static GestioneUtenti user;
     public static int raggio = 30;
 
-    // menu registrazione, login, guest
+    /**
+     * Menu' di login.
+     * L'utente può scegliere se accedere come guest, fare login, registrarsi o uscire.
+     *
+     * @throws IOException
+     * @throws RestaurantAlreadyExists
+     * @throws RecensioneAlreadyExists
+     */
     public static void menu_log() throws IOException, RestaurantAlreadyExists, RecensioneAlreadyExists {
         Utility.pulisci();
         Utility.printLogo();
-        System.out.println("\nBenvenuto,\n1 - Entra come Guest");
-        System.out.println("2 - Login");
-        System.out.println("3 - Registrati");
+        System.out.println("\nBenvenuto,\n1 - Entra come Guest - Entra come utente non registrato.");
+        System.out.println("2 - Login - Effettua il login.");
+        System.out.println("3 - Registrati - Effettua la registrazione.");
+        System.out.println("ESCI - Esci dall'applicazione.");        
 
         String domicilio = "";
         String m;
 
         do {
             m = sc.nextLine();
-            if (!(m.equals("1") || m.equals("2") || m.equals("3"))) {
+            if (!(m.equals("1") || m.equals("2") || m.equals("3") || m.equalsIgnoreCase("esci"))) {
                 System.out.println("Errore. Inserisci un'opzione valida.");
             }
-        } while (!(m.equals("1") || m.equals("2") || m.equals("3")));
+        } while (!(m.equals("1") || m.equals("2") || m.equals("3") || m.equalsIgnoreCase("esci")));
 
         switch (m) {
             case "1":
@@ -121,12 +145,24 @@ public class TheKnife {
                     Utility.pulisci();
                     // System.out.println("Registrazione ok, " + user.getUsername() + " sei un " +
                     // user.getRuolo());
-                    break;
+                    break;                    
                 }
+                case "esci":
+                System.exit(0);                
         }
+        
         main_menu();
     }
 
+    /**
+     * Serve per visualizzare il menu' principale.
+     * L'utente può visualizzare ristoranti, modificare il raggio di ricerca,
+     * vedere il proprio profilo e, se è un ristoratore, gestire i propri ristoranti.
+     *
+     * @throws IOException
+     * @throws RestaurantAlreadyExists
+     * @throws RecensioneAlreadyExists
+     */    
     public static void main_menu() throws IOException, RestaurantAlreadyExists, RecensioneAlreadyExists {
         Utility.pulisci();Utility.printLogo();
         int opzioneProfilo = 0, opzioneRistorante = 0, opzioneRaggio = 0;
@@ -209,10 +245,6 @@ public class TheKnife {
     }
 
     public static void main(String[] args) throws IOException, UserAlreadyExists, ErroreLogin, InterruptedException, RestaurantAlreadyExists, RecensioneAlreadyExists {
-        //bug da fixare: addRistorante(), €, menu Scrivi recensione per owner ristorante, visualizzaRiepilogo() in menu ristoratore del suo ristorante
         menu_log();
-        // user = GestioneUtenti.login("konoe", "ciao1234");
-        // Utility.stampaRicerca(Ristorante.getRistoranti(), "preferiti", user,
-        // "preferiti", true);
     }
 }

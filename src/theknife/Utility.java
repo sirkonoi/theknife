@@ -6,14 +6,13 @@ import java.util.*;
 /**
  * La classe Utility fornisce metodi per la gestione delle interfacce utenti
  * e di funzionalità comuni nell'applicazione TheKnife. Gestione menu', gestione
- * stampa delle ricerche,
- * stampa logo e moltro altro..
+ * stampa delle ricerche, stampa logo e moltro altro..
  */
 public class Utility {
 
     private static final Scanner sc = new Scanner(System.in);
 
-    /*
+    /**
      * Stampa il logo ASCII dell'applicazione TheKnife.
      */
     public static void printLogo() {
@@ -66,13 +65,13 @@ public class Utility {
         List<Ristorante> listaDaStampare = new LinkedList<>();
 
         if (tipoMenu.equals("filtri")) {
-            listaDaStampare = ristoranti.getListaRistoranti();
+            listaDaStampare = ristoranti.getDatiRistoranti();
         } else if (tipoMenu.equals("ristoratore")) {
-            listaDaStampare = Ristoratore.getRistorantiRistoratore(user.getUsername()).getListaRistoranti();
+            listaDaStampare = Ristoratore.getRistorantiRistoratore(user.getUsername()).getDatiRistoranti();
             isMenuRistoratore = true;
         } else if (tipoMenu.equals("preferiti")) {
             LinkedList<String> listaPreferiti = Utente.getPreferiti(user.getUsername());
-            List<Ristorante> listaRistoranti = ListaRistorante.getRistoranti().getListaRistoranti();
+            List<Ristorante> listaRistoranti = ListaRistorante.getRistoranti().getDatiRistoranti();
             for (String nomePreferito : listaPreferiti) {
                 for (Ristorante ristorante : listaRistoranti) {
                     if (ristorante.getNome().equalsIgnoreCase(nomePreferito)) {
@@ -161,7 +160,8 @@ public class Utility {
 
                             System.out.println("\n1 - Visualizza tutte le recensioni del ristorante.");
                             if (mostraAddPreferiti && !user.getRuolo().equals("guest")) {
-                                System.out.println("2 - Inserisci il ristorante nella lista dei preferiti.");
+                            System.out.println("2 - Inserisci/Togli il ristorante nella lista dei preferiti. (E' nei preferiti? " + (Utente.checkPreferiti(user.getUsername(), nomeRistorante) ? "si" : "no") + ")");
+
                             }
 
                             if (!user.getRuolo().equals("guest")) {
@@ -182,10 +182,11 @@ public class Utility {
                                         Recensione.getRecensioniRistorante(nomeRistorante));
                             } else if (scelta.equals("2") && mostraAddPreferiti && !user.getRuolo().equals("guest")) {
                                 if (Utente.checkPreferiti(user.getUsername(), nomeRistorante)) {
-                                    System.out.println("Errore: il ristorante è già nei preferiti!");
+                                    Utente.togliPreferiti((Utente)user, nomeRistorante);
+                                    System.out.println("Ristorante tolto dai preferiti.");
                                 } else {
                                     Utente.aggiungiPreferiti(user.getUsername(), nomeRistorante);
-                                    System.out.println("Aggiunto ai preferiti.");
+                                    System.out.println("Ristorante aggiunto ai preferiti.");
                                 }
                                 System.out.println("Premi invio per continuare..");
                                 sc.nextLine();

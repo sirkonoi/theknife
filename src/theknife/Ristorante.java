@@ -20,33 +20,56 @@ public class Ristorante {
     private String descrizione;
     private boolean delivery;
     private boolean booking;
-
-    public Ristorante(String nome, String indirizzo, String localita, String prezzo, String tipoCucina,
-            double longitudine, double latitudine, String telefono, String url, String sitoWeb,
-            String premio, String greenStar, String servizi, String descrizione,
+    /**
+     * Costruisce un nuovo oggetto Ristorante.
+     *
+     * @param name Nome del ristorante.
+     * @param address Indirizzo del ristorante.
+     * @param location Città, zona.
+     * @param price Fascia di prezzo (€, €€, €€€, €€€€).
+     * @param cuisine Tipo di cucina.
+     * @param phoneNumber Numero di telefono.
+     * @param url URL di riferimento (esempio instagram, facebook etc...).
+     * @param webSiteUrl Sito web.
+     * @param award Numero di premi ottenuti.
+     * @param greenStar Stella verde (sostenibilità).
+     * @param facilitiesAndServices Servizi e strutture che vengono offerti.
+     * @param description Descrizione del ristorante.
+     * @param delivery Se offre il servizio di delivery.
+     * @param booking Se accetta prenotazioni.
+     */
+    public Ristorante(String name, String address, String location, String price, String cuisine,
+            double longitudine, double latitudine, String phoneNumber, String url, String webSiteUrl,
+            String award, String greenStar, String facilitiesAndServices, String description,
             boolean delivery, boolean booking) {
-        this.nome = nome;
-        this.indirizzo = indirizzo;
-        this.localita = localita;
-        this.prezzo = prezzo;
-        this.tipoCucina = tipoCucina;
+        this.nome = name;
+        this.indirizzo = address;
+        this.localita = location;
+        this.prezzo = price;
+        this.tipoCucina = cuisine;
         this.longitudine = longitudine;
         this.latitudine = latitudine;
-        this.telefono = telefono;
+        this.telefono = phoneNumber;
         this.url = url;
-        this.sitoWeb = sitoWeb;
-        this.premio = premio;
+        this.sitoWeb = webSiteUrl;
+        this.premio = award;
         this.greenStar = greenStar;
-        this.servizi = servizi;
-        this.descrizione = descrizione;
+        this.servizi = facilitiesAndServices;
+        this.descrizione = description;
         this.delivery = delivery;
         this.booking = booking;
     }
 
-
+    /**
+     * Controlla se un dato ristorante e' gia' esistente.
+     *
+     * @param nomeRistorante Il nome del ristorante da cercare.
+     * @return True se il ristorante è gia' esistente, false altrimenti.
+     * @throws IOException Se si verifica un errore durante il caricamento della lista di ristoranti.
+     */
     public static boolean checkRistoranti(String nomeRistorante) throws IOException {
         ListaRistorante restaurants = ListaRistorante.getRistoranti();
-        for (Ristorante restaurant : restaurants.getListaRistoranti()) {
+        for (Ristorante restaurant : restaurants.getDatiRistoranti()) {
             if (restaurant != null && restaurant.getNome().equalsIgnoreCase(nomeRistorante)) {
                 return true;
             }
@@ -54,6 +77,43 @@ public class Ristorante {
         return false;
     }
 
+    /**
+     * Scrive le informazioni di un nuovo ristorante nel file restaurants.csv.
+     *
+     * @param name Nome del ristorante.
+     * @param address Indirizzo del ristorante.
+     * @param location Città, zona.
+     * @param price Fascia di prezzo (€, €€, €€€, €€€€).
+     * @param cuisine Tipo di cucina..
+     * @param longitudine Longitudine.
+     * @param latitudine Latitudine geografica.
+     * @param phoneNumber Numero di telefono.
+     * @param url URL di riferimento (esempio instagram, facebook etc...).
+     * @param webSiteUrl Sito web.
+     * @param award Numero di premi ottenuti.
+     * @param greenStar Stella verde (sostenibilità).
+     * @param facilitiesAndServices Servizi e strutture che vengono offerti.
+     * @param description Descrizione del ristorante.
+     * @param delivery Se offre il servizio di delivery.
+     * @param booking Se accetta prenotazioni.
+     */
+    public static void scriviRistorante(String name, String address, String location, String price, String cuisine, double longitudine, double latitudine, String phoneNumber, String url, String webSiteUrl, int award, String greenStar, String facilitiesAndServices, String description, boolean delivery, boolean booking) {
+        try (FileWriter fr = new FileWriter(GestioneFile.getPathRistoranti(), true)) {
+            fr.write("\n" + name + "," + address + "," + location + "," + price + "," + cuisine + "," + longitudine
+                    + "," + latitudine + "," + phoneNumber + "," + url + "," + webSiteUrl + "," + award + ","
+                    + greenStar + "," + facilitiesAndServices + "," + description + "," + delivery + "," + booking);
+        } catch (IOException e) {
+            System.out.println("Errore: la scrittura del ristorante e' fallita: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Visualizza le informazioni dettagliate di un dato ristorante.
+     * 
+     * @param ristorantiFiltrati Lista di ristoranti tra cui cercare.
+     * @param nomeRistorante Nome del ristorante che si vuole visualizzare.
+     * @throws IOException Se si verifica un errore durante il caricamento della lista di ristoranti.
+     */
     public static void visualizzaRistorante(ListaRistorante ristorantiFiltrati, String nomeRistorante)
             throws FileNotFoundException, IOException {
         Utility.pulisci();
@@ -63,7 +123,7 @@ public class Ristorante {
 
         double media = Recensione.getMediaVoti(nomeRistorante);
 
-        for (Ristorante ristorante : ristorantiFiltrati.getListaRistoranti()) {
+        for (Ristorante ristorante : ristorantiFiltrati.getDatiRistoranti()) {
             if (ristorante.getNome().equalsIgnoreCase(nomeRistorante)) {
                 System.out.println(topb);
                 System.out
@@ -82,16 +142,6 @@ public class Ristorante {
                 System.out.println("| Descrizione:\n " + ristorante.getDescrizione());
                 System.out.println(bottomb);
             }
-        }
-    }
-
-    public static void scriviRistorante(String name, String address, String location, String price, String cuisine, double longitudine, double latitudine, String phoneNumber, String url, String webSiteUrl, int award, String greenStar, String facilitiesAndServices, String description, boolean delivery, boolean booking) {
-        try (FileWriter fr = new FileWriter(GestioneFile.getPathRistoranti(), true)) {
-            fr.write("\n" + name + "," + address + "," + location + "," + price + "," + cuisine + "," + longitudine
-                    + "," + latitudine + "," + phoneNumber + "," + url + "," + webSiteUrl + "," + award + ","
-                    + greenStar + "," + facilitiesAndServices + "," + description + "," + delivery + "," + booking);
-        } catch (IOException e) {
-            System.out.println("Errore: la scrittura del ristorante e' fallita: " + e.getMessage());
         }
     }
 

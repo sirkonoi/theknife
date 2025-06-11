@@ -14,7 +14,7 @@ public class Guest extends GestioneUtenti {
      * Costruttore della classe Guest, riceve come parametro il domicilio.
      * L'username è impostato di default a "Guest".
      * 
-     * @param luogo Il domicilio associato al guest.
+     * @param domicilio Il domicilio associato al guest.
      */    
     public Guest(String domicilio) {
         this.username = "Guest";

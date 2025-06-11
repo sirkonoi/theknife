@@ -3,9 +3,20 @@ package theknife;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Classe astratta che gestisce le funzionalità di gestione utenti
+ * come la registrazione e il login.
+ */
+
 public abstract class GestioneUtenti {   
 
-    // Restituisce LinkedList di List (una lista = 1 utente), presi da users.csv
+    /**
+     * Legge il file users.csv e restituisce una lista di utenti.
+     * Ogni utente è rappresentato come una lista di stringhe, ovvero i campi.
+     * 
+     * @return Lista degli utenti
+     * @throws IOException Se errore durante lettura del file.
+     */
     public static LinkedList<List<String>> getUsers() throws IOException {
         LinkedList<List<String>> users = new LinkedList<>();
         BufferedReader br = null;
@@ -24,7 +35,19 @@ public abstract class GestioneUtenti {
         return users;
     }
 
-    // REGISTRAZIONE
+    /**
+     * Registra un nuovo utente nell'applicazione.
+     * 
+     * @param username Username.
+     * @param psw Password (in chiaro).
+     * @param nome Nome dell'utente.
+     * @param cognome Cognome dell'utente.
+     * @param domicilio Indirizzo di domicilio dell'utente.
+     * @param ruolo Ruolo dell'utente ("utente" o "ristoratore").
+     * @return Oggetto GestioneUtente appena creato.
+     * @throws UserAlreadyExists Se l'username è già esistente.
+     * @throws IOException Se errore durante scrittura del file.
+     */
     public static GestioneUtenti register(String username, String psw, String nome, String cognome, String domicilio,
             String ruolo) throws UserAlreadyExists, IOException {
         if (checkUser(username))
@@ -52,7 +75,15 @@ public abstract class GestioneUtenti {
 
     }
 
-    // Login (check username, password)
+    /**
+     * Effettua il login verificando username e password.
+     * 
+     * @param username Username.
+     * @param psw Password (in chiaro).
+     * @return Oggetto Utente appena loggato.
+     * @throws ErroreLogin Se username o password non corrispondono.
+     * @throws IOException Se errore durante lettura del file.
+     */
     public static Utente login(String username, String psw) throws ErroreLogin, IOException {
         LinkedList<List<String>> users = getUsers();
         Utente u;
@@ -67,7 +98,13 @@ public abstract class GestioneUtenti {
         throw new ErroreLogin("Errore. Utente non esistente o credenziali errate.");
     }
 
-    // Controlla se un utente è già registrato
+    /**
+     * Verifica se, un dato username, l'utente e' gia' registrato.
+     * 
+     * @param username Username da controllare.
+     * @return True se l'utente esiste, false altrimenti.
+     * @throws IOException Se errore nella lettura del file.
+     */
     public static boolean checkUser(String username) throws IOException {
         boolean isRegistered = false;
         LinkedList<List<String>> users = getUsers();
@@ -80,7 +117,13 @@ public abstract class GestioneUtenti {
         return isRegistered;
     }
 
-    // Controlla il ruolo di un dato utente
+    /**
+     * Restituisce il ruolo associato a un utente (dato il suo username).
+     * 
+     * @param username Username.
+     * @return String ruolo dell'utente ("utente", "ristoratore", "guest") oppure null se non viene trovato.
+     * @throws IOException Se errore nella lettura del file.
+     */
     public static String checkRuolo(String username) throws IOException {
         LinkedList<List<String>> users = getUsers();
         for (List<String> user : users) {
@@ -92,9 +135,23 @@ public abstract class GestioneUtenti {
 
     }
 
-    // metodi get
+    /**
+     * Restituisce lo username dell'utente.
+     * 
+     * @return String username
+     */
     public abstract String getUsername();
+    /**
+     * Restituisce il ruolo dell'utente.
+     * 
+     * @return String ruolo
+     */    
     public abstract String getRuolo();
+    /**
+     * Restituisce il domicilio (indirizzo) dell'utente.
+     * 
+     * @return String domicilio
+     */    
     public abstract String getDomicilio();
 
 }
