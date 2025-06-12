@@ -321,132 +321,152 @@ public class Recensione {
      * @throws RecensioneAlreadyExists
      */
     public static void visualizzaRecensioniUtente(Utente user, LinkedList<List<String>> recensioniRistorante)
-            throws IOException, RecensioneAlreadyExists {
-        int count = 0;
-        int new_count = 1;
-        Scanner sc = new Scanner(System.in);
-        String nomeRistorante = "";
-        boolean stampa = true;
+        throws IOException, RecensioneAlreadyExists {
 
-        while (stampa) {
-            Utility.pulisci();
+    if (recensioniRistorante.isEmpty()) {
+        Utility.pulisci();
+        System.out.println("Recensione (Numero 0 di 0 totali):\n");
+        System.out.println("==========================================");
+        System.out.println(" Nessuna recensione disponibile.");
+        System.out.println("==========================================\n");
+        System.out.println("Premi invio per tornare indietro...");
+        new Scanner(System.in).nextLine();
+        return;
+    }
 
-            System.out.println(
-                    "Recensione (Numero " + (count + 1) + " di " + recensioniRistorante.size() + " totali):\n");
+    int count = 0;
+    int new_count = 1;
+    Scanner sc = new Scanner(System.in);
+    String nomeRistorante = "";
+    boolean stampa = true;
 
-            Recensione recensioneCorrente = null;
-            for (int i = count; i < new_count && i < recensioniRistorante.size(); i++) {
-                List<String> recensione = recensioniRistorante.get(i);
+    while (stampa) {
+        Utility.pulisci();
 
-                int numStelle = 1;
-                String valutazione = recensione.get(2);
-                if (valutazione != null && !valutazione.trim().isEmpty()) {
-                    try {
-                        numStelle = Integer.parseInt(valutazione.trim());
-                    } catch (NumberFormatException e) {
-                        System.out.println("Ho trovato una valutazione non valida, sarà impostata a 1 stella.");
-                    }
-                }
+        System.out.println("Recensione (Numero " + (count + 1) + " di " + recensioniRistorante.size() + " totali):\n");
 
-                String stelle = "*".repeat(numStelle);
-                nomeRistorante = recensione.get(1);
+        Recensione recensioneCorrente = null;
+        for (int i = count; i < new_count && i < recensioniRistorante.size(); i++) {
+            List<String> recensione = recensioniRistorante.get(i);
 
-                System.out.println("==========================================");
-                System.out.println(" Ristorante : " + recensione.get(1));
-                System.out.println(" Valutazione: " + stelle + " Stelle");
-                System.out.println("------------------------------------------");
-                System.out.println(" Recensione:");
-                System.out.println(" " + recensione.get(3).replaceAll("\"", ""));
-                System.out.println("==========================================\n");
-
+            int numStelle = 1;
+            String valutazione = recensione.get(2);
+            if (valutazione != null && !valutazione.trim().isEmpty()) {
                 try {
-                    recensioneCorrente = new Recensione(recensione.get(0), recensione.get(1),
-                            Double.parseDouble(recensione.get(2)), recensione.get(3));
-                } catch (Exception e) {
-                    recensioneCorrente = null;
+                    numStelle = Integer.parseInt(valutazione.trim());
+                } catch (NumberFormatException e) {
+                    System.out.println("Ho trovato una valutazione non valida, sarà impostata a 1 stella.");
                 }
             }
 
-            System.out.println("\nProssima Recensione:  >");
-            System.out.println("Recensione precedente: <");
+            String stelle = "*".repeat(numStelle);
+            nomeRistorante = recensione.get(1);
+
+            System.out.println("==========================================");
+            System.out.println(" Ristorante : " + recensione.get(1));
+            System.out.println(" Valutazione: " + stelle + " Stelle");
+            System.out.println("------------------------------------------");
+            System.out.println(" Recensione:");
+            System.out.println(" " + recensione.get(3).replaceAll("\"", ""));
+            System.out.println("==========================================\n");
+
+            try {
+                recensioneCorrente = new Recensione(recensione.get(0), recensione.get(1),
+                        Double.parseDouble(recensione.get(2)), recensione.get(3));
+            } catch (Exception e) {
+                recensioneCorrente = null;
+            }
+        }
+
+        System.out.println("\nProssima Recensione:  >");
+        System.out.println("Recensione precedente: <");
+        if (!recensioniRistorante.isEmpty()) {
             System.out.println("\nVISUALIZZA RISPOSTA - Visualizza la risposta del ristoratore.");
             System.out.println("MODIFICA - Modifica la recensione.");
             System.out.println("ELIMINA - Elimina la recensione.");
-            System.out.println("ESCI - Torna indietro.");
+        }
+        System.out.println("ESCI - Torna indietro.");
 
-            String input = sc.nextLine().trim();
+        String input = sc.nextLine().trim();
 
-            switch (input.toLowerCase()) {
-                case ">":
-                    if (new_count < recensioniRistorante.size()) {
-                        count++;
-                        new_count++;
-                    } else {
-                        Utility.pulisci();Utility.printError();
-                        System.out.println("Errore: Non sono presenti altre recensioni.");
-                        System.out.println("Premi invio per continuare...");
-                        sc.nextLine();
-                    }
-                    break;
-
-                case "<":
-                    if (count >= 1) {
-                        count--;
-                        new_count--;
-                    } else {
-                        Utility.pulisci();Utility.printError();
-                        System.out.println("Errore: Sei già alla prima recensione.");
-                        System.out.println("Premi invio per continuare...");
-                        sc.nextLine();
-                    }
-                    break;
-
-                case "visualizza risposta":
-                    if (recensioneCorrente != null) {
-                        visualizzaRisposta(user.getUsername(), nomeRistorante);
-                    } else {
-                        Utility.pulisci();Utility.printError();
-                        System.out.println("Errore: Nessuna recensione selezionata.");
-                        System.out.println("Premi invio per continuare...");
-                        sc.nextLine();                        
-                    }
-                    break;
-
-                case "modifica":
-                    modificaRecensione(user, nomeRistorante);
-                    Utility.pulisci();Utility.printOk();                    
-                    System.out.println("Recensione modificata con successo.");
+        switch (input.toLowerCase()) {
+            case ">":
+                if (new_count < recensioniRistorante.size()) {
+                    count++;
+                    new_count++;
+                } else {
+                    Utility.pulisci();
+                    Utility.printError();
+                    System.out.println("Errore: Non sono presenti altre recensioni.");
                     System.out.println("Premi invio per continuare...");
                     sc.nextLine();
-                    recensioniRistorante = getRecensioni(user.getUsername());
-                    count = 0;
-                    new_count = 1;
-                    break;
+                }
+                break;
 
-                case "elimina":
-                    eliminaRecensione(user, nomeRistorante);
-                    Utility.pulisci();Utility.printOk();                    
-                    System.out.println("Recensione eliminata con successo.");
+            case "<":
+                if (count >= 1) {
+                    count--;
+                    new_count--;
+                } else {
+                    Utility.pulisci();
+                    Utility.printError();
+                    System.out.println("Errore: Sei già alla prima recensione.");
                     System.out.println("Premi invio per continuare...");
                     sc.nextLine();
-                    recensioniRistorante = getRecensioni(user.getUsername());
-                    count = 0;
-                    new_count = 1;
-                    break;
+                }
+                break;
 
-                case "esci":
-                    stampa = false;
-                    break;
-
-                default:
-                    Utility.pulisci();Utility.printError();
-                    System.out.println("Input non valido. Riprova.");
+            case "visualizza risposta":
+                if (recensioneCorrente != null) {
+                    visualizzaRisposta(user.getUsername(), nomeRistorante);
+                } else {
+                    Utility.pulisci();
+                    Utility.printError();
+                    System.out.println("Errore: Nessuna recensione selezionata.");
                     System.out.println("Premi invio per continuare...");
                     sc.nextLine();
-                    break;
-            }
+                }
+                break;
+
+            case "modifica":
+                modificaRecensione(user, nomeRistorante);
+                Utility.pulisci();
+                Utility.printOk();
+                System.out.println("Recensione modificata con successo.");
+                System.out.println("Premi invio per continuare...");
+                sc.nextLine();
+                recensioniRistorante = getRecensioni(user.getUsername());
+                count = 0;
+                new_count = 1;
+                break;
+
+            case "elimina":
+                eliminaRecensione(user, nomeRistorante);
+                Utility.pulisci();
+                Utility.printOk();
+                System.out.println("Recensione eliminata con successo.");
+                System.out.println("Premi invio per continuare...");
+                sc.nextLine();
+                recensioniRistorante = getRecensioni(user.getUsername());
+                count = 0;
+                new_count = 1;
+                break;
+
+            case "esci":
+                stampa = false;
+                break;
+
+            default:
+                Utility.pulisci();
+                Utility.printError();
+                System.out.println("Input non valido. Riprova.");
+                System.out.println("Premi invio per continuare...");
+                sc.nextLine();
+                break;
         }
     }
+}
+
 
     /**
      * Consente di visualizzare tutte le recensioni di un ristorante e, se l'utente
