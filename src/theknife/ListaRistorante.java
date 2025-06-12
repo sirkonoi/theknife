@@ -31,7 +31,7 @@ public class ListaRistorante {
         try (BufferedReader br = new BufferedReader(new FileReader(GestioneFile.getPathRistoranti()))) {
             String line;
 
-            br.readLine(); // Salta l'intestazione
+            br.readLine();
 
             while ((line = br.readLine()) != null) {
                 List<String> campi = GestioneFile.parseRiga(line);

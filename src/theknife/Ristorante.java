@@ -127,7 +127,7 @@ public class Ristorante {
             if (ristorante.getNome().equalsIgnoreCase(nomeRistorante)) {
                 System.out.println(topb);
                 System.out
-                        .println("| Nome: " + ristorante.getNome().toUpperCase() + " (" + ristorante.getPremio() + ")");
+                        .println("| Nome: " + ristorante.getNome().toUpperCase());
                 System.out.println(separator);
                 System.out.println("| Media Voti: " + (media < 0 ? "Nessuna valutazione." : media));
                 System.out.println("| Telefono: " + ristorante.getTelefono());

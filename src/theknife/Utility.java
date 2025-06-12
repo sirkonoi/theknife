@@ -26,6 +26,133 @@ public class Utility {
                   |__|  |__|__||_____|    |__|\\_||__|__||____||__| |_____|
                 """);
     }
+    /**
+     * Stampa il logo ASCII del login.
+     */
+    public static void printLogin() {
+        System.out.println("""
+                     _       ___    ____  ____  ____  
+                    | |     /   \\  /    ||    ||    \\ 
+                    | |    |     ||   __| |  | |  _  |
+                    | |___ |  O  ||  |  | |  | |  |  |
+                    |     ||     ||  |_ | |  | |  |  |
+                    |     ||     ||     | |  | |  |  |
+                    |_____| \\___/ |___,_||____||__|__|                                              
+                """);
+    }
+    /**
+     * Stampa il logo ASCII della registrazione.
+     */    
+    public static void printReg() {
+        System.out.println("""
+     ____     ___   ____  ____ _____ ______  ____    ____  _____  ____  ___   ____     ___ 
+    |    \\   /  _] /    ||    / ___/|      ||    \\  /    ||     ||    |/   \\ |    \\   /  _]
+    |  D  ) /  [_ |   __| |  (   \\_ |      ||  D  )|  o  ||__/  | |  ||     ||  _  | /  [_ 
+    |    / |    _]|  |  | |  |\\__  ||_|  |_||    / |     ||   __| |  ||  O  ||  |  ||    _]
+    |    \\ |   [_ |  |_ | |  |/  \\ |  |  |  |    \\ |  _  ||  /  | |  ||     ||  |  ||   [_ 
+    |  .  \\|     ||     | |  |\\    |  |  |  |  .  \\|  |  ||     | |  ||     ||  |  ||     |
+    |__|\\_||_____||___,_||____|\\___|  |__|  |__|\\_||__|__||_____||____|\\___/ |__|__||_____|                                                                              
+        """);
+    }
+    /**
+     * Stampa il logo ASCII ERRORE.
+     */      
+    public static void printError() {
+        System.out.println("""
+       ___  ____   ____   ___   ____     ___ 
+      /  _]|    \\ |    \\ /   \\ |    \\   /  _]
+     /  [_ |  D  )|  D  )     ||  D  ) /  [_ 
+    |    _]|    / |    /|  O  ||    / |    _]
+    |   [_ |    \\ |    \\|     ||    \\ |   [_ 
+    |     ||  .  \\|  .  \\     ||  .  \\|     |
+    |_____||__|\\_||__|\\_|\\___/ |__|\\_||_____|                                  
+        """);
+    }
+    /**
+     * Stampa il logo ASCII del guest.
+     */  
+    public static void printGuest() {
+        System.out.println("""
+      ____  __ __    ___  _____ ______ 
+     /    ||  |  |  /  _]/ ___/|      |
+    |   __||  |  | /  [_(   \\_ |      |
+    |  |  ||  |  ||    _]\\__  ||_|  |_|
+    |  |_ ||  :  ||   [_ /  \\ |  |  |  
+    |     ||     ||     |\\    |  |  |  
+    |___,_| \\__,_||_____| \\___|  |__|  
+        """);
+    }
+    /**
+     * Stampa il logo ASCII del menu raggio.
+     */  
+    public static void printRaggio() {
+        System.out.println("""
+     ____    ____   ____   ____  ____  ___  
+    |    \\  /    | /    | /    ||    |/   \\ 
+    |  D  )|  o  ||   __||   __| |  ||     |
+    |    / |     ||  |  ||  |  | |  ||  O  |
+    |    \\ |  _  ||  |_ ||  |_ | |  ||     |
+    |  .  \\|  |  ||     ||     | |  ||     |
+    |__|\\_||__|__||___,_||___,_||____|\\___/                                         
+    """);
+    }
+    /**
+     * Stampa il logo ASCII OK.
+     */  
+    public static void printOk() {
+        System.out.println("""
+      ___   __  _  __ 
+     /   \\ |  |/ ]|  |
+    |     ||  ' / |  |
+    |  O  ||    \\ |__|
+    |     ||     | __ 
+    |     ||  .  ||  |
+     \\___/ |__|\\_||__|               
+    """);
+    }
+    /**
+     * Stampa il logo ASCII nuova recensione.
+     */  
+    public static void printRecensione() {
+        System.out.println("""
+     ____     ___    __    ___  ____   _____ ____  ___   ____     ___ 
+    |    \\   /  _]  /  ]  /  _]|    \\ / ___/|    |/   \\ |    \\   /  _]
+    |  D  ) /  [_  /  /  /  [_ |  _  (   \\_  |  ||     ||  _  | /  [_ 
+    |    / |    _]/  /  |    _]|  |  |\\__  | |  ||  O  ||  |  ||    _]
+    |    \\ |   [_/   \\_ |   [_ |  |  |/  \\ | |  ||     ||  |  ||   [_ 
+    |  .  \\|     \\     ||     ||  |  |\\    | |  ||     ||  |  ||     |
+    |__|\\_||_____|\\____||_____||__|__| \\___||____|\\___/ |__|__||_____|                                                           
+    """);
+    }
+    /**
+     * Stampa il logo ASCII filtri.
+     */  
+    public static void printFiltri() {
+        System.out.println("""
+     _____  ____  _     ______  ____   ____ 
+    |     ||    || |   |      ||    \\ |    |
+    |   __| |  | | |   |      ||  D  ) |  | 
+    |  |_   |  | | |___|_|  |_||    /  |  | 
+    |   _]  |  | |     | |  |  |    \\  |  | 
+    |  |    |  | |     | |  |  |  .  \\ |  | 
+    |__|   |____||_____| |__|  |__|\\_||____|                                     
+    """);
+    }
+    /**
+     * Stampa il logo ASCII nuovo ristorante.
+     */  
+    public static void printRistorante() {
+        System.out.println("""
+     ____   ____ _____ ______   ___   ____    ____  ____   ______    ___ 
+    |    \\ |    / ___/|      | /   \\ |    \\  /    ||    \\ |      |  /  _]
+    |  D  ) |  (   \\_ |      ||     ||  D  )|  o  ||  _  ||      | /  [_ 
+    |    /  |  |\\__  ||_|  |_||  O  ||    / |     ||  |  ||_|  |_||    _]
+    |    \\  |  |/  \\ |  |  |  |     ||    \\ |  _  ||  |  |  |  |  |   [_ 
+    |  .  \\ |  |\\    |  |  |  |     ||  .  \\|  |  ||  |  |  |  |  |     |
+    |__|\\_||____|\\___|  |__|   \\___/ |__|\\_||__|__||__|__|  |__|  |_____|                                                              
+    """);
+    }
+
 
     /**
      * Pulisce il terminale.
@@ -33,6 +160,59 @@ public class Utility {
     public static void pulisci() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    /**
+     * Controlla che gli input inseriti durante la registrazione
+     * siano validi, secondi diversi criteri (notEmpty, usernameUnico,
+     * domicilioEsistente).
+     *
+     * @param messaggioInput  Messaggio che viene inviato all'utente per la
+     *                        richiesta dell'input.
+     * @param messaggioErrore Messaggio di errore inviato all'utente nel caso il
+     *                        criterio non venga rispettato.
+     * @param tipoControllo   Tipo di controllo da effettuare.
+     * @return L'input se è valido, il messaggio di errore altrimenti.
+     * @throws IOException Errore durante input/output.
+     */
+    public static String validaInput(String messaggioInput, String messaggioErrore, String tipoControllo)
+            throws IOException {
+        Scanner sc = new Scanner(System.in);
+        String input;
+        while (true) {
+            boolean valido = false;
+            System.out.print(messaggioInput);
+            input = sc.nextLine();
+
+            switch (tipoControllo) {
+                case "notEmpty":
+                    input = input.trim();
+                    valido = !input.isEmpty();
+                    break;
+
+                case "usernameUnico":
+                    input = input.trim();
+                    valido = !input.isEmpty() && !Utente.checkUser(input);
+                    break;
+
+            case "domicilioEsistente":
+                try {
+                    valido = geoTheKnife.domicilioEsistente(input);
+                } catch (IOException e) {
+                    valido = false;
+                }
+                break;
+                default:
+                    System.out.println("Errore: il tipo di controllo non esiste!");
+                    return null;
+            }
+
+            if (valido) {
+                return input;
+            } else {
+                System.out.println(messaggioErrore);
+            }
+        }
     }
 
     /**
@@ -160,7 +340,11 @@ public class Utility {
 
                             System.out.println("\n1 - Visualizza tutte le recensioni del ristorante.");
                             if (mostraAddPreferiti && !user.getRuolo().equals("guest")) {
-                            System.out.println("2 - Inserisci/Togli il ristorante nella lista dei preferiti. (E' nei preferiti? " + (Utente.checkPreferiti(user.getUsername(), nomeRistorante) ? "si" : "no") + ")");
+                                System.out.println(
+                                        "2 - Inserisci/Togli il ristorante nella lista dei preferiti. (E' nei preferiti? "
+                                                + (Utente.checkPreferiti(user.getUsername(), nomeRistorante) ? "si"
+                                                        : "no")
+                                                + ")");
 
                             }
 
@@ -182,10 +366,12 @@ public class Utility {
                                         Recensione.getRecensioniRistorante(nomeRistorante));
                             } else if (scelta.equals("2") && mostraAddPreferiti && !user.getRuolo().equals("guest")) {
                                 if (Utente.checkPreferiti(user.getUsername(), nomeRistorante)) {
-                                    Utente.togliPreferiti((Utente)user, nomeRistorante);
+                                    Utente.togliPreferiti((Utente) user, nomeRistorante);
+                                    Utility.pulisci();Utility.printOk(); 
                                     System.out.println("Ristorante tolto dai preferiti.");
                                 } else {
                                     Utente.aggiungiPreferiti(user.getUsername(), nomeRistorante);
+                                    Utility.pulisci();Utility.printOk();                                    
                                     System.out.println("Ristorante aggiunto ai preferiti.");
                                 }
                                 System.out.println("Premi invio per continuare..");
@@ -194,6 +380,7 @@ public class Utility {
                                 try {
                                     Recensione.aggiungiRecensione(nomeRistorante, (Utente) user);
                                 } catch (RecensioneAlreadyExists e) {
+                                    Utility.pulisci();Utility.printError(); 
                                     System.out.println(
                                             "Errore: Hai già scritto una recensione per questo ristorante! Modificala/Eliminala dal tuo profilo!");
                                     System.out.println("Premi invio per continuare...");
@@ -208,11 +395,13 @@ public class Utility {
                             } else if (scelta.equals("esci")) {
                                 break;
                             } else {
+                                Utility.pulisci();Utility.printError(); 
                                 System.out.println("Input non valido. Ritenta!\nPremi invio per continuare...");
                                 sc.nextLine();
                             }
                         }
                     } else {
+                        Utility.pulisci();Utility.printError(); 
                         System.out.println("Il ristorante non esiste.\nPremi invio per tornare alla lista.");
                         sc.nextLine();
                     }
@@ -220,8 +409,10 @@ public class Utility {
 
                 case "aggiungi":
                     menuAggiungiRistorante(user.getUsername());
+                    if (tipoMenu.equals("ristoratore")) {
+                        listaDaStampare = Ristoratore.getRistorantiRistoratore(user.getUsername()).getDatiRistoranti();
+                    }
                     break;
-
                 default:
                     stampa = false;
                     TheKnife.main_menu();
@@ -320,7 +511,6 @@ public class Utility {
     public static ListaRistorante cercaFiltri(String[] filtri) throws IOException {
         ListaRistorante listaFiltrati = ListaRistorante.getRistoranti();
         for (String filtro : filtri) {
-            // tipologia
             if (filtro.equals("1")) {
                 System.out.println("Inserisci la tipologia di cucina desiderata tra: LISTA CUCINA DA FARE...");
                 String tipologia = "";
@@ -328,17 +518,14 @@ public class Utility {
                 listaFiltrati = ListaRistorante.filtraTipologia(listaFiltrati, tipologia);
             }
 
-            // delivery:on
             if (filtro.equals("2")) {
                 listaFiltrati = ListaRistorante.filtraDelivery(listaFiltrati);
             }
 
-            // booking:on
             if (filtro.equals("3")) {
                 listaFiltrati = ListaRistorante.filtraBooking(listaFiltrati);
             }
 
-            // fascia prezzo
             if (filtro.equals("4")) {
                 String prezzo;
                 boolean isValido;
@@ -392,35 +579,34 @@ public class Utility {
         }
         return listaFiltrati;
     }
+
     /**
      * Data una lista di ristoranti, applica i filtri forniti dall'utente.
-     * ATTENZIONE: Viene usato quando si parte da una lista già filtrata in precedenza!!!!
+     * ATTENZIONE: Viene usato quando si parte da una lista già filtrata in
+     * precedenza!!!!
      *
      * @param listaFiltrati Lista di ristoranti che vanno ulteriormente filtrati.
-     * @param filtri Array di stringhe, contiene i filtri selezionati dall'utente.
+     * @param filtri        Array di stringhe, contiene i filtri selezionati
+     *                      dall'utente.
      * @return Lista di ristoranti filtrata ulteriormente.
      * @throws IOException Errore durante la lettura dei dati.
      */
     public static ListaRistorante cercaFiltri(ListaRistorante listaFiltrati, String[] filtri) throws IOException {
 
         for (String filtro : filtri) {
-            // Tipologia
             if (filtro.equals("1")) {
                 String tipologia = Utility.getTipologia();
                 listaFiltrati = ListaRistorante.filtraTipologia(listaFiltrati, tipologia);
             }
 
-            // Delivery
             if (filtro.equals("2")) {
                 listaFiltrati = ListaRistorante.filtraDelivery(listaFiltrati);
             }
 
-            // Booking
             if (filtro.equals("3")) {
                 listaFiltrati = ListaRistorante.filtraBooking(listaFiltrati);
             }
 
-            // Fascia prezzo
             if (filtro.equals("4")) {
                 String prezzo;
                 do {
@@ -463,85 +649,81 @@ public class Utility {
     }
 
     /**
-     * Consente a un ristoratore (ruolo necessario!) di aggiungere un nuovo ristorante.
-     * Viene gestita la richiesta dei dati (Esempio: nomeRistorante, luogo, prezzo, numTelefono etc.. etc...),
+     * Consente a un ristoratore (ruolo necessario!) di aggiungere un nuovo
+     * ristorante.
+     * Viene gestita la richiesta dei dati (Esempio: nomeRistorante, luogo, prezzo,
+     * numTelefono etc.. etc...),
      *
      * @param username Nome utente del ristoratore che aggiunge il ristorante.
-     * @throws IOException Errore durante input/output.
+     * @throws IOException             Errore durante input/output.
      * @throws RestaurantAlreadyExists Il ristorante che si sta creando gia' esiste!
      */
     public static void menuAggiungiRistorante(String username) throws IOException, RestaurantAlreadyExists {
         String nomeRistorante, viaRistorante, nazione, prezzo, tipologiaCucina, numeroCell, url = "", website,
-                GreenStar = "", FacilitiesAndServices = "", descrizione;
+                GreenStar = "no", FacilitiesAndServices = "", descrizione;
         int stelle = 0;
         boolean booking, delivery;
 
-        pulisci();
+        pulisci();printRistorante();
         do {
             System.out.println("Inserisci il nome del ristorante");
             nomeRistorante = sc.nextLine();
-            if (Ristorante.checkRistoranti(nomeRistorante)) {
-                System.out.println("Errore: Nome già esistente, riprova.");
+            if (Ristorante.checkRistoranti(nomeRistorante) || nomeRistorante.isEmpty()) {
+                pulisci();printError();
+                System.out.println("Errore: Nome già esistente o nullo, riprova.");
             }
-        } while (Ristorante.checkRistoranti(nomeRistorante));
+        } while (Ristorante.checkRistoranti(nomeRistorante) || nomeRistorante.isEmpty());
 
-        pulisci();
-        System.out.println(
-                "Inserisci l'indirizzo del ristorante (FORMAT: VIA NOMEVIA NUMCIVICO CITTA' NAZIONE)\nEsempio: Viale Stelvio 17 Busto Arsizio Italia");
+        pulisci();printRistorante();
+        viaRistorante = validaInput("Inserisci l'indirizzo del ristorante (FORMAT: VIA NOMEVIA NUMCIVICO CITTA' NAZIONE)\nEsempio: Viale Stelvio 17 Busto Arsizio Italia\n", "Errore. Inserisci un indirizzo esistente!", "domicilioEsistente");
+
+        pulisci();printRistorante();
+        nazione = validaInput("Inserisci la nazione: ", "Errore: La nazione non puo' essere una stringa vuota. Riprova!", "notEmpty");
+
+       pulisci();printRistorante();
         do {
-            viaRistorante = sc.nextLine();
-            if (!geoTheKnife.domicilioEsistente(viaRistorante)) {
-                System.out.println("Errore. Inserisci un indirizzo esistente!");
-            }
-        } while (!geoTheKnife.domicilioEsistente(viaRistorante));
-
-        pulisci();
-        System.out.println("Inserisci la nazione: ");
-        nazione = sc.nextLine();
-
-        pulisci();
-        do {
-            System.out.println("Inserisci la fascia di prezzo ($, $$, $$$, $$$$):");
+            System.out.println("Inserisci la fascia di prezzo (€, €€, €€€, €€€€)");
             prezzo = sc.nextLine().trim();
 
             if (!(prezzo.equals("€") || prezzo.equals("€€") || prezzo.equals("€€€") || prezzo.equals("€€€€"))) {
-                System.out.println("Input non valido. Inserisci una fascia valida ($, $$, $$$, $$$$).");
+                System.out.println("Errore: Input non valido.");
             }
 
         } while (!(prezzo.equals("€") || prezzo.equals("€€") || prezzo.equals("€€€") || prezzo.equals("€€€€")));
 
-        pulisci();
-        System.out.println("Inserisci la tipologia di cucina: ");
-        tipologiaCucina = sc.nextLine();
+        pulisci();printRistorante();
+        tipologiaCucina = validaInput("Inserisci il tipo di cucina del ristorante: ", "Errore: Il tipo di cucina non puo' essere una stringa vuota. Riprova!", "notEmpty");
 
-        pulisci();
+       pulisci();printRistorante();
         System.out
                 .println("Inserisci il numero di cellulare (ATTENZIONE, includi il prefisso):\nEsempio: +393928847562");
         do {
             numeroCell = sc.nextLine().trim();
 
             if (!numeroCell.startsWith("+") || numeroCell.length() < 10) {
+       pulisci();printError();                
                 System.out.println(
                         "Numero non valido. Assicurati di includere il prefisso (es. +39) e di inserire almeno 10 cifre.");
             }
 
         } while (!numeroCell.startsWith("+") || numeroCell.length() < 10);
 
-        pulisci();
+       pulisci();printRistorante();
         System.out.println(
                 "Inserisci il link del sito web del ristorante (Formato: www.nomesito.dominio, se non ne possiedi uno scrivi semplicemente \"No\"):");
         do {
             website = sc.nextLine().trim();
 
             if (!website.equalsIgnoreCase("no") &&
-                    !(website.startsWith("www.") && website.contains(".") && website.length() > 7)) {
+                    !(website.startsWith("www.") && website.contains(".") && website.length() > 5)) {
+       pulisci();printError();                        
                 System.out.println(
                         "Link non valido. Inserisci un sito nel formato www.nomesito.dominio oppure scrivi \"no\".");
             }
 
-            pulisci();
         } while (!website.equalsIgnoreCase("no") && !(website.startsWith("www.") && website.contains(".")));
 
+       pulisci();printRistorante();
         System.out.println("Inserisci il numero di stelle Michelin (da 0 a 3):");
         do {
             String input = sc.nextLine().trim();
@@ -549,15 +731,17 @@ public class Utility {
             try {
                 stelle = Integer.parseInt(input);
                 if (stelle < 0 || stelle > 3) {
+            pulisci();printError();                    
                     System.out.println("Numero non valido. Deve essere compreso tra 0 e 3.");
                 }
             } catch (NumberFormatException e) {
+            pulisci();printError();                 
                 System.out.println("Errore: Input non valido. Inserisci un numero intero.");
             }
 
         } while (stelle < 0 || stelle > 3);
 
-        pulisci();
+       pulisci();printRistorante();
         System.out.println("Il ristorante offre un servizio di delivery? (Si/No)");
         do {
             String risposta = sc.nextLine().trim().toLowerCase();
@@ -569,11 +753,12 @@ public class Utility {
                 delivery = false;
                 break;
             } else {
+                pulisci();printError();                
                 System.out.println("Errore: Risposta non valida. Inserisci \"Si\" oppure \"No\".");
             }
         } while (true);
 
-        pulisci();
+        pulisci();printRistorante();
         System.out.println("Il ristorante offre un servizio di prenotazione? (Si/No)");
         do {
             String risposta = sc.nextLine().trim().toLowerCase();
@@ -585,24 +770,26 @@ public class Utility {
                 booking = false;
                 break;
             } else {
+                pulisci();printError();                
                 System.out.println("Errore: Risposta non valida. Inserisci \"Si\" oppure \"No\".");
             }
         } while (true);
 
-        pulisci();
+       pulisci();printRistorante();
         System.out.println("Inserisci una descrizione per il tuo ristorante (Almeno 30 caratteri):");
 
         do {
             descrizione = sc.nextLine().trim();
             if (descrizione.length() < 30) {
+                pulisci();printError();                
                 System.out.println("La descrizione e' troppo breve. Inserisci almeno 30 caratteri:");
             }
         } while (descrizione.length() < 30);
 
-        pulisci();
-        System.out.println("Ristorante creato con successo.\nPremi invio per continuare...");
         Ristoratore.aggiungiRistorante(username, nomeRistorante, viaRistorante, nazione, prezzo, tipologiaCucina,
                 numeroCell, url, website, stelle, GreenStar, FacilitiesAndServices, descrizione, delivery, booking);
+        pulisci();printOk();
+        System.out.println("Ristorante creato con successo.\nPremi invio per continuare...");                
         sc.nextLine();
     }
 }

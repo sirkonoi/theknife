@@ -76,7 +76,7 @@ public class Utente extends GestioneUtenti {
             System.out.println("1 - Visualizza password.");            
             System.out.println("2 - Visualizza i tuoi ristoranti preferiti.");      
             System.out.println("3 - Visualizza le tue recensioni.");                      
-            System.out.println("4 - Torna al menu' principale.");
+            System.out.println("ESCI - Torna al menu' principale.");
             sceltaMenu = sc.nextLine();
 
             if (sceltaMenu.equals("1")) {
@@ -89,13 +89,14 @@ public class Utente extends GestioneUtenti {
             else if(sceltaMenu.equals("3")) {
                 Recensione.visualizzaRecensioniUtente(user, Recensione.getRecensioni(user.getUsername()));
             }  
-            else if (sceltaMenu.equals("4")) {
+            else if (sceltaMenu.equalsIgnoreCase("esci")) {
                 TheKnife.main_menu();
                 break;
             }                                 
             else {
-                Utility.pulisci();Utility.printLogo();
-                System.out.println("Scelta non valida. Riprova.");
+                Utility.pulisci();Utility.printError();
+                System.out.println("Scelta non valida. Riprova.\nPremi invio per continuare...");
+                sc.nextLine();
             }
         }
     }
