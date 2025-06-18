@@ -60,9 +60,9 @@ public abstract class GestioneUtenti {
             fr.write("\n" + username + "," + Password.encrypt(psw) + "," + nome + "," + cognome + ","
                     + domicilio.replace(",", "") + "," + ruolo.toLowerCase());
             if (ruolo.equals("utente")) {
-                newUser = new Utente(username, psw, nome, cognome, domicilio, ruolo);
+                newUser = new Utente(username, Password.encrypt(psw), nome, cognome, domicilio, ruolo);
             } else if (ruolo.equals("ristoratore")) {
-                newUser = new Ristoratore(username, psw, nome, cognome, domicilio);
+                newUser = new Ristoratore(username, Password.encrypt(psw), nome, cognome, domicilio);
             }
             fr.close();
         }
